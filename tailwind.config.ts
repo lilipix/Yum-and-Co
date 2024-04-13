@@ -1,3 +1,4 @@
+import { link } from 'fs'
 import type { Config } from "tailwindcss"
 
 const config = {
@@ -51,6 +52,10 @@ const config = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        link: {
+          DEFAULT: "hsl(var(--link))",
+          hover: "hsl(var(--link-hover))",
         },
       },
       borderRadius: {
