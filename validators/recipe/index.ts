@@ -1,10 +1,10 @@
 import { z } from "zod";
-import { IngredientValidator } from './ingredient.validator';
-import { CategoryValidator } from '../category';
-import { LabelValidator } from '../label';
+import { IngredientSchema } from './ingredient.validator';
+import { CategorySchema } from '../category';
+import { LabelSchema } from '../label';
 
 
-export const RecipeValidator = z.object({
+export const RecipeSchema = z.object({
   id: z.coerce.string().min(1, 'Cannot be empty.'),
   title: z.coerce.string().min(1, "Cannot be empty."),
   category: z.coerce.string(),
@@ -13,18 +13,18 @@ export const RecipeValidator = z.object({
   preparationTime: z.coerce.string().nullable(),
   cookingTime: z.coerce.string().nullable(),
   ovenTemperature: z.coerce.string().nullable(),
-  ingredients: z.array(IngredientValidator),
+  ingredients: z.array(IngredientSchema),
   preparation: z.coerce.string().nullable(),
 });
 
-export type Recipe = z.infer<typeof RecipeValidator>;
+export type Recipe = z.infer<typeof RecipeSchema>;
 
-export const RecipePopulatedValidator = RecipeValidator.omit({
+export const RecipePopulatedSchema = RecipeSchema.omit({
   labels: true,
   category: true,
 }).merge(z.object({
-  category: CategoryValidator,
-  labels: z.array(LabelValidator),
+  category: CategorySchema,
+  labels: z.array(LabelSchema),
 }));
 
-export type RecipePopulated = z.infer<typeof RecipePopulatedValidator>;
+export type RecipePopulated = z.infer<typeof RecipePopulatedSchema>;

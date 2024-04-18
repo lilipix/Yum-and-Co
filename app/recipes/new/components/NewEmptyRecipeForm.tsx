@@ -1,23 +1,17 @@
 "use client";
 
-import { Form } from "@/components/ui/form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { z } from 'zod';
+import RecipeForm, { RecipeFormSchema } from './RecipeForm';
+import { IngredientsListFormSchema } from './IngredientsListForm';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import {  useForm } from 'react-hook-form';
+import { createRecipe } from '@/app/services/recipes.service';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Button } from '@/components/ui/button';
+import { ArrowLeft, Loader2 } from 'lucide-react';
+import { Form } from '@/components/ui/form';
 
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, Loader2, Plus } from "lucide-react";
-
-import { redirect, useRouter } from "next/navigation";
-
-import RecipeForm, {
-  RecipeFormSchema,
-} from "@/app/(app)/_components/RecipeForm";
-import { IngredientsListFormSchema } from "@/app/(app)/_components/IngredientsListForm";
-import { Category } from '../../../../../../schemas/recipe/category.schema';
-import useRecipe from '../../../../../../context/recipes/recipe/useRecipe';
-import { createRecipe } from '../../../../../../services/recipes.service';
 
 export const NewEmptyRecipeFormSchema = z
   .object({})
@@ -27,7 +21,8 @@ export const NewEmptyRecipeFormSchema = z
 export type NewEmptyRecipeFormValues = z.infer<typeof NewEmptyRecipeFormSchema>;
 
 const NewEmptyRecipeForm = () => {
-  const { isLoading, setIsLoading } = useRecipe();
+//   const { isLoading, setIsLoading } = useRecipe();
+const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const form = useForm<NewEmptyRecipeFormValues>({
@@ -35,12 +30,12 @@ const NewEmptyRecipeForm = () => {
     mode: "onSubmit",
     defaultValues: {
       title: "",
-      toReceive: false,
-      category: Category.APPETIZER,
+      category : '',
+      labels: [],
       numberOfPersons: undefined,
-      preparationTime: undefined,
-      cookingTime: undefined,
-      ovenTemperature: undefined,
+      preparationTime: '',
+      cookingTime: '',
+      ovenTemperature: '',
       ingredients: [
         {
           name: "",
@@ -57,15 +52,16 @@ const NewEmptyRecipeForm = () => {
       setIsLoading(true);
       const createdRecipe = await createRecipe({
         ...values,
-        toReceive: values.toReceive ?? false,
-        numberOfPersons: values.numberOfPersons ?? null,
-        preparationTime: values.preparationTime ?? null,
-        cookingTime: values.cookingTime ?? null,
-        ovenTemperature: values.ovenTemperature ?? null,
-        preparation: values.preparation ?? null,
+        category: '',
+        labels:  [],
+        numberOfPersons: null,
+        preparationTime:  '',
+        cookingTime: '',
+        ovenTemperature: '',
+        preparation: '',
       });
       form.reset({ ...values });
-      redirect(`/`);
+      router.push(`/`);
     } catch (error) {
     } finally {
       setIsLoading(false);

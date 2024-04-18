@@ -36,10 +36,10 @@ export const UnitLabels = {
   };
 
 
-export const IngredientValidator = z.object({
+export const IngredientSchema = z.object({
   name: z.string().nullable(),
   baseQuantity: z.coerce.number().optional(),
-  unit: z.nativeEnum(Unit).nullable(),
+  unit: z.nativeEnum(Unit),
 });
 
-export interface IIngredient extends z.infer<typeof IngredientValidator> {}
+export interface IIngredient extends z.infer<typeof IngredientSchema> {}
