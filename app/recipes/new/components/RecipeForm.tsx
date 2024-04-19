@@ -5,14 +5,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from '@/components/ui/input';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Textarea } from '@/components/ui/textarea';
-import { CategorySchema } from '@/validators/category';
-import { IngredientSchema } from '@/validators/recipe/ingredient.validator';
-import dynamic from 'next/dynamic';
-import { useFormContext } from 'react-hook-form';
-import { z } from 'zod';
+import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Textarea } from "@/components/ui/textarea";
+import { CategorySchema } from "@/validators/category";
+import { IngredientSchema } from "@/validators/recipe/ingredient.validator";
+import dynamic from "next/dynamic";
+import { useFormContext } from "react-hook-form";
+import { z } from "zod";
 
 const IngredientsListForm = dynamic(() => import("./IngredientsListForm"));
 
@@ -41,26 +41,25 @@ const RecipeForm = () => {
           <FormItem>
             <FormLabel>Nom de la recette *</FormLabel>
             <FormControl>
-              <Input 
-                    {...field}
-                    required
-                    />
+              <Input
+                type="text"
+                {...field}
+                value={field.value ?? ""}
+                required
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
         )}
       />
-       <FormField
+      <FormField
         control={form.control}
         name="category"
         render={({ field }) => (
           <FormItem>
             <FormLabel>Catégorie</FormLabel>
             <FormControl>
-              <Input 
-                    {...field}
-  
-                    />
+              <Input type="text" {...field} value={field.value ?? ""} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -141,11 +140,7 @@ const RecipeForm = () => {
               <FormItem>
                 <FormLabel>Temps de préparation (en min)</FormLabel>
                 <FormControl>
-                  <Input
-                    type="string"
-                    {...field}
-                    value={field.value ?? ""}
-                  />
+                  <Input type="text" {...field} value={field.value ?? ""} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -164,11 +159,7 @@ const RecipeForm = () => {
                   Temps de cuisson <br /> (en min)
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    type="string"
-                    {...field}
-                    value={field.value ?? ""}
-                  />
+                  <Input type="text" {...field} value={field.value ?? ""} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -181,15 +172,9 @@ const RecipeForm = () => {
             name="ovenTemperature"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>
-                  Température du four (en °)
-                </FormLabel>
+                <FormLabel>Température du four (en °)</FormLabel>
                 <FormControl>
-                  <Input
-                    type="string"
-                    {...field}
-                    value={field.value ?? ""}
-                  />
+                  <Input type="text" {...field} value={field.value ?? ""} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -197,11 +182,9 @@ const RecipeForm = () => {
           />
         </div>
       </div>
-
       <div>
         <IngredientsListForm />
       </div>
-
       <FormField
         control={form.control}
         name="preparation"

@@ -134,124 +134,23 @@ const IngredientsListForm = () => {
                     onClick={handleDeleteIngredients(index)}
                   >
                     <Trash size="16" />
-                    <span className="hidden sm:block">Supprimer</span>
                   </Button>
                 </div>
               </div>
             </div>
-            <Separator className="w-full mt-4" />
           </div>
       ))}
       <Button
-        className="items-center w-fit"
+        className="items-center flex justify-between"
         type="button"
         variant="secondary"
         onClick={handleAddIngredients}
       >
-        <Plus size="16" />
         Ajouter un ingrédient
+        <Plus size="16" />
       </Button>
       </div>
   );
 };
 
 export default IngredientsListForm;
-
-{/* <div className="flex flex-col flex-wrap gap-4">
-<div className="flex justify-start">
-  <FormLabel>Ingrédient(s)</FormLabel>
-</div>
-{fields.map((fieldItem, index) => (
-    <div key={fieldItem.id}>
-      <div className="gap-4 md:flex">
-        <div className="flex justify-between gap-4">
-          <FormField
-            control={form.control}
-            name={`ingredients.${index}.baseQuantity`}
-            render={({ field }) => (
-              <FormItem className="flex-1 md:w-1/3">
-                <FormLabel>Quantité</FormLabel>
-                <FormControl>
-                  <Input type="number" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div> 
-        <div className="w-1/2 md:w-28">
-          <FormField
-            control={form.control}
-            name={`ingredients.${index}.unit`}
-            render={({ field }) => (
-              <FormItem className="flex-1 md:w-1/3">
-                <FormLabel>Unité</FormLabel>
-                <Select
-                  value={field.value}
-                  onValueChange={(value) => field.onChange(value)}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {units.map((unit) => (
-                      <SelectItem key={unit.value} value={unit.value}>
-                        {unit.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="flex items-center gap-4">
-          <FormField
-            control={form.control}
-            name={`ingredients.${index}.name`}
-            render={({ field }) => (
-              <FormItem className="flex-1">
-                <FormLabel>Nom</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder=""
-                    type="text"
-                    {...field}
-                    value={field.value ?? ""}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className="flex justify-end mt-8 w-fit">
-            <Button
-              className="items-center w-fit"
-              variant="secondary"
-              onClick={handleDeleteIngredients(index)}
-            >
-              <Trash size="16" />
-              <span className="hidden sm:block">Supprimer</span>
-            </Button>
-          </div>
-        </div>
-      </div>
-      <Separator className="w-full mt-4" />
-    </div>
-    
-))}
-<Button
-  className="items-center w-fit"
-  type="button"
-  variant="secondary"
-  onClick={handleAddIngredients}
->
-  <Plus size="16" />
-  Ajouter un ingrédient
-</Button>
-</div>
-);
-}; */}

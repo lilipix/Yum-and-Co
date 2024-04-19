@@ -1,7 +1,8 @@
 import { ICategory } from '@/validators/category';
 import CategoryModel from './category.model';
+import { CreateCategoryDTO } from './category.dto';
 
-export const createCategory = async (data: ICategory): Promise<ICategory> => {
+export const createCategory = async (data: CreateCategoryDTO): Promise<ICategory> => {
     try {
         const document = await CategoryModel.create(data);
         return document.toJSON({

@@ -12,11 +12,32 @@ export const createRecipe = async ({...recipe}: z.infer<typeof CreateRecipeSchem
             },
             body: JSON.stringify({...recipe}),
         });
-        if (data.ok) {
-            return RecipePopulatedSchema.parse(data);
-        }
-        throw new Error('Failed to create recipe');
-    } catch (error) {
-		throw error;
-	}
+
+//         if (data.ok) {
+//             return RecipePopulatedSchema.parse(data);
+//         }
+
+//         throw new Error('Failed to create recipe');
+
+//     } catch (error) {
+// 		throw error;
+// 	}
+// }
+
+console.log("Response from API:", data);  // Log the entire Response object
+
+if (data.ok) {
+    const jsonData = await data.json();  // Convert response to JSON
+    console.log("JSON data parsed from response:", jsonData);  // Log the parsed JSON data
+    return RecipePopulatedSchema.parse(jsonData);
+}
+
+const errorData = await data.text();  // Get error response as text
+console.log("Error response from API:", errorData);  // Log the error response
+throw new Error('Failed to create recipe');
+
+} catch (error) {
+console.log("Error caught in createRecipe:", error);  // Log the error caught
+throw error;
+}
 }

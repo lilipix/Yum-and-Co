@@ -11,6 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { Form } from '@/components/ui/form';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
 
 
 export const NewEmptyRecipeFormSchema = z
@@ -52,19 +53,19 @@ const [isLoading, setIsLoading] = useState(false);
       setIsLoading(true);
       const createdRecipe = await createRecipe({
         ...values,
-        category: '',
-        labels:  [],
-        numberOfPersons: null,
-        preparationTime:  '',
-        cookingTime: '',
-        ovenTemperature: '',
-        preparation: '',
+        category: values.category ?? '',
+        numberOfPersons: values.numberOfPersons ?? null,
+        preparationTime: values.preparationTime ?? '',
+        cookingTime: values.cookingTime ?? '',
+        ovenTemperature: values.ovenTemperature ?? '',
+        preparation: values.preparation ?? '',
+
       });
       form.reset({ ...values });
-      router.push(`/`);
     } catch (error) {
     } finally {
       setIsLoading(false);
+      router.push('/');
     }
   };
 
@@ -78,13 +79,19 @@ const [isLoading, setIsLoading] = useState(false);
           onSubmit={form.handleSubmit(handleSubmit)}
         >
           <div className="m-8">
+            <Card>
+              <CardContent>
             <RecipeForm />
-            <div className="flex justify-center mt-4">
-              <Button disabled={isLoading} type="submit">
+            </CardContent>
+            <CardFooter className="flex justify-between">
+
+              <Button variant="outline">Annuler</Button>
+              <Button disabled={isLoading} type="submit" variant="pink">
                 Enregistrer
                 {isLoading ? <Loader2 className="animate-spin h-4 w-4" /> : ""}
               </Button>
-            </div>
+            </CardFooter>
+            </Card>
           </div>
         </form>
       </Form>
