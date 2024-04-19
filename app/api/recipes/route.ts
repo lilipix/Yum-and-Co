@@ -7,11 +7,9 @@ export async function POST(request: NextRequest) {
     try {
 
   const body = await request.json();
-  console.log(body)
   const values = CreateRecipeSchema.parse(body);
-  console.log('VALUES',values)
     
-    const createdCategory =  await createCategory({name: values.name});
+    const createdCategory =  await createCategory({name: values.category});
 
     const recipe = await createRecipe({
         title: values.title,
@@ -38,7 +36,6 @@ export async function POST(request: NextRequest) {
     //       quantity: ingredient.quantity
     //   })),
     //   preparation: values.preparati
-    console.log('recipe',recipe)
     return NextResponse.json(recipe);
 } catch (error) {
     return NextResponse.json({ error: 'Failed to create recipe' }, { status: 500 });

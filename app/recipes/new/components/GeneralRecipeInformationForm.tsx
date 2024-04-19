@@ -25,12 +25,11 @@ export const RecipeFormSchema = z.object({
   cookingTime: z.coerce.string().optional().nullable(),
   ovenTemperature: z.coerce.string().optional().nullable(),
   ingredients: z.array(IngredientSchema).nullable(),
-  preparation: z.coerce.string().optional().nullable(),
 });
 
 export type RecipeFormValues = z.infer<typeof RecipeFormSchema>;
 
-const RecipeForm = () => {
+const GeneralRecipeInformationForm = () => {
   const form = useFormContext<RecipeFormValues>();
   return (
     <div className="flex flex-col gap-4">
@@ -172,7 +171,7 @@ const RecipeForm = () => {
             name="ovenTemperature"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Température du four (en °)</FormLabel>
+                <FormLabel>Température du four<br></br> (en °)</FormLabel>
                 <FormControl>
                   <Input type="text" {...field} value={field.value ?? ""} />
                 </FormControl>
@@ -182,10 +181,10 @@ const RecipeForm = () => {
           />
         </div>
       </div>
-      <div>
+      {/* <div>
         <IngredientsListForm />
-      </div>
-      <FormField
+      </div> */}
+      {/* <FormField
         control={form.control}
         name="preparation"
         render={({ field }) => (
@@ -197,9 +196,9 @@ const RecipeForm = () => {
             <FormMessage />
           </FormItem>
         )}
-      />
+      /> */}
     </div>
   );
 };
 
-export default RecipeForm;
+export default GeneralRecipeInformationForm;
