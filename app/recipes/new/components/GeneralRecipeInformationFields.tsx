@@ -69,49 +69,6 @@ const GeneralRecipeInformationFields = () => {
           </FormItem>
         )}
       />
-      {/* <FormField
-        control={form.control}
-        name="category"
-        render={({ field }) => (
-          <FormItem className="space-y-3">
-            <FormLabel>Choisissez une catégorie *</FormLabel>
-            <FormControl>
-              <RadioGroup
-                onValueChange={field.onChange}
-                defaultValue={field.value}
-                className="flex justify-between"
-              >
-                <FormItem className="flex items-center space-x-3 space-y-0">
-                  <FormControl>
-                    <RadioGroupItem value="appetizer" />
-                  </FormControl>
-                  <FormLabel className="font-normal">
-                    {getCategoryLabel(Category.APPETIZER)}
-                  </FormLabel>
-                </FormItem>
-                <FormItem className="flex items-center space-x-3 space-y-0">
-                  <FormControl>
-                    <RadioGroupItem value="mainCourse" />
-                  </FormControl>
-                  <FormLabel className="font-normal">
-                    {getCategoryLabel(Category.MAINCOURSE)}
-                  </FormLabel>
-                </FormItem>
-                <FormItem className="flex items-center space-x-3 space-y-0">
-                  <FormControl>
-                    <RadioGroupItem value="dessert" />
-                  </FormControl>
-                  <FormLabel className="font-normal">
-                    {" "}
-                    {getCategoryLabel(Category.DESSERT)}
-                  </FormLabel>
-                </FormItem>
-              </RadioGroup>
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      /> */}
       <div className="flex gap-4 justify-between">
         <div className="w-1/2">
           <FormField
