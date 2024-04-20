@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction, createContext } from "react";
-import { Recipe } from '@/validators/recipe';
+import { Recipe } from "@/validators/recipe";
 
 export type RecipesContextValue = {
   recipes: Recipe[] | null;

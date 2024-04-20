@@ -1,13 +1,13 @@
 import { Schema, model, models, Model, Types } from "mongoose";
-import { IIngredient,  Unit } from '@/validators/recipe/ingredient.validator';
-import { Recipe } from '@/validators/recipe';
-import CategoryModel from '../categories/category.model';
-import LabelModel from '../labels/label.model';
+import { IIngredient, Unit } from "@/validators/recipe/ingredient.validator";
+import { Recipe } from "@/validators/recipe";
+import CategoryModel from "../categories/category.model";
+import LabelModel from "../labels/label.model";
 
-export type RecipeDocument = Omit<Recipe, 'category' | 'labels'> & {
-    category: Types.ObjectId;
-    labels: Types.ObjectId[] | [];
-}
+export type RecipeDocument = Omit<Recipe, "category" | "labels"> & {
+  category: Types.ObjectId;
+  labels: Types.ObjectId[] | [];
+};
 
 const ingredientSchema = new Schema<IIngredient>({
   name: {
@@ -29,13 +29,14 @@ const recipeSchema = new Schema<RecipeDocument>({
   title: {
     type: String,
     required: true,
+    unique: true,
   },
   category: {
     type: Schema.Types.ObjectId,
     ref: CategoryModel,
     required: true,
   },
-  labels:{
+  labels: {
     type: [Schema.Types.ObjectId],
     ref: LabelModel,
     default: [],
@@ -74,8 +75,7 @@ const recipeSchema = new Schema<RecipeDocument>({
 recipeSchema.set("toObject", { virtuals: true });
 recipeSchema.set("toJSON", { virtuals: true });
 
-
-const RecipeModel : Model<RecipeDocument> =
+const RecipeModel: Model<RecipeDocument> =
   models.Recipe || model<RecipeDocument>("Recipe", recipeSchema);
 
 export default RecipeModel;

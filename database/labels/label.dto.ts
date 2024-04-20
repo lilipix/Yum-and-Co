@@ -1,8 +1,8 @@
 export const CreateLabelDTO = {
-    name: 'string',
+  name: "string",
 };
 
 export const UpdateLabelDTO = {
-    id: 'string',
-    name: 'string',
+  id: "string",
+  name: "string",
 };
