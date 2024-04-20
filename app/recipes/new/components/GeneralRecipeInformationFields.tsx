@@ -8,7 +8,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
-import { putFirstLetterCapital } from '@/lib/utils/string.utils';
+import { putFirstLetterCapital } from "@/lib/utils/string.utils";
 import { CategorySchema } from "@/validators/category";
 import { IngredientSchema } from "@/validators/recipe/ingredient.validator";
 import dynamic from "next/dynamic";
@@ -18,21 +18,43 @@ import { z } from "zod";
 const IngredientsListFields = dynamic(() => import("./IngredientsListFields"));
 
 export const GeneralRecipeInformationFieldsSchema = z.object({
-  title: z.coerce.string({ required_error: 'Requis.' })
-  .min(1, { message: 'Le nom doit être renseigné.' })
-  .transform(putFirstLetterCapital),
-  category: z.coerce.string({ required_error: 'Requis.' })
-  .min(1, { message: 'La catégorie doit être renseigné.' })
-  .transform(value => value.toLowerCase()),
+  title: z.coerce
+    .string({ required_error: "Requis." })
+    .min(1, { message: "Le nom doit être renseigné." })
+    .transform(putFirstLetterCapital),
+  category: z.coerce
+    .string({ required_error: "Requis." })
+    .min(1, { message: "La catégorie doit être renseigné." })
+    .transform((value) => value.toLowerCase()),
   labels: z.array(z.coerce.string().nullable()),
   numberOfPersons: z.coerce.number().optional().nullable(),
-  preparationTime: z.coerce.string().regex(new RegExp('^[0-9]*$'), { message: 'Le temps de préparation doit être un nombre.' }).optional().nullable(),
-  cookingTime: z.coerce.string().regex(new RegExp('^[0-9]*$'), { message: 'Le temps de cuisson doit être un nombre.' }).optional().nullable(),
-  ovenTemperature:z.coerce.string().regex(new RegExp('^[0-9]*$'), { message: 'La température du four doit être un nombre.' }).optional().nullable(),
+  preparationTime: z.coerce
+    .string()
+    .regex(new RegExp("^[0-9]*$"), {
+      message: "Le temps de préparation doit être un nombre.",
+    })
+    .optional()
+    .nullable(),
+  cookingTime: z.coerce
+    .string()
+    .regex(new RegExp("^[0-9]*$"), {
+      message: "Le temps de cuisson doit être un nombre.",
+    })
+    .optional()
+    .nullable(),
+  ovenTemperature: z.coerce
+    .string()
+    .regex(new RegExp("^[0-9]*$"), {
+      message: "La température du four doit être un nombre.",
+    })
+    .optional()
+    .nullable(),
   ingredients: z.array(IngredientSchema).nullable(),
 });
 
-export type GeneralRecipeInformationFieldsValues = z.infer<typeof GeneralRecipeInformationFieldsSchema>;
+export type GeneralRecipeInformationFieldsValues = z.infer<
+  typeof GeneralRecipeInformationFieldsSchema
+>;
 
 const GeneralRecipeInformationFields = () => {
   const form = useFormContext<GeneralRecipeInformationFieldsValues>();
@@ -63,7 +85,12 @@ const GeneralRecipeInformationFields = () => {
           <FormItem>
             <FormLabel>Catégorie</FormLabel>
             <FormControl>
-              <Input type="text" {...field} value={field.value ?? ""} required/>
+              <Input
+                type="text"
+                {...field}
+                value={field.value ?? ""}
+                required
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -133,7 +160,9 @@ const GeneralRecipeInformationFields = () => {
             name="ovenTemperature"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Température du four<br></br> (en °)</FormLabel>
+                <FormLabel>
+                  Température du four<br></br> (en °)
+                </FormLabel>
                 <FormControl>
                   <Input type="text" {...field} value={field.value ?? ""} />
                 </FormControl>

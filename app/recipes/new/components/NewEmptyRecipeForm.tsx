@@ -1,7 +1,9 @@
 "use client";
 
 import { z } from "zod";
-import RecipeForm, { GeneralRecipeInformationFieldsSchema } from "./GeneralRecipeInformationFields";
+import RecipeForm, {
+  GeneralRecipeInformationFieldsSchema,
+} from "./GeneralRecipeInformationFields";
 import { IngredientsListFieldsSchema } from "./IngredientsListFields";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -19,7 +21,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import dynamic from "next/dynamic";
-import { RecipePreparationFieldSchema } from './RecipePreparationField';
+import { RecipePreparationFieldSchema } from "./RecipePreparationField";
 
 const IngredientsListForm = dynamic(() => import("./IngredientsListFields"));
 
@@ -67,7 +69,7 @@ const NewEmptyRecipeForm = () => {
   const handleSubmit = async ({ ...values }: NewEmptyRecipeFormValues) => {
     try {
       setIsLoading(true);
-     await createRecipe({
+      await createRecipe({
         ...values,
         category: values.category ?? "",
         numberOfPersons: values.numberOfPersons ?? null,

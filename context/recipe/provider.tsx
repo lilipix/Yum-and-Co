@@ -17,7 +17,6 @@ const RecipesProvider = ({ children }: RecipesProviderProps) => {
       setIsLoading(true);
       try {
         const fetchedRecipes = await getRecipesByCategory(category);
-        console.log("fetchedRecipes", fetchedRecipes);
 
         setRecipes(fetchedRecipes);
       } catch (error) {
