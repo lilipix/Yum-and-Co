@@ -8,29 +8,34 @@ import {
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
+import { putFirstLetterCapital } from '@/lib/utils/string.utils';
 import { CategorySchema } from "@/validators/category";
 import { IngredientSchema } from "@/validators/recipe/ingredient.validator";
 import dynamic from "next/dynamic";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
 
-const IngredientsListForm = dynamic(() => import("./IngredientsListForm"));
+const IngredientsListFields = dynamic(() => import("./IngredientsListFields"));
 
-export const RecipeFormSchema = z.object({
-  title: z.coerce.string().min(1, "Cannot be empty."),
-  category: z.coerce.string(),
+export const GeneralRecipeInformationFieldsSchema = z.object({
+  title: z.coerce.string({ required_error: 'Requis.' })
+  .min(1, { message: 'Le nom doit être renseigné.' })
+  .transform(putFirstLetterCapital),
+  category: z.coerce.string({ required_error: 'Requis.' })
+  .min(1, { message: 'La catégorie doit être renseigné.' })
+  .transform(value => value.toLowerCase()),
   labels: z.array(z.coerce.string().nullable()),
   numberOfPersons: z.coerce.number().optional().nullable(),
-  preparationTime: z.coerce.string().optional().nullable(),
-  cookingTime: z.coerce.string().optional().nullable(),
-  ovenTemperature: z.coerce.string().optional().nullable(),
+  preparationTime: z.coerce.string().regex(new RegExp('^[0-9]*$'), { message: 'Le temps de préparation doit être un nombre.' }).optional().nullable(),
+  cookingTime: z.coerce.string().regex(new RegExp('^[0-9]*$'), { message: 'Le temps de cuisson doit être un nombre.' }).optional().nullable(),
+  ovenTemperature:z.coerce.string().regex(new RegExp('^[0-9]*$'), { message: 'La température du four doit être un nombre.' }).optional().nullable(),
   ingredients: z.array(IngredientSchema).nullable(),
 });
 
-export type RecipeFormValues = z.infer<typeof RecipeFormSchema>;
+export type GeneralRecipeInformationFieldsValues = z.infer<typeof GeneralRecipeInformationFieldsSchema>;
 
-const GeneralRecipeInformationForm = () => {
-  const form = useFormContext<RecipeFormValues>();
+const GeneralRecipeInformationFields = () => {
+  const form = useFormContext<GeneralRecipeInformationFieldsValues>();
   return (
     <div className="flex flex-col gap-4">
       <FormField
@@ -58,7 +63,7 @@ const GeneralRecipeInformationForm = () => {
           <FormItem>
             <FormLabel>Catégorie</FormLabel>
             <FormControl>
-              <Input type="text" {...field} value={field.value ?? ""} />
+              <Input type="text" {...field} value={field.value ?? ""} required/>
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -201,4 +206,4 @@ const GeneralRecipeInformationForm = () => {
   );
 };
 
-export default GeneralRecipeInformationForm;
+export default GeneralRecipeInformationFields;

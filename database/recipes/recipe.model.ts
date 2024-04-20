@@ -29,6 +29,7 @@ const recipeSchema = new Schema<RecipeDocument>({
   title: {
     type: String,
     required: true,
+    unique: true,
   },
   category: {
     type: Schema.Types.ObjectId,

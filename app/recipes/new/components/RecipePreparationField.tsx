@@ -4,14 +4,14 @@ import React from 'react';
 import { useFormContext } from 'react-hook-form';
 import { z } from 'zod';
 
-export const RecipePreparationFormSchema = z.object({
+export const RecipePreparationFieldSchema = z.object({
     preparation: z.coerce.string().optional().nullable(),
 });
 
-export type RecipePreparationFormValues = z.infer<typeof RecipePreparationFormSchema>;
+export type RecipePreparationFieldValues = z.infer<typeof RecipePreparationFieldSchema>;
 
-const RecipePreparationForm = () => {
-    const form = useFormContext<RecipePreparationFormValues>();
+const RecipePreparationField = () => {
+    const form = useFormContext<RecipePreparationFieldValues>();
     return (
         <div>
              <FormField
@@ -19,7 +19,7 @@ const RecipePreparationForm = () => {
         name="preparation"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Préparation *</FormLabel>
+            <FormLabel>Préparation</FormLabel>
             <FormControl>
               <Textarea className="h-[200px]" placeholder="" {...field} value={field.value ?? ""} />
             </FormControl>
@@ -31,4 +31,4 @@ const RecipePreparationForm = () => {
     );
 };
 
-export default RecipePreparationForm;
+export default RecipePreparationField;

@@ -1,8 +1,8 @@
 "use client";
 
 import { z } from "zod";
-import RecipeForm, { RecipeFormSchema } from "./GeneralRecipeInformationForm";
-import { IngredientsListFormSchema } from "./IngredientsListForm";
+import RecipeForm, { GeneralRecipeInformationFieldsSchema } from "./GeneralRecipeInformationFields";
+import { IngredientsListFieldsSchema } from "./IngredientsListFields";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -19,21 +19,21 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import dynamic from "next/dynamic";
-import { RecipePreparationFormSchema } from './RecipePreparationForm';
+import { RecipePreparationFieldSchema } from './RecipePreparationField';
 
-const IngredientsListForm = dynamic(() => import("./IngredientsListForm"));
+const IngredientsListForm = dynamic(() => import("./IngredientsListFields"));
 
 const GeneralRecipeInformationForm = dynamic(
-  () => import("./GeneralRecipeInformationForm")
+  () => import("./GeneralRecipeInformationFields")
 );
 
-const RecipePreparationForm = dynamic(() => import("./RecipePreparationForm"));
+const RecipePreparationForm = dynamic(() => import("./RecipePreparationField"));
 
 export const NewEmptyRecipeFormSchema = z
   .object({})
-  .merge(RecipeFormSchema)
-  .merge(IngredientsListFormSchema)
-  .merge(RecipePreparationFormSchema);
+  .merge(GeneralRecipeInformationFieldsSchema)
+  .merge(IngredientsListFieldsSchema)
+  .merge(RecipePreparationFieldSchema);
 
 export type NewEmptyRecipeFormValues = z.infer<typeof NewEmptyRecipeFormSchema>;
 
@@ -67,7 +67,7 @@ const NewEmptyRecipeForm = () => {
   const handleSubmit = async ({ ...values }: NewEmptyRecipeFormValues) => {
     try {
       setIsLoading(true);
-      const createdRecipe = await createRecipe({
+     await createRecipe({
         ...values,
         category: values.category ?? "",
         numberOfPersons: values.numberOfPersons ?? null,

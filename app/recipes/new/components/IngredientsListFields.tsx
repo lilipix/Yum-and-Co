@@ -26,16 +26,22 @@ import {
   getUnitLabel,
 } from "@/validators/recipe/ingredient.validator";
 
-export const IngredientsListFormSchema = z.object({
-  ingredients: z.array(IngredientSchema),
+export const IngredientsListFieldsSchema = z.object({
+  ingredients: z.array(
+    z.object({
+      name: z.string().nullable().transform((value) => value ? value.toLowerCase() : null),
+      baseQuantity: z.coerce.number().optional(),
+      unit: z.nativeEnum(Unit).optional(),
+    })
+  ),
 });
 
-export type IngredientsListFormValues = z.infer<
-  typeof IngredientsListFormSchema
+export type IngredientsListFieldsValues = z.infer<
+  typeof IngredientsListFieldsSchema
 >;
 
-const IngredientsListForm = () => {
-  const form = useFormContext<IngredientsListFormValues>();
+const IngredientsListFields = () => {
+  const form = useFormContext<IngredientsListFieldsValues>();
 
   const { fields, insert, remove } = useFieldArray({
     name: "ingredients",
@@ -63,48 +69,48 @@ const IngredientsListForm = () => {
         <div key={fieldItem.id}>
           <div className="gap-4 md:flex">
             <div className="flex justify-between gap-4">
-                <FormField
-                  control={form.control}
-                  name={`ingredients.${index}.baseQuantity`}
-                  render={({ field }) => (
-                    <FormItem className="flex-1 w-1/2 ">
-                      <FormLabel>Quantité</FormLabel>
-                      <FormControl>
-                        <Input type="number" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-            <div className="w-1/2 md:w-28">
               <FormField
                 control={form.control}
-                name={`ingredients.${index}.unit`}
+                name={`ingredients.${index}.baseQuantity`}
                 render={({ field }) => (
-                  <FormItem className="flex-1">
-                    <FormLabel>Unité</FormLabel>
-                    <Select
-                      value={field.value}
-                      onValueChange={(value) => field.onChange(value)}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {units.map((unit) => (
-                          <SelectItem key={unit.value} value={unit.value}>
-                            {unit.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                  <FormItem className="flex-1 w-1/2 ">
+                    <FormLabel>Quantité</FormLabel>
+                    <FormControl>
+                      <Input type="number" {...field} />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-            </div>
+              <div className="w-1/2 md:w-28">
+                <FormField
+                  control={form.control}
+                  name={`ingredients.${index}.unit`}
+                  render={({ field }) => (
+                    <FormItem className="flex-1">
+                      <FormLabel>Unité</FormLabel>
+                      <Select
+                        value={field.value}
+                        onValueChange={(value) => field.onChange(value)}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {units.map((unit) => (
+                            <SelectItem key={unit.value} value={unit.value}>
+                              {unit.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
             </div>
             <div className="flex items-center gap-4">
               <FormField
@@ -118,7 +124,7 @@ const IngredientsListForm = () => {
                         placeholder=""
                         type="text"
                         {...field}
-                        value={field.value ?? ""}
+                        value={field.value?.toLowerCase() ?? ""}
                       />
                     </FormControl>
                     <FormMessage />
@@ -151,4 +157,4 @@ const IngredientsListForm = () => {
   );
 };
 
-export default IngredientsListForm;
+export default IngredientsListFields;

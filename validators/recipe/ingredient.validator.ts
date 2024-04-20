@@ -39,7 +39,7 @@ export const UnitLabels = {
 export const IngredientSchema = z.object({
   name: z.string().nullable(),
   baseQuantity: z.coerce.number().optional(),
-  unit: z.nativeEnum(Unit),
+  unit: z.nativeEnum(Unit).optional(),
 });
 
 export interface IIngredient extends z.infer<typeof IngredientSchema> {}
