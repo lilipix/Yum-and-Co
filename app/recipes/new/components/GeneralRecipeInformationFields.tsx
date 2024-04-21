@@ -71,7 +71,6 @@ const GeneralRecipeInformationFields = () => {
                 type="text"
                 {...field}
                 value={field.value ?? ""}
-                required
               />
             </FormControl>
             <FormMessage />
@@ -89,7 +88,6 @@ const GeneralRecipeInformationFields = () => {
                 type="text"
                 {...field}
                 value={field.value ?? ""}
-                required
               />
             </FormControl>
             <FormMessage />
@@ -161,7 +159,7 @@ const GeneralRecipeInformationFields = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>
-                  Température du four<br></br> (en °)
+                  Température du four <br /> (en °)
                 </FormLabel>
                 <FormControl>
                   <Input type="text" {...field} value={field.value ?? ""} />
@@ -172,22 +170,6 @@ const GeneralRecipeInformationFields = () => {
           />
         </div>
       </div>
-      {/* <div>
-        <IngredientsListForm />
-      </div> */}
-      {/* <FormField
-        control={form.control}
-        name="preparation"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Préparation *</FormLabel>
-            <FormControl>
-              <Textarea placeholder="" {...field} value={field.value ?? ""} />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      /> */}
     </div>
   );
 };

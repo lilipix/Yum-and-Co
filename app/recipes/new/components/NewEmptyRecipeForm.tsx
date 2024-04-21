@@ -124,7 +124,7 @@ const NewEmptyRecipeForm = () => {
               <Button type="button" variant="outline" onClick={handleCancel}>
                 Annuler
               </Button>
-              <Button disabled={isLoading} type="submit" variant="pink">
+              <Button disabled={isLoading} type="submit">
                 Enregistrer
                 {isLoading ? <Loader2 className="animate-spin h-4 w-4" /> : ""}
               </Button>
