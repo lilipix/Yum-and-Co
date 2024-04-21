@@ -70,7 +70,7 @@ const IngredientsListFields = () => {
     <div className="flex flex-col flex-wrap gap-4">
       {fields.map((fieldItem, index) => (
         <div key={fieldItem.id}>
-          <div className="gap-4 md:flex">
+          <div className="gap-4 xl:flex">
             <div className="flex justify-between gap-4">
               <FormField
                 control={form.control}
@@ -85,7 +85,7 @@ const IngredientsListFields = () => {
                   </FormItem>
                 )}
               />
-              <div className="w-1/2 md:w-28">
+              <div className="w-1/2 xl:w-28">
                 <FormField
                   control={form.control}
                   name={`ingredients.${index}.unit`}
@@ -134,18 +134,18 @@ const IngredientsListFields = () => {
                   </FormItem>
                 )}
               />
-              <div className="flex justify-end mt-8 w-fit sm:hidden">
+              <div className="flex justify-end mt-8 w-fit">
                 <Button
                   className="items-center w-fit"
                   variant="secondary"
                   onClick={handleDeleteIngredients(index)}
                 >
-                  <Trash size="16" />
+                  <Trash size="16" className="text-destructive"/>
                 </Button>
               </div>
             </div>
           </div>
-          <Separator className="md:hidden mt-4" />
+          <Separator className="xl:hidden mt-4" />
         </div>
       ))}
       <Button
