@@ -35,7 +35,7 @@ export const IngredientsListFieldsSchema = z.object({
         .transform((value) => (value ? value.toLowerCase() : null)),
       baseQuantity: z.coerce.number().optional(),
       unit: z.nativeEnum(Unit).optional(),
-    })
+    }),
   ),
 });
 
@@ -76,7 +76,7 @@ const IngredientsListFields = () => {
                 control={form.control}
                 name={`ingredients.${index}.baseQuantity`}
                 render={({ field }) => (
-                  <FormItem className="flex-1 w-1/2 ">
+                  <FormItem className="w-1/2 flex-1 ">
                     <FormLabel>Quantité</FormLabel>
                     <FormControl>
                       <Input type="number" defaultValue={field.value} />
@@ -134,22 +134,22 @@ const IngredientsListFields = () => {
                   </FormItem>
                 )}
               />
-              <div className="flex justify-end mt-8 w-fit">
+              <div className="mt-8 flex w-fit justify-end">
                 <Button
-                  className="items-center w-fit"
+                  className="w-fit items-center"
                   variant="secondary"
                   onClick={handleDeleteIngredients(index)}
                 >
-                  <Trash size="16" className="text-destructive"/>
+                  <Trash size="16" className="text-destructive" />
                 </Button>
               </div>
             </div>
           </div>
-          <Separator className="xl:hidden mt-4" />
+          <Separator className="mt-4 xl:hidden" />
         </div>
       ))}
       <Button
-        className="items-center flex justify-between"
+        className="flex items-center justify-between"
         type="button"
         variant="secondary"
         onClick={handleAddIngredients}

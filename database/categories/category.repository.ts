@@ -19,3 +19,20 @@ export const createCategory = async (
     throw error;
   }
 };
+
+export const findCategories = async (): Promise<ICategory[]> => {
+  try {
+    await connectToDatabase();
+    const documents = await CategoryModel.find();
+    return documents.map((document) =>
+      document.toJSON({
+        //serialized ObjectId to string
+        flattenObjectIds: true,
+        //__v non-inclusion
+        versionKey: false,
+      })
+    );
+  } catch (error) {
+    throw error;
+  }
+}
