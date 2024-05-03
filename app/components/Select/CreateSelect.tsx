@@ -1,6 +1,3 @@
-/* eslint-disable jsx-a11y/role-has-required-aria-props */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable jsx-a11y/interactive-supports-focus */
 import { Check, Loader2 } from "lucide-react";
 import {
   ChangeEventHandler,
@@ -36,7 +33,7 @@ type CreateSelectProps = PropsWithChildren<{
   placeholder?: string;
   value: string | string[];
   onSelect: (value: string | string[]) => void;
-  onCreateOption?: boolean;
+  onCreateOption?: (value: string) => Promise<SelectOption | undefined>;
   onBlur?: FocusEventHandler<HTMLDivElement>;
   allowMultiple?: boolean;
   isLoading?: boolean;
@@ -62,9 +59,11 @@ const CreateSelect = ({
 
   const [options, setOptions] = useState<SelectOption[]>(initialOptions);
 
+
   const [selectedOptions, setSelectedOptions] = useState<string[]>(
     typeof value === "string" ? [value] : value || [],
   );
+
   const [inputValue, setInputValue] = useState<string>("");
 
   useEffect(() => {
@@ -72,6 +71,7 @@ const CreateSelect = ({
       onSelect(selectedOptions);
     } else {
       const [selectedOption] = selectedOptions;
+      console.log("Selected Option (String):", selectedOption);
       if (selectedOption) {
         onSelect(selectedOption);
       }
@@ -123,20 +123,20 @@ const CreateSelect = ({
     event,
   ) => setInputValue(event.target.value);
 
-  // const handleCreateOption = () => {
-  //   if (inputValue && onCreateOption) {
-  //     onCreateOption(inputValue).then((option) => {
-  //       if (option) {
-  //         setSelectedOptions((prevSelectedOptions) =>
-  //           allowMultiple
-  //             ? [...prevSelectedOptions, option.value]
-  //             : [option.value],
-  //         );
-  //       }
-  //     });
-  //     setInputValue("");
-  //   }
-  // };
+  const handleCreateOption = () => {
+    if (inputValue && onCreateOption) {
+      onCreateOption(inputValue).then((option) => {
+        if (option) {
+          setSelectedOptions((prevSelectedOptions) =>
+            allowMultiple
+             ? [...prevSelectedOptions, option.value]
+              : [option.value],
+          );
+        }
+      });
+      setInputValue("");
+    }
+  };
   
 
 
@@ -164,7 +164,7 @@ const CreateSelect = ({
     }
     if (event.key === "Enter") {
       event.preventDefault();
-      // handleCreateOption();
+      handleCreateOption();
     }
   };
 

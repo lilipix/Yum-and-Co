@@ -59,7 +59,7 @@ const NewEmptyRecipeForm = ({ categories }: NewEmptyRecipeFormProps) => {
     mode: "onSubmit",
     defaultValues: {
       title: "",
-      categories: [],
+      category: "",
       labels: [],
       numberOfPersons: undefined,
       preparationTime: "",
@@ -77,11 +77,12 @@ const NewEmptyRecipeForm = ({ categories }: NewEmptyRecipeFormProps) => {
   });
 
   const handleSubmit = async ({ ...values }: NewEmptyRecipeFormValues) => {
+    console.log("values", values);
     try {
       setIsLoading(true);
       await createRecipe({
         ...values,
-        category: values.categories ?? "",
+        // category: values.category,
         numberOfPersons: values.numberOfPersons ?? null,
         preparationTime: values.preparationTime ?? "",
         cookingTime: values.cookingTime ?? "",
