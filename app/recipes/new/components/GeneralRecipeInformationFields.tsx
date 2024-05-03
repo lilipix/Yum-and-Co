@@ -14,7 +14,7 @@ import { IngredientSchema } from "@/validators/recipe/ingredient.validator";
 import dynamic from "next/dynamic";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
-import RecipeCategoriesSelectField from './RecipeCategoriesSelectField';
+import RecipeCategoriesSelectField, { RecipeCategorySelectFieldSchema } from './RecipeCategoriesSelectField';
 
 const IngredientsListFields = dynamic(() => import("./IngredientsListFields"));
 
@@ -27,10 +27,6 @@ export const GeneralRecipeInformationFieldsSchema = z.object({
     .string({ required_error: "Requis." })
     .min(1, { message: "Le nom doit être renseigné." })
     .transform(putFirstLetterCapital),
-  // category: z.coerce
-  //   .string({ required_error: "Requis." })
-  //   .min(1, { message: "La catégorie doit être renseigné." })
-  //   .transform((value) => value.toLowerCase()),
   labels: z.array(z.coerce.string().nullable()),
   numberOfPersons: z.coerce.number().optional().nullable(),
   preparationTime: z.coerce
@@ -55,7 +51,7 @@ export const GeneralRecipeInformationFieldsSchema = z.object({
     .optional()
     .nullable(),
   ingredients: z.array(IngredientSchema).nullable(),
-});
+}).merge(RecipeCategorySelectFieldSchema);
 
 export type GeneralRecipeInformationFieldsValues = z.infer<
   typeof GeneralRecipeInformationFieldsSchema
@@ -63,6 +59,12 @@ export type GeneralRecipeInformationFieldsValues = z.infer<
 
 const GeneralRecipeInformationFields = ({categories}: GeneralRecipeInformationFieldsProps) => {
   const form = useFormContext<GeneralRecipeInformationFieldsValues>();
+
+  const category = form.watch("category");
+  console.log("Watched category:", category);
+
+  const { errors } = form.formState;
+  console.log('erreur',errors);
   return (
     <div className="flex flex-col gap-4">
       <FormField

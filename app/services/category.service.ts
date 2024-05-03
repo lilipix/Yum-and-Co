@@ -1,6 +1,6 @@
 import { CategorySchema, ICategory } from '@/validators/category';
 
-export const createCategory = async (category: ICategory): Promise<ICategory>=> {
+export const createCategory = async (category: Partial<ICategory>): Promise<ICategory>=> {
   try {
     const data = await fetch("/api/categories", {
       method: "POST",

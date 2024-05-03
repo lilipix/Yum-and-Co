@@ -23,7 +23,7 @@ import {
 import dynamic from "next/dynamic";
 import { RecipePreparationFieldSchema } from "./RecipePreparationField";
 import RecipeCategorySelectField, {
-  RecipeCategoriesSelectFieldSchema,
+  RecipeCategorySelectFieldSchema,
 } from "./RecipeCategoriesSelectField";
 import { ICategory } from "@/validators/category";
 import GeneralRecipeInformationFields from './GeneralRecipeInformationFields';
@@ -43,14 +43,13 @@ type NewEmptyRecipeFormProps = {
 export const NewEmptyRecipeFormSchema = z
   .object({})
   .merge(GeneralRecipeInformationFieldsSchema)
-  .merge(RecipeCategoriesSelectFieldSchema)
   .merge(IngredientsListFieldsSchema)
   .merge(RecipePreparationFieldSchema);
 
 export type NewEmptyRecipeFormValues = z.infer<typeof NewEmptyRecipeFormSchema>;
 
 const NewEmptyRecipeForm = ({ categories }: NewEmptyRecipeFormProps) => {
-  //   const { isLoading, setIsLoading } = useRecipe();
+ 
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -77,12 +76,12 @@ const NewEmptyRecipeForm = ({ categories }: NewEmptyRecipeFormProps) => {
   });
 
   const handleSubmit = async ({ ...values }: NewEmptyRecipeFormValues) => {
-    console.log("values", values);
+    console.log("values", values.category);
     try {
       setIsLoading(true);
       await createRecipe({
         ...values,
-        // category: values.category,
+        category: values.category,
         numberOfPersons: values.numberOfPersons ?? null,
         preparationTime: values.preparationTime ?? "",
         cookingTime: values.cookingTime ?? "",

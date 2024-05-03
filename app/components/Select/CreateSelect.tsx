@@ -58,20 +58,20 @@ const CreateSelect = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [options, setOptions] = useState<SelectOption[]>(initialOptions);
-
+  
 
   const [selectedOptions, setSelectedOptions] = useState<string[]>(
     typeof value === "string" ? [value] : value || [],
   );
 
   const [inputValue, setInputValue] = useState<string>("");
+  console.log('Input Value:', inputValue);  // Suivre la valeur d'entrée
 
   useEffect(() => {
     if (allowMultiple) {
       onSelect(selectedOptions);
     } else {
       const [selectedOption] = selectedOptions;
-      console.log("Selected Option (String):", selectedOption);
       if (selectedOption) {
         onSelect(selectedOption);
       }
@@ -124,21 +124,29 @@ const CreateSelect = ({
   ) => setInputValue(event.target.value);
 
   const handleCreateOption = () => {
+    console.log('handleCreateOption called with inputValue:', inputValue);
     if (inputValue && onCreateOption) {
-      onCreateOption(inputValue).then((option) => {
-        if (option) {
-          setSelectedOptions((prevSelectedOptions) =>
-            allowMultiple
-             ? [...prevSelectedOptions, option.value]
-              : [option.value],
-          );
-        }
-      });
-      setInputValue("");
+      try {
+        onCreateOption(inputValue).then((option) => {
+          console.log('Option created:', option);
+          if (option) {
+            setSelectedOptions((prevSelectedOptions) =>
+              allowMultiple
+                ? [...prevSelectedOptions, option.value]
+                : [option.value]
+            );
+            console.log('Selected options updated:', [option.value]);  // Suivre la mise à jour des options sélectionnées
+            // setInputValue("");  // Réinitialisation de la valeur d'entrée ici
+          }
+        }).catch(error => {
+          console.error('Error creating option:', error);
+        });
+      } catch (error) {
+        console.error('Error in handleCreateOption function:', error);
+      }
     }
-  };
+  }
   
-
 
   const handleInputClick: MouseEventHandler<HTMLInputElement> = (event) => {
     event.preventDefault();
@@ -266,15 +274,14 @@ const CreateSelect = ({
           inputValue &&
           !initialOptions.find(
             (option) =>
-              option.label.trim().toLowerCase() ===
-              inputValue.trim().toLowerCase(),
-          ) ? (
+              option.label.trim().toLowerCase() === inputValue.trim().toLowerCase())
+            ? (
             <Button
               className="justify-start px-2 py-1.5 text-sm"
               role="menuitem"
               type="button"
               variant="ghost"
-              // onClick={handleCreateOption}
+              onClick={handleCreateOption}
             >
               Créer &quot;
               {inputValue}
