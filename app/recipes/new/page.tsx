@@ -1,11 +1,18 @@
 import { Plus } from "lucide-react";
-import React from "react";
 import NewEmptyRecipeForm from "./components/NewEmptyRecipeForm";
+import connectToDatabase from "@/lib/mongodb";
+import { findCategories } from "@/database/categories/category.repository";
+import { CategoriesSchema, ICategory } from "@/validators/category";
 
-const NewRecipePage = () => {
+const NewRecipePage = async () => {
+  await connectToDatabase();
+
+  const categories = await findCategories();
+  const parsedCategories: ICategory[] = CategoriesSchema.parse(categories);
+
   return (
-    <div className="my-8 mx-2">
-      <NewEmptyRecipeForm />
+    <div className="mx-2 my-8">
+      <NewEmptyRecipeForm categories={parsedCategories} />
     </div>
   );
 };

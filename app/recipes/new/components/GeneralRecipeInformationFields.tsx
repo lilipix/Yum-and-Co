@@ -9,23 +9,24 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { putFirstLetterCapital } from "@/lib/utils/string.utils";
-import { CategorySchema } from "@/validators/category";
+import {  ICategory } from "@/validators/category";
 import { IngredientSchema } from "@/validators/recipe/ingredient.validator";
 import dynamic from "next/dynamic";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
+import RecipeCategoriesSelectField, { RecipeCategorySelectFieldSchema } from './RecipeCategoriesSelectField';
 
 const IngredientsListFields = dynamic(() => import("./IngredientsListFields"));
+
+type GeneralRecipeInformationFieldsProps = {
+  categories: ICategory[];
+}
 
 export const GeneralRecipeInformationFieldsSchema = z.object({
   title: z.coerce
     .string({ required_error: "Requis." })
     .min(1, { message: "Le nom doit être renseigné." })
     .transform(putFirstLetterCapital),
-  category: z.coerce
-    .string({ required_error: "Requis." })
-    .min(1, { message: "La catégorie doit être renseigné." })
-    .transform((value) => value.toLowerCase()),
   labels: z.array(z.coerce.string().nullable()),
   numberOfPersons: z.coerce.number().optional().nullable(),
   preparationTime: z.coerce
@@ -50,14 +51,18 @@ export const GeneralRecipeInformationFieldsSchema = z.object({
     .optional()
     .nullable(),
   ingredients: z.array(IngredientSchema).nullable(),
-});
+}).merge(RecipeCategorySelectFieldSchema);
 
 export type GeneralRecipeInformationFieldsValues = z.infer<
   typeof GeneralRecipeInformationFieldsSchema
 >;
 
-const GeneralRecipeInformationFields = () => {
+const GeneralRecipeInformationFields = ({categories}: GeneralRecipeInformationFieldsProps) => {
   const form = useFormContext<GeneralRecipeInformationFieldsValues>();
+
+  const category = form.watch("category");
+
+  const { errors } = form.formState;
   return (
     <div className="flex flex-col gap-4">
       <FormField
@@ -67,34 +72,16 @@ const GeneralRecipeInformationFields = () => {
           <FormItem>
             <FormLabel>Nom de la recette *</FormLabel>
             <FormControl>
-              <Input
-                type="text"
-                {...field}
-                value={field.value ?? ""}
-              />
+              <Input type="text" {...field} value={field.value ?? ""} />
             </FormControl>
             <FormMessage />
           </FormItem>
         )}
       />
-      <FormField
-        control={form.control}
-        name="category"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Catégorie</FormLabel>
-            <FormControl>
-              <Input
-                type="text"
-                {...field}
-                value={field.value ?? ""}
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <div className="flex gap-4 justify-between">
+      <div className="w-1/2">
+        <RecipeCategoriesSelectField categories={categories} />
+        </div>
+      <div className="flex justify-between gap-4">
         <div className="w-1/2">
           <FormField
             control={form.control}
@@ -134,7 +121,7 @@ const GeneralRecipeInformationFields = () => {
           />
         </div>
       </div>
-      <div className="flex gap-4 justify-between">
+      <div className="flex justify-between gap-4">
         <div className="w-1/2">
           <FormField
             control={form.control}
