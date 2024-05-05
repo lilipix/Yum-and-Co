@@ -6,58 +6,62 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Textarea } from "@/components/ui/textarea";
 import { putFirstLetterCapital } from "@/lib/utils/string.utils";
-import {  ICategory } from "@/validators/category";
+import { ICategory } from "@/validators/category";
 import { IngredientSchema } from "@/validators/recipe/ingredient.validator";
 import dynamic from "next/dynamic";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
-import RecipeCategoriesSelectField, { RecipeCategorySelectFieldSchema } from './RecipeCategoriesSelectField';
+import RecipeCategoriesSelectField, {
+  RecipeCategorySelectFieldSchema,
+} from "./RecipeCategoriesSelectField";
 
 const IngredientsListFields = dynamic(() => import("./IngredientsListFields"));
 
 type GeneralRecipeInformationFieldsProps = {
   categories: ICategory[];
-}
+};
 
-export const GeneralRecipeInformationFieldsSchema = z.object({
-  title: z.coerce
-    .string({ required_error: "Requis." })
-    .min(1, { message: "Le nom doit être renseigné." })
-    .transform(putFirstLetterCapital),
-  labels: z.array(z.coerce.string().nullable()),
-  numberOfPersons: z.coerce.number().optional().nullable(),
-  preparationTime: z.coerce
-    .string()
-    .regex(new RegExp("^[0-9]*$"), {
-      message: "Le temps de préparation doit être un nombre.",
-    })
-    .optional()
-    .nullable(),
-  cookingTime: z.coerce
-    .string()
-    .regex(new RegExp("^[0-9]*$"), {
-      message: "Le temps de cuisson doit être un nombre.",
-    })
-    .optional()
-    .nullable(),
-  ovenTemperature: z.coerce
-    .string()
-    .regex(new RegExp("^[0-9]*$"), {
-      message: "La température du four doit être un nombre.",
-    })
-    .optional()
-    .nullable(),
-  ingredients: z.array(IngredientSchema).nullable(),
-}).merge(RecipeCategorySelectFieldSchema);
+export const GeneralRecipeInformationFieldsSchema = z
+  .object({
+    title: z.coerce
+      .string({ required_error: "Requis." })
+      .min(1, { message: "Le nom doit être renseigné." })
+      .transform(putFirstLetterCapital),
+    labels: z.array(z.coerce.string().nullable()),
+    numberOfPersons: z.coerce.number().optional().nullable(),
+    preparationTime: z.coerce
+      .string()
+      .regex(new RegExp("^[0-9]*$"), {
+        message: "Le temps de préparation doit être un nombre.",
+      })
+      .optional()
+      .nullable(),
+    cookingTime: z.coerce
+      .string()
+      .regex(new RegExp("^[0-9]*$"), {
+        message: "Le temps de cuisson doit être un nombre.",
+      })
+      .optional()
+      .nullable(),
+    ovenTemperature: z.coerce
+      .string()
+      .regex(new RegExp("^[0-9]*$"), {
+        message: "La température du four doit être un nombre.",
+      })
+      .optional()
+      .nullable(),
+    ingredients: z.array(IngredientSchema).nullable(),
+  })
+  .merge(RecipeCategorySelectFieldSchema);
 
 export type GeneralRecipeInformationFieldsValues = z.infer<
   typeof GeneralRecipeInformationFieldsSchema
 >;
 
-const GeneralRecipeInformationFields = ({categories}: GeneralRecipeInformationFieldsProps) => {
+const GeneralRecipeInformationFields = ({
+  categories,
+}: GeneralRecipeInformationFieldsProps) => {
   const form = useFormContext<GeneralRecipeInformationFieldsValues>();
 
   const category = form.watch("category");
@@ -80,7 +84,7 @@ const GeneralRecipeInformationFields = ({categories}: GeneralRecipeInformationFi
       />
       <div className="w-1/2">
         <RecipeCategoriesSelectField categories={categories} />
-        </div>
+      </div>
       <div className="flex justify-between gap-4">
         <div className="w-1/2">
           <FormField

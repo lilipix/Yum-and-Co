@@ -21,6 +21,7 @@ import {
 // import { ColorPalette } from "@/types/ui.type";
 
 import CrudSelectItemMenu from "./CreateSelectItemMenu";
+import { set } from 'mongoose';
 
 export type SelectOption = {
   value: string;
@@ -115,6 +116,7 @@ const CreateSelect = ({
       } else {
         setSelectedOptions([option.value]);
       }
+      setIsOpen(false);
       setInputValue("");
     };
 
@@ -134,6 +136,7 @@ const CreateSelect = ({
             );
             // setInputValue("");  // Réinitialisation de la valeur d'entrée ici
           }
+          setIsOpen(false);
         }).catch(error => {
           console.error('Error creating option:', error);
         });

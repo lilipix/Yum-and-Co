@@ -1,9 +1,7 @@
 "use client";
 
 import { z } from "zod";
-import RecipeForm, {
-  GeneralRecipeInformationFieldsSchema,
-} from "./GeneralRecipeInformationFields";
+import { GeneralRecipeInformationFieldsSchema } from "./GeneralRecipeInformationFields";
 import { IngredientsListFieldsSchema } from "./IngredientsListFields";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -11,26 +9,17 @@ import { useForm } from "react-hook-form";
 import { createRecipe } from "@/app/services/recipes.service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { Form } from "@/components/ui/form";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import dynamic from "next/dynamic";
 import { RecipePreparationFieldSchema } from "./RecipePreparationField";
-import RecipeCategorySelectField, {
-  RecipeCategorySelectFieldSchema,
-} from "./RecipeCategoriesSelectField";
 import { ICategory } from "@/validators/category";
-import GeneralRecipeInformationFields from './GeneralRecipeInformationFields';
+import { toast } from "sonner";
 
 const IngredientsListForm = dynamic(() => import("./IngredientsListFields"));
 
-const GeneralRecipeInformationForm = dynamic(
+const GeneralRecipeInformationFields = dynamic(
   () => import("./GeneralRecipeInformationFields"),
 );
 
@@ -49,7 +38,6 @@ export const NewEmptyRecipeFormSchema = z
 export type NewEmptyRecipeFormValues = z.infer<typeof NewEmptyRecipeFormSchema>;
 
 const NewEmptyRecipeForm = ({ categories }: NewEmptyRecipeFormProps) => {
- 
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -89,7 +77,9 @@ const NewEmptyRecipeForm = ({ categories }: NewEmptyRecipeFormProps) => {
       });
       form.reset({ ...values });
     } catch (error) {
+      toast.error("Erreur lors de l'enregistrement de la recette", {duration: 5000});
     } finally {
+      toast.success("Recette enregistrée avec succès", {duration: 5000});
       setIsLoading(false);
       router.push("/");
     }
@@ -110,8 +100,7 @@ const NewEmptyRecipeForm = ({ categories }: NewEmptyRecipeFormProps) => {
                 <CardTitle>Informations générales</CardTitle>
               </CardHeader>
               <CardContent>
-                <GeneralRecipeInformationFields 
-                categories={categories} />
+                <GeneralRecipeInformationFields categories={categories} />
               </CardContent>
             </Card>
             <Card>
