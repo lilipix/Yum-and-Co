@@ -8,11 +8,11 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const values = CreateRecipeSchema.parse(body);
 
-    const createdCategory = await createCategory({ name: values.category });
+    // const createdCategory = await createCategory({ name: values.category });
 
     const recipe = await createRecipe({
       title: values.title,
-      category: createdCategory.id,
+      category: values.category,
       labels: values.labels,
       numberOfPersons: values.numberOfPersons,
       preparationTime: values.preparationTime,

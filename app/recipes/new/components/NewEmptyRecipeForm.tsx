@@ -22,14 +22,23 @@ import {
 } from "@/components/ui/card";
 import dynamic from "next/dynamic";
 import { RecipePreparationFieldSchema } from "./RecipePreparationField";
+import RecipeCategorySelectField, {
+  RecipeCategorySelectFieldSchema,
+} from "./RecipeCategoriesSelectField";
+import { ICategory } from "@/validators/category";
+import GeneralRecipeInformationFields from './GeneralRecipeInformationFields';
 
 const IngredientsListForm = dynamic(() => import("./IngredientsListFields"));
 
 const GeneralRecipeInformationForm = dynamic(
-  () => import("./GeneralRecipeInformationFields")
+  () => import("./GeneralRecipeInformationFields"),
 );
 
 const RecipePreparationForm = dynamic(() => import("./RecipePreparationField"));
+
+type NewEmptyRecipeFormProps = {
+  categories: ICategory[];
+};
 
 export const NewEmptyRecipeFormSchema = z
   .object({})
@@ -39,8 +48,8 @@ export const NewEmptyRecipeFormSchema = z
 
 export type NewEmptyRecipeFormValues = z.infer<typeof NewEmptyRecipeFormSchema>;
 
-const NewEmptyRecipeForm = () => {
-  //   const { isLoading, setIsLoading } = useRecipe();
+const NewEmptyRecipeForm = ({ categories }: NewEmptyRecipeFormProps) => {
+ 
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -71,7 +80,7 @@ const NewEmptyRecipeForm = () => {
       setIsLoading(true);
       await createRecipe({
         ...values,
-        category: values.category ?? "",
+        category: values.category,
         numberOfPersons: values.numberOfPersons ?? null,
         preparationTime: values.preparationTime ?? "",
         cookingTime: values.cookingTime ?? "",
@@ -92,7 +101,7 @@ const NewEmptyRecipeForm = () => {
     <div>
       <Form {...form}>
         <form
-          className="flex flex-col md:w-1/2 mx-auto"
+          className="mx-auto flex flex-col md:w-1/2"
           onSubmit={form.handleSubmit(handleSubmit)}
         >
           <div className="m-4 space-y-8">
@@ -101,7 +110,8 @@ const NewEmptyRecipeForm = () => {
                 <CardTitle>Informations générales</CardTitle>
               </CardHeader>
               <CardContent>
-                <RecipeForm />
+                <GeneralRecipeInformationFields 
+                categories={categories} />
               </CardContent>
             </Card>
             <Card>
@@ -124,9 +134,9 @@ const NewEmptyRecipeForm = () => {
               <Button type="button" variant="outline" onClick={handleCancel}>
                 Annuler
               </Button>
-              <Button disabled={isLoading} type="submit" variant="pink">
+              <Button disabled={isLoading} type="submit">
                 Enregistrer
-                {isLoading ? <Loader2 className="animate-spin h-4 w-4" /> : ""}
+                {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : ""}
               </Button>
             </div>
           </div>
