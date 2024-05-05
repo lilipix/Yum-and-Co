@@ -132,7 +132,6 @@ const CreateSelect = ({
                 ? [...prevSelectedOptions, option.value]
                 : [option.value]
             );
-            // setInputValue("");  // Réinitialisation de la valeur d'entrée ici
           }
         }).catch(error => {
           console.error('Error creating option:', error);
