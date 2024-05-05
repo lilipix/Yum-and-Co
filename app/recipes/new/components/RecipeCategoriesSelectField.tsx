@@ -48,7 +48,6 @@ const RecipeCategoriesSelectField = ({
       name="category"
       render={({ field }) => {
         const handleChange = (value: string | string[]) => {
-          console.log('VALUE',value, typeof(value));
           field.onChange(value);
         };
         return (

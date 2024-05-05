@@ -8,7 +8,6 @@ const NewRecipePage = async () => {
   await connectToDatabase();
 
   const categories = await findCategories();
-  console.log(categories);
   const parsedCategories: ICategory[] = CategoriesSchema.parse(categories);
 
   return (

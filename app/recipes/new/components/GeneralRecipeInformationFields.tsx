@@ -61,10 +61,8 @@ const GeneralRecipeInformationFields = ({categories}: GeneralRecipeInformationFi
   const form = useFormContext<GeneralRecipeInformationFieldsValues>();
 
   const category = form.watch("category");
-  console.log("Watched category:", category);
 
   const { errors } = form.formState;
-  console.log('erreur',errors);
   return (
     <div className="flex flex-col gap-4">
       <FormField

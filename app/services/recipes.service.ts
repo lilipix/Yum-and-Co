@@ -6,7 +6,6 @@ export const createRecipe = async ({
   ...recipe
 }: z.infer<typeof CreateRecipeSchema>): Promise<RecipePopulated> => {
   try {
-    console.log(' RECIPE',recipe);
     const data = await fetch("/api/recipes", {
       method: "POST",
       headers: {

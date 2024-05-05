@@ -8,15 +8,15 @@ const useCategoryCreate = (initialCategory: ICategory) => {
   const [isLoading, setIsLoading] = useState(false);
 
 const createCategory = async (name: string) => {
-  console.log('NAME', name);
     try {
       setIsLoading(true);
       const category = await createCategoryRequest({ name });
       setCategory(category);
-      return {
+      const result = {
         value: category.id,
         label: category.name,
       };
+      return result;
     } catch (error) {
       console.error(error);
     } finally {

@@ -11,7 +11,8 @@ export const createCategory = async (category: Partial<ICategory>): Promise<ICat
     });
 
     if (data.ok) {
-      return CategorySchema.parse(data);
+      const parsedData = await data.json();
+      return CategorySchema.parse(parsedData);
     }
 
     throw new Error("Failed to create category");

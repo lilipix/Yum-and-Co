@@ -76,7 +76,6 @@ const NewEmptyRecipeForm = ({ categories }: NewEmptyRecipeFormProps) => {
   });
 
   const handleSubmit = async ({ ...values }: NewEmptyRecipeFormValues) => {
-    console.log("values", values.category);
     try {
       setIsLoading(true);
       await createRecipe({

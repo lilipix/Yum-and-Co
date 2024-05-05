@@ -65,7 +65,6 @@ const CreateSelect = ({
   );
 
   const [inputValue, setInputValue] = useState<string>("");
-  console.log('Input Value:', inputValue);  // Suivre la valeur d'entrée
 
   useEffect(() => {
     if (allowMultiple) {
@@ -124,18 +123,15 @@ const CreateSelect = ({
   ) => setInputValue(event.target.value);
 
   const handleCreateOption = () => {
-    console.log('handleCreateOption called with inputValue:', inputValue);
     if (inputValue && onCreateOption) {
       try {
         onCreateOption(inputValue).then((option) => {
-          console.log('Option created:', option);
           if (option) {
             setSelectedOptions((prevSelectedOptions) =>
               allowMultiple
                 ? [...prevSelectedOptions, option.value]
                 : [option.value]
             );
-            console.log('Selected options updated:', [option.value]);  // Suivre la mise à jour des options sélectionnées
             // setInputValue("");  // Réinitialisation de la valeur d'entrée ici
           }
         }).catch(error => {
@@ -146,7 +142,6 @@ const CreateSelect = ({
       }
     }
   }
-  
 
   const handleInputClick: MouseEventHandler<HTMLInputElement> = (event) => {
     event.preventDefault();
