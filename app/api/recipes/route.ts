@@ -1,4 +1,7 @@
-import { createRecipe } from "@/database/recipes/recipe.repository";
+import {
+  createRecipe,
+  findRecipeByTitle,
+} from "@/database/recipes/recipe.repository";
 import { NextRequest, NextResponse } from "next/server";
 import { CreateRecipeSchema } from "./_validators/create-recipe.validator";
 import { createCategory } from "@/database/categories/category.repository";
@@ -8,7 +11,13 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const values = CreateRecipeSchema.parse(body);
 
-    // const createdCategory = await createCategory({ name: values.category });
+    const existingRecipe = await findRecipeByTitle(values.title);
+    if (existingRecipe) {
+      return NextResponse.json(
+        { error: "Recipe with this title already exists" },
+        { status: 400 },
+      );
+    }
 
     const recipe = await createRecipe({
       title: values.title,
@@ -24,9 +33,10 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(recipe);
   } catch (error) {
+    console.error("API ERROR", error);
     return NextResponse.json(
       { error: "Failed to create recipe" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

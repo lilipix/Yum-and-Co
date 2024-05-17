@@ -6,7 +6,7 @@ export const createRecipe = async ({
   ...recipe
 }: z.infer<typeof CreateRecipeSchema>): Promise<RecipePopulated> => {
   try {
-    const data = await fetch("/api/recipes", {
+    const response = await fetch("/api/recipes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -14,11 +14,16 @@ export const createRecipe = async ({
       body: JSON.stringify({ ...recipe }),
     });
 
-    if (data.ok) {
-      return RecipePopulatedSchema.parse(data);
-    }
+    const data = await response.json();
 
-    throw new Error("Failed to create recipe");
+    if (!response.ok) {
+      if (data.error === "Recipe with this title already exists") {
+        throw new Error("DuplicateTitleError");
+      } else {
+        throw new Error("Failed to create recipe");
+      }
+    }
+    return RecipePopulatedSchema.parse(data);
   } catch (error) {
     throw error;
   }

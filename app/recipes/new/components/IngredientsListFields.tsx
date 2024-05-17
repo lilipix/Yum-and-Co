@@ -70,8 +70,8 @@ const IngredientsListFields = () => {
     <div className="flex flex-col flex-wrap gap-4">
       {fields.map((fieldItem, index) => (
         <div key={fieldItem.id}>
-          <div className="gap-4 xl:flex">
-            <div className="flex justify-between gap-4">
+          <div className="justify-between gap-4 xl:flex">
+            <div className="flex gap-4">
               <FormField
                 control={form.control}
                 name={`ingredients.${index}.baseQuantity`}
