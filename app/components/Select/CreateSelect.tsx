@@ -236,6 +236,7 @@ const CreateSelect = ({
               key={option.value}
               className="relative flex w-full cursor-default select-none items-center justify-between rounded-sm text-sm outline-none hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
               role="option"
+              // ? a laisser? aria-selected={selectedOptions.includes(option.value)}
             >
               <div
                 className="relative flex flex-1 items-center rounded-sm py-1.5 pl-8 pr-2"

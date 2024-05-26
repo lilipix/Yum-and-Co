@@ -28,7 +28,7 @@ export const GeneralRecipeInformationFieldsSchema = z
       .string({ required_error: "Requis." })
       .min(1, { message: "Le nom doit être renseigné." })
       .transform(putFirstLetterCapital),
-    labels: z.array(z.coerce.string().nullable()),
+    tags: z.array(z.coerce.string().nullable()),
     numberOfPersons: z.coerce.number().optional(),
     preparationTime: z.coerce
       .string()

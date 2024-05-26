@@ -2,7 +2,8 @@ import { Schema, model, models, Model, Types } from "mongoose";
 import { IIngredient, Unit } from "@/validators/recipe/ingredient.validator";
 import { Recipe } from "@/validators/recipe";
 import CategoryModel from "../categories/category.model";
-import LabelModel from "../labels/label.model";
+import LabelModel from "../tags/tag.model";
+import TagModel from '../tags/tag.model';
 
 export type RecipeDocument = Omit<Recipe, "category" | "labels"> & {
   category: Types.ObjectId;
@@ -36,9 +37,9 @@ const recipeSchema = new Schema<RecipeDocument>({
     ref: CategoryModel,
     required: true,
   },
-  labels: {
+  tags: {
     type: [Schema.Types.ObjectId],
-    ref: LabelModel,
+    ref: TagModel,
     default: [],
   },
   numberOfPersons: {

@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-export const LabelSchema = z.object({
+export const TagSchema = z.object({
   id: z.coerce.string().min(1, "Cannot be empty."),
   name: z.coerce.string().min(1, "Cannot be empty."),
 });
 
-export type ILabel = z.infer<typeof LabelSchema>;
+export type Tag = z.infer<typeof TagSchema>;

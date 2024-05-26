@@ -49,7 +49,7 @@ const NewEmptyRecipeForm = ({ categories }: NewEmptyRecipeFormProps) => {
     defaultValues: {
       title: "",
       category: "",
-      labels: [],
+      tags: [],
       numberOfPersons: undefined,
       preparationTime: "",
       cookingTime: "",
