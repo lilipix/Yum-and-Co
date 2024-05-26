@@ -6,7 +6,7 @@ import { IngredientsListFieldsSchema } from "./IngredientsListFields";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { createRecipe } from "@/app/services/recipes.service";
+import { createRecipe } from "@/services/recipes.service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
@@ -16,6 +16,7 @@ import dynamic from "next/dynamic";
 import { RecipePreparationFieldSchema } from "./RecipePreparationField";
 import { ICategory } from "@/validators/category";
 import { toast } from "sonner";
+import useRecipe from "@/context/recipe/useRecipe";
 
 const IngredientsListForm = dynamic(() => import("./IngredientsListFields"));
 
@@ -38,8 +39,9 @@ export const NewEmptyRecipeFormSchema = z
 export type NewEmptyRecipeFormValues = z.infer<typeof NewEmptyRecipeFormSchema>;
 
 const NewEmptyRecipeForm = ({ categories }: NewEmptyRecipeFormProps) => {
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const { createRecipe, isMutating, isLoading } = useRecipe();
 
   const form = useForm<NewEmptyRecipeFormValues>({
     resolver: zodResolver(NewEmptyRecipeFormSchema),
@@ -65,20 +67,13 @@ const NewEmptyRecipeForm = ({ categories }: NewEmptyRecipeFormProps) => {
 
   const handleSubmit = async ({ ...values }: NewEmptyRecipeFormValues) => {
     try {
-      setIsLoading(true);
-      await createRecipe({
-        ...values,
-        category: values.category,
-        numberOfPersons: values.numberOfPersons ?? null,
-        preparationTime: values.preparationTime ?? "",
-        cookingTime: values.cookingTime ?? "",
-        ovenTemperature: values.ovenTemperature ?? "",
-        preparation: values.preparation ?? "",
-      });
+      await createRecipe(values);
       form.reset({ ...values });
       toast.success("Recette enregistrée avec succès.", { duration: 5000 });
     } catch (error) {
       if (error instanceof Error) {
+        console.error("Erreur capturée:", error);
+        toast.success("Recette enregistrée avec succès.", { duration: 5000 });
         if (error.message === "DuplicateTitleError") {
           toast.error(
             "Le titre de la recette existe déjà, veuillez en choisir un autre.",
@@ -91,7 +86,6 @@ const NewEmptyRecipeForm = ({ categories }: NewEmptyRecipeFormProps) => {
         }
       }
     } finally {
-      setIsLoading(false);
       router.push("/");
       toast.dismiss();
     }
@@ -135,9 +129,9 @@ const NewEmptyRecipeForm = ({ categories }: NewEmptyRecipeFormProps) => {
               <Button type="button" variant="outline" onClick={handleCancel}>
                 Annuler
               </Button>
-              <Button disabled={isLoading} type="submit">
+              <Button disabled={isLoading || isMutating} type="submit">
                 Enregistrer
-                {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : ""}
+                {isMutating ? <Loader2 className="h-4 w-4 animate-spin" /> : ""}
               </Button>
             </div>
           </div>

@@ -29,27 +29,24 @@ export const GeneralRecipeInformationFieldsSchema = z
       .min(1, { message: "Le nom doit être renseigné." })
       .transform(putFirstLetterCapital),
     labels: z.array(z.coerce.string().nullable()),
-    numberOfPersons: z.coerce.number().optional().nullable(),
+    numberOfPersons: z.coerce.number().optional(),
     preparationTime: z.coerce
       .string()
       .regex(new RegExp("^[0-9]*$"), {
         message: "Le temps de préparation doit être un nombre.",
       })
-      .optional()
       .nullable(),
     cookingTime: z.coerce
       .string()
       .regex(new RegExp("^[0-9]*$"), {
         message: "Le temps de cuisson doit être un nombre.",
       })
-      .optional()
       .nullable(),
     ovenTemperature: z.coerce
       .string()
       .regex(new RegExp("^[0-9]*$"), {
         message: "La température du four doit être un nombre.",
       })
-      .optional()
       .nullable(),
     ingredients: z.array(IngredientSchema).nullable(),
   })
@@ -76,7 +73,7 @@ const GeneralRecipeInformationFields = ({
           <FormItem>
             <FormLabel>Nom de la recette *</FormLabel>
             <FormControl>
-              <Input type="text" {...field} value={field.value ?? ""} />
+              <Input type="text" {...field} value={field.value ?? ""} placeholder="Ex : Salade de saison" />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -97,7 +94,7 @@ const GeneralRecipeInformationFields = ({
                   <Input
                     max="20"
                     min="0"
-                    placeholder=""
+                    placeholder="Ex : 4"
                     step="1"
                     type="number"
                     {...field}
@@ -117,7 +114,7 @@ const GeneralRecipeInformationFields = ({
               <FormItem>
                 <FormLabel>Temps de préparation (en min)</FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} value={field.value ?? ""} />
+                  <Input type="text" {...field} value={field.value ?? ""} placeholder="Ex : 40" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -136,7 +133,7 @@ const GeneralRecipeInformationFields = ({
                   Temps de cuisson <br /> (en min)
                 </FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} value={field.value ?? ""} />
+                  <Input type="text" {...field} value={field.value ?? ""} placeholder="Ex : 10" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -153,7 +150,7 @@ const GeneralRecipeInformationFields = ({
                   Température du four <br /> (en °)
                 </FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} value={field.value ?? ""} />
+                  <Input type="text" {...field} value={field.value ?? ""} placeholder="Ex : 180" />
                 </FormControl>
                 <FormMessage />
               </FormItem>

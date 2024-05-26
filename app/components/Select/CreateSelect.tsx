@@ -202,9 +202,7 @@ const CreateSelect = ({
               aria-disabled={disabled}
               className="block grow focus-visible:outline-none w-full"
               disabled={disabled}
-              placeholder={
-                selectedOptions.length === 0 ? placeholder : undefined
-              }
+              placeholder={!inputValue ? placeholder : undefined}
               ref={inputRef}
               type="text"
               value={inputValue}

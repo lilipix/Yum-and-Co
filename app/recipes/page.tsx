@@ -1,11 +1,9 @@
-import React from 'react';
+import RecipeProvider from "@/context/recipe/provider";
+import { RecipePopulated, RecipePopulatedSchema } from "@/validators/recipe";
+import React from "react";
 
-const RecipesPage = () => {
-    return (
-        <div>
-           
-        </div>
-    );
+const RecipesPage = async () => {
+  return <div></div>;
 };
 
 export default RecipesPage;

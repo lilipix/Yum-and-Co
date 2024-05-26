@@ -1,14 +1,18 @@
 import { Dispatch, SetStateAction, createContext } from "react";
-import { Recipe } from "@/validators/recipe";
+import { Recipe, RecipePopulated } from "@/validators/recipe";
+import { CreateRecipeSchema } from "@/app/api/recipes/_validators/create-recipe.validator";
+import { z } from "zod";
 
-export type RecipesContextValue = {
-  recipes: Recipe[] | null;
-  setRecipes: Dispatch<SetStateAction<Recipe[]>>;
+export type RecipeContextValue = {
+  recipe: RecipePopulated | null;
   isLoading: boolean;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
-  handleCategoryClick: (category: string) => Promise<void>;
+  isMutating: boolean;
+  error: Error | null;
+  createRecipe: (
+    recipe: z.infer<typeof CreateRecipeSchema>,
+  ) => Promise<RecipePopulated | null>;
 };
 
-const RecipesContext = createContext<RecipesContextValue | null>(null);
+const RecipeContext = createContext<RecipeContextValue | null>(null);
 
-export default RecipesContext;
+export default RecipeContext;

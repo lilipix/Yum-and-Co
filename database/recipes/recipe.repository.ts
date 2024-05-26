@@ -33,3 +33,12 @@ export const findRecipeByTitle = async (title: string) => {
     throw new Error("Failed to find recipe");
   }
 };
+
+export const findRecipes = async () => {
+  try {
+    await connectToDatabase();
+    return await RecipeModel.find();
+  } catch (error) {
+    throw new Error("Failed to find recipes");
+  }
+};
