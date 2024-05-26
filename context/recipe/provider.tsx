@@ -1,48 +1,63 @@
 "use client";
+import { fetcher } from "@/lib/utils/fetcher.utils";
+import {
+  Recipe,
+  RecipePopulated,
+  RecipePopulatedSchema,
+} from "@/validators/recipe";
+import { ReactNode, useCallback, useMemo, useState } from "react";
+import useSWR from "swr";
+import { createRecipe as createRecipeRequest } from "@/services/recipes.service";
+import RecipeContext, { RecipeContextValue } from ".";
+import { CreateRecipeSchema } from "@/app/api/recipes/_validators/create-recipe.validator";
+import { z } from "zod";
 
-import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
-import RecipesContext from ".";
-
-type RecipesProviderProps = {
+type RecipeProviderProps = {
   children: ReactNode;
-  recipes?: IRecipe[];
+  recipe?: RecipePopulated | null;
 };
 
-const RecipesProvider = ({ children }: RecipesProviderProps) => {
-  const [recipes, setRecipes] = useState<IRecipe[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+const RecipeProvider = ({ children }: RecipeProviderProps) => {
+  const [isMutating, setIsMutating] = useState(false);
+  const { data, error, isLoading, mutate } = useSWR<RecipePopulated | null>(
+    "/api/recipes",
+    fetcher,
+  );
 
-  const handleCategoryClick = useCallback(
-    async (category: string) => {
-      setIsLoading(true);
+  const createRecipe = useCallback(
+    async (
+      recipe: z.infer<typeof CreateRecipeSchema>,
+    ): Promise<RecipePopulated> => {
+      setIsMutating(true);
       try {
-        const fetchedRecipes = await getRecipesByCategory(category);
-
-        setRecipes(fetchedRecipes);
+        const createdCustomer = await createRecipeRequest(recipe);
+        mutate(createdCustomer);
+        return createdCustomer;
       } catch (error) {
-        console.error("Erreur lors de la récupération des recettes:", error);
+        throw error;
       } finally {
-        setIsLoading(false);
+        setIsMutating(false);
       }
     },
-    [setIsLoading, setRecipes]
+    [mutate],
   );
 
-  const contextValue = useMemo(
+  const contextValue: RecipeContextValue = useMemo(
     () => ({
-      recipes,
-      setRecipes,
+      recipe: data ?? null,
+      createRecipe,
+      isMutating,
+      error,
       isLoading,
-      setIsLoading,
-      handleCategoryClick,
     }),
-    [recipes, isLoading, handleCategoryClick]
+    [createRecipe, data, isMutating, error, isLoading],
   );
+
   return (
-    <RecipesContext.Provider value={contextValue}>
+    <RecipeContext.Provider value={contextValue}>
       {children}
-    </RecipesContext.Provider>
+    </RecipeContext.Provider>
   );
 };
 
-export default RecipesProvider;
+export default RecipeProvider;

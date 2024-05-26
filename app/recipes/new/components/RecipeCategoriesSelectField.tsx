@@ -5,14 +5,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import useCategoryCreate from '@/hooks/useCategoryCreate';
+import useCategoryCreate from "@/hooks/useCategoryCreate";
 import { ICategory } from "@/validators/category";
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
 
 export const RecipeCategorySelectFieldSchema = z.object({
-  category: z.string({ required_error: "Requis." }).min(1, { message: "La catégorie doit être renseigné." }),
+  category: z
+    .string({ required_error: "Requis." })
+    .min(1, { message: "La catégorie doit être renseigné." }),
 });
 
 export type RecipeCategorySelectFieldValues = z.infer<
@@ -29,19 +31,19 @@ type RecipeCategoriesSelectFieldProps = {
 
 const RecipeCategoriesSelectField = ({
   categories,
-  isDisabled = false, label = "Catégorie *"
+  isDisabled = false,
+  label = "Catégorie *",
 }: RecipeCategoriesSelectFieldProps) => {
-
   const form = useFormContext<RecipeCategorySelectFieldValues>();
-  const initialCategory = { id: '', name: '' };
-  const {isLoading, createCategory: handleCreateCategory} = useCategoryCreate(initialCategory)
+  const initialCategory = { id: "", name: "" };
+  const { isLoading, createCategory: handleCreateCategory } =
+    useCategoryCreate(initialCategory);
 
   const categoriesOptions = categories.map((category) => ({
     value: category.id,
     label: category.name,
   }));
 
- 
   return (
     <FormField
       control={form.control}
@@ -58,8 +60,9 @@ const RecipeCategoriesSelectField = ({
               isLoading={isLoading}
               options={categoriesOptions}
               value={field.value}
-              onCreateOption={ handleCreateCategory }
+              onCreateOption={handleCreateCategory}
               onSelect={handleChange}
+              placeholder="Entrée"
             />
             <FormMessage />
           </FormItem>

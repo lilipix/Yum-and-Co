@@ -5,9 +5,8 @@ import { populateRecipe } from "./utils/populate-recipe";
 import { RecipePopulated } from "@/validators/recipe";
 
 export const createRecipe = async (
-  data: CreateRecipeDTO
+  data: CreateRecipeDTO,
 ): Promise<RecipePopulated> => {
-
   try {
     await connectToDatabase();
     const document = await RecipeModel.create(data);
@@ -23,5 +22,23 @@ export const createRecipe = async (
   } catch (error) {
     console.error("Failed to create recipe", error);
     throw error;
+  }
+};
+
+export const findRecipeByTitle = async (title: string) => {
+  try {
+    await connectToDatabase();
+    return await RecipeModel.findOne({ title });
+  } catch (error) {
+    throw new Error("Failed to find recipe");
+  }
+};
+
+export const findRecipes = async () => {
+  try {
+    await connectToDatabase();
+    return await RecipeModel.find();
+  } catch (error) {
+    throw new Error("Failed to find recipes");
   }
 };

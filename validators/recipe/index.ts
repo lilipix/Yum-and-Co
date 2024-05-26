@@ -8,7 +8,7 @@ export const RecipeSchema = z.object({
   title: z.coerce.string().min(1, "Cannot be empty."),
   category: z.coerce.string(),
   labels: z.array(z.coerce.string().nullable()),
-  numberOfPersons: z.coerce.number().nullable(),
+  numberOfPersons: z.coerce.number().optional(),
   preparationTime: z.coerce.string().nullable(),
   cookingTime: z.coerce.string().nullable(),
   ovenTemperature: z.coerce.string().nullable(),
@@ -25,7 +25,7 @@ export const RecipePopulatedSchema = RecipeSchema.omit({
   z.object({
     category: CategorySchema,
     labels: z.array(LabelSchema),
-  })
+  }),
 );
 
 export type RecipePopulated = z.infer<typeof RecipePopulatedSchema>;

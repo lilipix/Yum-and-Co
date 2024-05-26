@@ -21,6 +21,7 @@ import {
 // import { ColorPalette } from "@/types/ui.type";
 
 import CrudSelectItemMenu from "./CreateSelectItemMenu";
+import { set } from 'mongoose';
 
 export type SelectOption = {
   value: string;
@@ -115,6 +116,7 @@ const CreateSelect = ({
       } else {
         setSelectedOptions([option.value]);
       }
+      setIsOpen(false);
       setInputValue("");
     };
 
@@ -134,6 +136,7 @@ const CreateSelect = ({
             );
             // setInputValue("");  // Réinitialisation de la valeur d'entrée ici
           }
+          setIsOpen(false);
         }).catch(error => {
           console.error('Error creating option:', error);
         });
@@ -199,9 +202,7 @@ const CreateSelect = ({
               aria-disabled={disabled}
               className="block grow focus-visible:outline-none w-full"
               disabled={disabled}
-              placeholder={
-                selectedOptions.length === 0 ? placeholder : undefined
-              }
+              placeholder={!inputValue ? placeholder : undefined}
               ref={inputRef}
               type="text"
               value={inputValue}

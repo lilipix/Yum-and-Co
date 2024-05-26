@@ -3,6 +3,7 @@ import NewEmptyRecipeForm from "./components/NewEmptyRecipeForm";
 import connectToDatabase from "@/lib/mongodb";
 import { findCategories } from "@/database/categories/category.repository";
 import { CategoriesSchema, ICategory } from "@/validators/category";
+import { findRecipeByTitle } from "@/database/recipes/recipe.repository";
 
 const NewRecipePage = async () => {
   await connectToDatabase();

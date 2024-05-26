@@ -6,58 +6,59 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Textarea } from "@/components/ui/textarea";
 import { putFirstLetterCapital } from "@/lib/utils/string.utils";
-import {  ICategory } from "@/validators/category";
+import { ICategory } from "@/validators/category";
 import { IngredientSchema } from "@/validators/recipe/ingredient.validator";
 import dynamic from "next/dynamic";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
-import RecipeCategoriesSelectField, { RecipeCategorySelectFieldSchema } from './RecipeCategoriesSelectField';
+import RecipeCategoriesSelectField, {
+  RecipeCategorySelectFieldSchema,
+} from "./RecipeCategoriesSelectField";
 
 const IngredientsListFields = dynamic(() => import("./IngredientsListFields"));
 
 type GeneralRecipeInformationFieldsProps = {
   categories: ICategory[];
-}
+};
 
-export const GeneralRecipeInformationFieldsSchema = z.object({
-  title: z.coerce
-    .string({ required_error: "Requis." })
-    .min(1, { message: "Le nom doit être renseigné." })
-    .transform(putFirstLetterCapital),
-  labels: z.array(z.coerce.string().nullable()),
-  numberOfPersons: z.coerce.number().optional().nullable(),
-  preparationTime: z.coerce
-    .string()
-    .regex(new RegExp("^[0-9]*$"), {
-      message: "Le temps de préparation doit être un nombre.",
-    })
-    .optional()
-    .nullable(),
-  cookingTime: z.coerce
-    .string()
-    .regex(new RegExp("^[0-9]*$"), {
-      message: "Le temps de cuisson doit être un nombre.",
-    })
-    .optional()
-    .nullable(),
-  ovenTemperature: z.coerce
-    .string()
-    .regex(new RegExp("^[0-9]*$"), {
-      message: "La température du four doit être un nombre.",
-    })
-    .optional()
-    .nullable(),
-  ingredients: z.array(IngredientSchema).nullable(),
-}).merge(RecipeCategorySelectFieldSchema);
+export const GeneralRecipeInformationFieldsSchema = z
+  .object({
+    title: z.coerce
+      .string({ required_error: "Requis." })
+      .min(1, { message: "Le nom doit être renseigné." })
+      .transform(putFirstLetterCapital),
+    labels: z.array(z.coerce.string().nullable()),
+    numberOfPersons: z.coerce.number().optional(),
+    preparationTime: z.coerce
+      .string()
+      .regex(new RegExp("^[0-9]*$"), {
+        message: "Le temps de préparation doit être un nombre.",
+      })
+      .nullable(),
+    cookingTime: z.coerce
+      .string()
+      .regex(new RegExp("^[0-9]*$"), {
+        message: "Le temps de cuisson doit être un nombre.",
+      })
+      .nullable(),
+    ovenTemperature: z.coerce
+      .string()
+      .regex(new RegExp("^[0-9]*$"), {
+        message: "La température du four doit être un nombre.",
+      })
+      .nullable(),
+    ingredients: z.array(IngredientSchema).nullable(),
+  })
+  .merge(RecipeCategorySelectFieldSchema);
 
 export type GeneralRecipeInformationFieldsValues = z.infer<
   typeof GeneralRecipeInformationFieldsSchema
 >;
 
-const GeneralRecipeInformationFields = ({categories}: GeneralRecipeInformationFieldsProps) => {
+const GeneralRecipeInformationFields = ({
+  categories,
+}: GeneralRecipeInformationFieldsProps) => {
   const form = useFormContext<GeneralRecipeInformationFieldsValues>();
 
   const category = form.watch("category");
@@ -72,7 +73,7 @@ const GeneralRecipeInformationFields = ({categories}: GeneralRecipeInformationFi
           <FormItem>
             <FormLabel>Nom de la recette *</FormLabel>
             <FormControl>
-              <Input type="text" {...field} value={field.value ?? ""} />
+              <Input type="text" {...field} value={field.value ?? ""} placeholder="Ex : Salade de saison" />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -80,7 +81,7 @@ const GeneralRecipeInformationFields = ({categories}: GeneralRecipeInformationFi
       />
       <div className="w-1/2">
         <RecipeCategoriesSelectField categories={categories} />
-        </div>
+      </div>
       <div className="flex justify-between gap-4">
         <div className="w-1/2">
           <FormField
@@ -93,7 +94,7 @@ const GeneralRecipeInformationFields = ({categories}: GeneralRecipeInformationFi
                   <Input
                     max="20"
                     min="0"
-                    placeholder=""
+                    placeholder="Ex : 4"
                     step="1"
                     type="number"
                     {...field}
@@ -113,7 +114,7 @@ const GeneralRecipeInformationFields = ({categories}: GeneralRecipeInformationFi
               <FormItem>
                 <FormLabel>Temps de préparation (en min)</FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} value={field.value ?? ""} />
+                  <Input type="text" {...field} value={field.value ?? ""} placeholder="Ex : 40" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -132,7 +133,7 @@ const GeneralRecipeInformationFields = ({categories}: GeneralRecipeInformationFi
                   Temps de cuisson <br /> (en min)
                 </FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} value={field.value ?? ""} />
+                  <Input type="text" {...field} value={field.value ?? ""} placeholder="Ex : 10" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -149,7 +150,7 @@ const GeneralRecipeInformationFields = ({categories}: GeneralRecipeInformationFi
                   Température du four <br /> (en °)
                 </FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} value={field.value ?? ""} />
+                  <Input type="text" {...field} value={field.value ?? ""} placeholder="Ex : 180" />
                 </FormControl>
                 <FormMessage />
               </FormItem>

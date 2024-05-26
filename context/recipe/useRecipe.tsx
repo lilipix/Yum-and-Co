@@ -1,14 +1,14 @@
 "use client";
 
 import { useContext } from "react";
-import RecipesContext, { RecipesContextValue } from ".";
+import RecipeContext, { RecipeContextValue } from ".";
 
-const useRecipes = () => {
-  const context = useContext(RecipesContext);
+const useRecipe = () => {
+  const context = useContext(RecipeContext);
   if (!context) {
-    throw new Error("useRecipes was used outside of its Provider");
+    throw new Error("useRecipe was used outside of its Provider");
   }
-  return context as RecipesContextValue;
+  return context as RecipeContextValue;
 };
 
-export default useRecipes;
+export default useRecipe;

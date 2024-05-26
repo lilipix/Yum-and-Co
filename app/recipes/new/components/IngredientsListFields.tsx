@@ -70,8 +70,8 @@ const IngredientsListFields = () => {
     <div className="flex flex-col flex-wrap gap-4">
       {fields.map((fieldItem, index) => (
         <div key={fieldItem.id}>
-          <div className="gap-4 xl:flex">
-            <div className="flex justify-between gap-4">
+          <div className="justify-between gap-4 xl:flex">
+            <div className="flex gap-4">
               <FormField
                 control={form.control}
                 name={`ingredients.${index}.baseQuantity`}
@@ -79,7 +79,7 @@ const IngredientsListFields = () => {
                   <FormItem className="w-1/2 flex-1 ">
                     <FormLabel>Quantité</FormLabel>
                     <FormControl>
-                      <Input type="number" defaultValue={field.value} />
+                      <Input type="number" defaultValue={field.value} placeholder="Ex : 400" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -98,7 +98,7 @@ const IngredientsListFields = () => {
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="" />
+                            <SelectValue placeholder="g" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
@@ -124,7 +124,7 @@ const IngredientsListFields = () => {
                     <FormLabel>Nom</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder=""
+                        placeholder="Ex : Farine"
                         type="text"
                         {...field}
                         value={field.value?.toLowerCase() ?? ""}
