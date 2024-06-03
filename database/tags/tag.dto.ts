@@ -1,8 +1,12 @@
-export const CreateTagDTO = {
-  name: "string",
-};
+import { TagSchema } from '@/validators/tag';
+import { z } from 'zod';
 
-export const UpdateTagDTO = {
-  id: "string",
-  name: "string",
-};
+export const CreateTagSchemaDTO = TagSchema.omit({
+  id: true,
+});
+
+export type CreateTagDTO = z.infer<typeof CreateTagSchemaDTO>;
+
+export const UpdateTagSchemaDTO = TagSchema;
+
+export type UpdateTagDTO = z.infer<typeof UpdateTagSchemaDTO>;

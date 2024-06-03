@@ -36,6 +36,10 @@
     --pink-medium: 360 97% 74%;
     --pink-dark: 358 98% 68%;
 
+    --success: 120 100% 25%;
+    --warning: 45 100% 50%;
+    --info: 210 40% 96.1%;
+
     --radius: 0.5rem;
   }
 

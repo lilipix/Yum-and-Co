@@ -1,10 +1,15 @@
-import { Tag } from "@/validators/tag";
+import { ColorPalette, Tag } from "@/validators/tag";
 import { Model, Schema, model, models } from "mongoose";
 
 const tagSchema = new Schema<Tag>({
   name: {
     type: String,
     required: true,
+  },
+  color: {
+    type: String,
+    enum: ColorPalette,
+    default: ColorPalette.PRIMARY,
   },
 });
 
