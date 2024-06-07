@@ -149,14 +149,10 @@ const CreateSelect = ({
   }
 
   const handleUpdateOption = async (option: SelectOption) => {
-    console.log('handleUpdateOption called with', option);
 		if (onUpdateOption) {
-      console.log('onUpdateOption is defined');
 			const currentOption = options.find((cO) => cO.value === option.value);
-      console.log('currentOption', currentOption)
 			if (currentOption && currentOption.color !== option.color) {
 				const updatedOption = { ...currentOption, color: option.color };
-        console.log('updatedOption', updatedOption)
       onUpdateOption(updatedOption);
 			}
 		}

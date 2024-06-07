@@ -2,7 +2,6 @@ import { Tag, TagSchema, TagsSchema } from '@/validators/tag';
 
 export const createTag = async(tag: Partial<Tag>): Promise<Tag> =>{
     try {
-        console.log('service', tag)
         const data = await fetch("/api/tags", {
                         method: "POST",
                         headers: {

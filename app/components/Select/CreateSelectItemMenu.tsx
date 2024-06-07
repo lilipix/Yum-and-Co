@@ -59,7 +59,6 @@ const CreateSelectItemMenu = ({
   }, [inputValue]);
 
   const handleChangeColor = (color: ColorPalette) => {
-    console.log('color', color)
     onUpdateOption({
       ...option,
       color,

@@ -5,7 +5,6 @@ import TagModel from './tag.model';
 
 export const createTag = async (data: CreateTagDTO): Promise<Tag> => {
     try {
-        console.log('REPO', data)
         await connectToDatabase();
         const document = await TagModel.create(data);
         return document.toJSON({
