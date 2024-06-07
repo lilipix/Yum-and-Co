@@ -15,11 +15,14 @@ import { z } from "zod";
 import RecipeCategoriesSelectField, {
   RecipeCategorySelectFieldSchema,
 } from "./RecipeCategoriesSelectField";
+import RecipeTagsSelectField from './RecipeTagsSelectField';
+import { Tag } from '@/validators/tag';
 
 const IngredientsListFields = dynamic(() => import("./IngredientsListFields"));
 
 type GeneralRecipeInformationFieldsProps = {
   categories: ICategory[];
+  tags: Tag[];
 };
 
 export const GeneralRecipeInformationFieldsSchema = z
@@ -57,7 +60,7 @@ export type GeneralRecipeInformationFieldsValues = z.infer<
 >;
 
 const GeneralRecipeInformationFields = ({
-  categories,
+  categories, tags
 }: GeneralRecipeInformationFieldsProps) => {
   const form = useFormContext<GeneralRecipeInformationFieldsValues>();
 
@@ -79,8 +82,13 @@ const GeneralRecipeInformationFields = ({
           </FormItem>
         )}
       />
-      <div className="w-1/2">
+      <div className="flex flex-col gap-4 xl:flex-row xl:justify-between">
+      <div className="xl:w-1/2">
         <RecipeCategoriesSelectField categories={categories} />
+        </div>
+        <div className="xl:w-1/2">
+        <RecipeTagsSelectField tags={tags} />
+        </div>
       </div>
       <div className="flex justify-between gap-4">
         <div className="w-1/2">

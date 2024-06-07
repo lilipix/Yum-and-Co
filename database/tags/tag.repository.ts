@@ -1,10 +1,11 @@
 import { Tag } from '@/validators/tag';
-import { CreateTagDTO } from './tag.dto';
+import { CreateTagDTO, UpdateTagDTO } from './tag.dto';
 import connectToDatabase from '@/lib/mongodb';
 import TagModel from './tag.model';
 
 export const createTag = async (data: CreateTagDTO): Promise<Tag> => {
     try {
+        console.log('REPO', data)
         await connectToDatabase();
         const document = await TagModel.create(data);
         return document.toJSON({
@@ -30,6 +31,20 @@ export const findTags = async (): Promise<Tag[]> => {
                 versionKey: false,
             })
         );
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const updateTag = async (id: string, data: UpdateTagDTO): Promise<Tag> => {
+    try {
+        await connectToDatabase();
+        const document = await TagModel.findByIdAndUpdate
+            (id, data, { new: true });
+        return document.toJSON({
+            flattenObjectIds: true,
+            versionKey: false,
+        });
     } catch (error) {
         throw error;
     }

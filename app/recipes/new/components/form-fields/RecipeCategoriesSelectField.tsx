@@ -62,7 +62,6 @@ const RecipeCategoriesSelectField = ({
               value={field.value}
               onCreateOption={handleCreateCategory}
               onSelect={handleChange}
-              placeholder="Entrée"
             />
             <FormMessage />
           </FormItem>

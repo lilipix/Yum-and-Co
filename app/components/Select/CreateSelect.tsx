@@ -12,21 +12,20 @@ import {
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-// import { ColorTelltale } from "@/components/ui/colorTelltale";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-// import { ColorPalette } from "@/types/ui.type";
 
-import CrudSelectItemMenu from "./CreateSelectItemMenu";
-import { set } from 'mongoose';
+import CreateSelectItemMenu from "./CreateSelectItemMenu";
+import { ColorTelltale } from '@/components/ui/colorTelltale';
+import { ColorPalette } from '@/validators/tag';
 
 export type SelectOption = {
   value: string;
   label: string;
-  // color?: ColorPalette;
+ color?: ColorPalette;
 };
 
 type CreateSelectProps = PropsWithChildren<{
@@ -35,6 +34,7 @@ type CreateSelectProps = PropsWithChildren<{
   value: string | string[];
   onSelect: (value: string | string[]) => void;
   onCreateOption?: (value: string) => Promise<SelectOption | undefined>;
+  onUpdateOption?: (option: SelectOption) => Promise<void>;
   onBlur?: FocusEventHandler<HTMLDivElement>;
   allowMultiple?: boolean;
   isLoading?: boolean;
@@ -50,6 +50,7 @@ const CreateSelect = ({
   allowMultiple = false,
   options: initialOptions,
   onCreateOption,
+  onUpdateOption,
   isLoading,
   disabled,
   enableColors = false,
@@ -146,6 +147,21 @@ const CreateSelect = ({
     }
   }
 
+  const handleUpdateOption = async (option: SelectOption) => {
+    console.log('handleUpdateOption called with', option);
+		if (onUpdateOption) {
+      console.log('onUpdateOption is defined');
+			const currentOption = options.find((cO) => cO.value === option.value);
+      console.log('currentOption', currentOption)
+			if (currentOption && currentOption.color !== option.color) {
+				const updatedOption = { ...currentOption, color: option.color };
+        console.log('updatedOption', updatedOption)
+      onUpdateOption(updatedOption);
+			}
+		}
+	};
+
+
   const handleInputClick: MouseEventHandler<HTMLInputElement> = (event) => {
     event.preventDefault();
     inputRef.current?.focus();
@@ -192,7 +208,7 @@ const CreateSelect = ({
                     <Badge
                       key={option.value}
                       className="h-fit"
-                      // variant={option.color || ColorPalette.SECONDARY}
+                      variant={option.color || ColorPalette.SECONDARY}
                     >
                       {option.label}
                     </Badge>
@@ -222,14 +238,20 @@ const CreateSelect = ({
           inputRef.current?.focus();
         }}
       >
-        {onCreateOption ? (
+        {onCreateOption && allowMultiple ? (
+          <div className="flex items-center justify-between p-2">
+            <p className="text-sm text-muted-foreground">
+              Sélectionnez ou créez des options.
+            </p>
+            {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+          </div>
+        ) : 
           <div className="flex items-center justify-between p-2">
             <p className="text-sm text-muted-foreground">
               Sélectionnez ou créez une option.
             </p>
             {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-          </div>
-        ) : null}
+          </div>}
         <div className="flex max-h-[300px] flex-col overflow-y-auto overflow-x-hidden">
           {options.map((option) => (
             <div
@@ -249,22 +271,19 @@ const CreateSelect = ({
                     <Check className="h-4 w-4" />
                   </span>
                 ) : null}
-                {/* {enableColors ? (
+                {enableColors ? (
                   <ColorTelltale
                     className="mr-2"
                     variant={option.color || ColorPalette.SECONDARY}
                   />
-                ) : null} */}
+                ) : null} 
                 {option.label}
               </div>
-              {/* {onUpdateOption || onDeleteOption ? (
-                <CrudSelectItemMenu
+                <CreateSelectItemMenu
                   enableColors={enableColors}
                   option={option}
-                  onDeleteOption={handleDeleteOption}
                   onUpdateOption={handleUpdateOption}
                 />
-              ) : null} */}
             </div>
           ))}
           {onCreateOption &&

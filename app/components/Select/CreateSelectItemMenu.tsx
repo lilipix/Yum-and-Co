@@ -13,15 +13,15 @@ import {
   DropdownMenuGroup,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-// import { ColorPalette } from "@/types/ui.type";
 
 import { SelectOption } from "./CreateSelect";
-// import ColorSelectItemMenu from "./ColorSelectItemMenu";
+import ColorSelectItemMenu from "./ColorSelectItemMenu";
+import { ColorPalette } from '@/validators/tag';
+import { on } from 'events';
 
 type CreateSelectItemMenuProps = {
   option: SelectOption;
   onUpdateOption: (option: SelectOption) => void;
-  onDeleteOption: (option: SelectOption) => void;
   debounceDelay?: number;
   enableColors?: boolean;
 };
@@ -30,7 +30,6 @@ const CreateSelectItemMenu = ({
   enableColors,
   option,
   onUpdateOption,
-  onDeleteOption,
   debounceDelay = 400,
 }: CreateSelectItemMenuProps) => {
   const [inputValue, setInputValue] = useState<string>(option.label);
@@ -59,47 +58,35 @@ const CreateSelectItemMenu = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputValue]);
 
-  const handleChangeInputValue: ChangeEventHandler<HTMLInputElement> = (
-    event,
-  ) => {
-    const { value } = event.currentTarget;
-    setInputValue(value);
+  const handleChangeColor = (color: ColorPalette) => {
+    console.log('color', color)
+    onUpdateOption({
+      ...option,
+      color,
+    });
   };
-
-  // const handleChangeColor = (color: ColorPalette) => {
-  //   onUpdateOption({
-  //     ...option,
-  //     color,
-  //   });
-  // };
-
-  const handleDeleteOption = () => onDeleteOption(option);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
+        {enableColors?(
         <Button className="h-8 w-8 p-0" variant="ghost">
           <span className="sr-only">Open menu</span>
           <MoreHorizontal className="h-4 w-4" />
         </Button>
+        ):null}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuGroup className="gap-2 hover:cursor-pointer">
+        {/* <DropdownMenuGroup className="gap-2 hover:cursor-pointer">
           <Input value={inputValue} onChange={handleChangeInputValue} />
-        </DropdownMenuGroup>
-        {/* <DropdownMenuSeparator />
+        </DropdownMenuGroup> */}
+        <DropdownMenuSeparator />
         {enableColors ? (
           <ColorSelectItemMenu
             option={option}
             onChangeColor={handleChangeColor}
           />
-        ) : null}
-        <DropdownMenuItem
-          className="gap-2 text-red-500 hover:cursor-pointer"
-          onClick={handleDeleteOption}
-        >
-          <Trash size="16" /> Supprimer
-        </DropdownMenuItem> */}
+        ) : null} 
       </DropdownMenuContent>
     </DropdownMenu>
   );

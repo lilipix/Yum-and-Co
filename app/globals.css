@@ -33,12 +33,25 @@
     --ring: 222.2 84% 4.9%;
 
     --pink-light: 2 98% 79%;
+    --pink-light-foreground: 222.2 84% 4.9%;
+
     --pink-medium: 360 97% 74%;
+    --pink-medium-foreground: 222.2 84% 4.9%;
+
     --pink-dark: 358 98% 68%;
+    --pink-dark-foreground: 222.2 84% 4.9%;
+
+    --purple: 262.1 83.3% 57.8%;
+		--purple-foreground: 210 20% 98%;
 
     --success: 120 100% 25%;
+    --success-foreground: 222.2 84% 4.9%;
+
     --warning: 45 100% 50%;
-    --info: 210 40% 96.1%;
+    --warning-foreground: 222.2 84% 4.9%;
+
+    --info: 210 40% 50%;
+    --info-foreground: 222.2 84% 4.9%;
 
     --radius: 0.5rem;
   }

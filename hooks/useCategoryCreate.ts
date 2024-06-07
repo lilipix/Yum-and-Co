@@ -1,6 +1,6 @@
 "use client";
 import { ICategory } from "@/validators/category";
-import { createCategory as createCategoryRequest } from "@/services/category.service";
+import { createCategory as createCategoryRequest } from "@/services/categories.service";
 import { useState } from "react";
 
 const useCategoryCreate = (initialCategory: ICategory) => {

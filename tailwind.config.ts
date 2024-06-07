@@ -53,9 +53,34 @@ const config = {
           foreground: "hsl(var(--card-foreground))",
         },
         // Custom colors
-        pinkLight: "hsl(var(--pink-light))",
-        pinkMedium: "hsl(var(--pink-medium))",
-        pinkDark: "hsl(var(--pink-dark))",
+        pinklight: {
+          DEFAULT: "hsl(var(--pink-light))",
+          foreground: "hsl(var(--pink-light-foreground))",
+        },
+        pinkMedium: {
+          DEFAULT: "hsl(var(--pink-medium))",
+          foreground: "hsl(var(--pink-medium-foreground))",
+        },
+        pinkdark: {
+          DEFAULT: "hsl(var(--pink-dark))",
+          foreground: "hsl(var(--pink-dark-foreground))",
+        },
+        purple: {
+          DEFAULT: "hsl(var(--purple))",
+          foreground: "hsl(var(--purple-foreground))",
+        },
+        success: {
+        DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+        },
+        info: {
+          DEFAULT: "hsl(var(--info))",
+          foreground: "hsl(var(--info-foreground))",
+        },  
       },
       borderRadius: {
         lg: "var(--radius)",
