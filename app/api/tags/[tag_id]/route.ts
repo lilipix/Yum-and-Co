@@ -7,7 +7,7 @@ export async function PUT(request: NextRequest, { params }: { params: { tag_id: 
   try {
     const body = await request.json();
     const { name, color } = updateTagSchema.parse(body);
-    const updatedTag = await updateTag(params.tag_id, {name, color});
+    const updatedTag = await updateTag(params.tag_id, {id: params.tag_id,name, color});
     return NextResponse.json(updatedTag);
   } catch (schemaError) {
     console.error("Schema Validation Error:", schemaError);
