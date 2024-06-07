@@ -20,8 +20,8 @@ export enum ColorPalette{
 }
 
 export const TagSchema = z.object({
-  id: z.coerce.string().optional(),
-  name: z.coerce.string().optional(),
+  id: z.coerce.string(),
+  name: z.coerce.string(),
   color: z.nativeEnum(ColorPalette).optional(),
 });
 

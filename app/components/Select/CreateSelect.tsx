@@ -130,14 +130,15 @@ const CreateSelect = ({
       try {
         onCreateOption(inputValue).then((option) => {
           if (option) {
-            setSelectedOptions((prevSelectedOptions) =>
-              allowMultiple
-                ? [...prevSelectedOptions, option.value]
-                : [option.value]
-            );
-            // setInputValue("");  // Réinitialisation de la valeur d'entrée ici
+            setSelectedOptions((prevSelectedOptions) => { 
+             if (allowMultiple) {
+                return [...prevSelectedOptions, option.value]
+              } else { return [option.value]; }
+           } );
+            setOptions((prevOptions) => [...prevOptions, option]);
+            setInputValue(""); 
+            setIsOpen(false)
           }
-          setIsOpen(false);
         }).catch(error => {
           console.error('Error creating option:', error);
         });
@@ -258,7 +259,7 @@ const CreateSelect = ({
               key={option.value}
               className="relative flex w-full cursor-default select-none items-center justify-between rounded-sm text-sm outline-none hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
               role="option"
-              // ? A LAISSER ? aria-selected={selectedOptions.includes(option.value)}
+              aria-selected={selectedOptions.includes(option.value)}
             >
               <div
                 className="relative flex flex-1 items-center rounded-sm py-1.5 pl-8 pr-2"

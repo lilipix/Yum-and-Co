@@ -15,7 +15,6 @@ const useTagCreate = (initialTags: Tag[]) => {
             setIsLoading(true);
             const tag = await createTagsRequest({ name }); 
             setTags([...tags, tag]);
-      console.log('usetag', tag)
             return { 
               value: tag.id,
               label: tag.name,

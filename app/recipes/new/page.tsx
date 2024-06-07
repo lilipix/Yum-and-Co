@@ -16,6 +16,7 @@ const NewRecipePage = async () => {
   const parsedTags: Tag[] = TagsSchema.parse(tags);
 
 
+
   return (
     <div className="mx-2 my-8">
       <NewEmptyRecipeForm categories={parsedCategories} tags={parsedTags}/>

@@ -12,7 +12,7 @@ import {
 import CreateSelect from '@/app/components/Select/CreateSelect';
 
 export const RecipeTagsSelectFieldSchema = z.object({
-    tags: z.array(z.string().optional())
+    tags: z.array(z.string())
 });
 
 export type RecipeTagsSelectFieldValues = z.infer<typeof RecipeTagsSelectFieldSchema>;
@@ -49,7 +49,7 @@ const RecipeTagsSelectField = ({tags: initialTags, isDisabled = false, allowMult
             <FormItem>
               <FormLabel>{label}</FormLabel>
               <CreateSelect
-              allowMultiple={ allowMultiple }
+                allowMultiple={ allowMultiple }
                 disabled={isDisabled}
                 isLoading={isLoading}
                 options={tagsOptions}
