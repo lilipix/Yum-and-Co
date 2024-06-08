@@ -5,7 +5,6 @@ import {
 } from "@/database/recipes/recipe.repository";
 import { NextRequest, NextResponse } from "next/server";
 import { CreateRecipeSchema } from "./_validators/create-recipe.validator";
-import { createCategory } from "@/database/categories/category.repository";
 
 export async function POST(request: NextRequest) {
   try {
@@ -23,7 +22,7 @@ export async function POST(request: NextRequest) {
     const recipe = await createRecipe({
       title: values.title,
       category: values.category,
-      labels: values.labels,
+      tags: values.tags,
       numberOfPersons: values.numberOfPersons,
       preparationTime: values.preparationTime,
       cookingTime: values.cookingTime,

@@ -4,7 +4,7 @@ import { z } from "zod";
 export const CreateRecipeSchema = z.object({
   title: z.coerce.string().min(1, "Cannot be empty."),
   category: z.coerce.string(),
-  labels: z.array(z.coerce.string().nullable()),
+  tags: z.array(z.coerce.string().nullable()),
   numberOfPersons: z.coerce.number().optional(),
   preparationTime: z.coerce.string().nullable(),
   cookingTime: z.coerce.string().nullable(),

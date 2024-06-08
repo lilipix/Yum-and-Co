@@ -1,8 +1,7 @@
 "use client";
 
 import { z } from "zod";
-import { GeneralRecipeInformationFieldsSchema } from "./GeneralRecipeInformationFields";
-import { IngredientsListFieldsSchema } from "./IngredientsListFields";
+import { IngredientsListFieldsSchema } from "./form-fields/IngredientsListFields";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -13,21 +12,25 @@ import { Loader2 } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import dynamic from "next/dynamic";
-import { RecipePreparationFieldSchema } from "./RecipePreparationField";
+import { RecipePreparationFieldSchema } from "./form-fields/RecipePreparationField";
 import { ICategory } from "@/validators/category";
 import { toast } from "sonner";
 import useRecipe from "@/context/recipe/useRecipe";
+import { GeneralRecipeInformationFieldsSchema } from './form-fields/GeneralRecipeInformationFields';
+import RecipeTagsSelectField, { RecipeTagsSelectFieldSchema } from './form-fields/RecipeTagsSelectField';
+import { Tag } from '@/validators/tag';
 
-const IngredientsListForm = dynamic(() => import("./IngredientsListFields"));
+const IngredientsListForm = dynamic(() => import("./form-fields/IngredientsListFields"));
 
 const GeneralRecipeInformationFields = dynamic(
-  () => import("./GeneralRecipeInformationFields"),
+  () => import('./form-fields/GeneralRecipeInformationFields'),
 );
 
-const RecipePreparationForm = dynamic(() => import("./RecipePreparationField"));
+const RecipePreparationForm = dynamic(() => import("./form-fields/RecipePreparationField"));
 
 type NewEmptyRecipeFormProps = {
   categories: ICategory[];
+  tags: Tag[];
 };
 
 export const NewEmptyRecipeFormSchema = z
@@ -38,7 +41,7 @@ export const NewEmptyRecipeFormSchema = z
 
 export type NewEmptyRecipeFormValues = z.infer<typeof NewEmptyRecipeFormSchema>;
 
-const NewEmptyRecipeForm = ({ categories }: NewEmptyRecipeFormProps) => {
+const NewEmptyRecipeForm = ({ categories, tags }: NewEmptyRecipeFormProps) => {
   // const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { createRecipe, isMutating, isLoading } = useRecipe();
@@ -49,7 +52,7 @@ const NewEmptyRecipeForm = ({ categories }: NewEmptyRecipeFormProps) => {
     defaultValues: {
       title: "",
       category: "",
-      labels: [],
+      tags: [],
       numberOfPersons: undefined,
       preparationTime: "",
       cookingTime: "",
@@ -106,7 +109,7 @@ const NewEmptyRecipeForm = ({ categories }: NewEmptyRecipeFormProps) => {
                 <CardTitle>Informations générales</CardTitle>
               </CardHeader>
               <CardContent>
-                <GeneralRecipeInformationFields categories={categories} />
+                <GeneralRecipeInformationFields categories={categories} tags={tags} />
               </CardContent>
             </Card>
             <Card>

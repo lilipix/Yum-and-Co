@@ -30,14 +30,13 @@ type RecipeCategoriesSelectFieldProps = {
 };
 
 const RecipeCategoriesSelectField = ({
-  categories,
+  categories: initialCategories,
   isDisabled = false,
   label = "Catégorie *",
 }: RecipeCategoriesSelectFieldProps) => {
   const form = useFormContext<RecipeCategorySelectFieldValues>();
-  const initialCategory = { id: "", name: "" };
-  const { isLoading, createCategory: handleCreateCategory } =
-    useCategoryCreate(initialCategory);
+  const { categories, isLoading, createCategory: handleCreateCategory } =
+    useCategoryCreate(initialCategories);
 
   const categoriesOptions = categories.map((category) => ({
     value: category.id,
@@ -62,7 +61,6 @@ const RecipeCategoriesSelectField = ({
               value={field.value}
               onCreateOption={handleCreateCategory}
               onSelect={handleChange}
-              placeholder="Entrée"
             />
             <FormMessage />
           </FormItem>

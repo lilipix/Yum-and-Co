@@ -1,10 +1,9 @@
 import { z } from "zod";
-
 import { Recipe, RecipePopulated, RecipePopulatedSchema } from "@/validators/recipe";
 
 export const createRecipe = async ({
   ...recipe
-}: Partial<Recipe>): Promise<RecipePopulated> =>  {
+}: Partial<Recipe>): Promise<RecipePopulated> => {
   try {
     const response = await fetch("/api/recipes", {
       method: "POST",
