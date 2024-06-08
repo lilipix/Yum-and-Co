@@ -10,11 +10,12 @@ import { findTags } from '@/database/tags/tag.repository';
 const NewRecipePage = async () => {
   await connectToDatabase();
 
-  const categories = await findCategories();
-  const parsedCategories: ICategory[] = CategoriesSchema.parse(categories);
   const tags = await findTags();
   const parsedTags: Tag[] = TagsSchema.parse(tags);
 
+  const categories = await findCategories();
+  const parsedCategories: ICategory[] = CategoriesSchema.parse(categories);
+ 
 
 
   return (
