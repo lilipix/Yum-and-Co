@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 import { Recipe, RecipePopulated, RecipePopulatedSchema } from "@/validators/recipe";
-import { CreateRecipeSchema } from '@/app/api/recipes/_validators/create-recipe.validator';
 
 export const createRecipe = async ({
   ...recipe
