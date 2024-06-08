@@ -5,9 +5,9 @@ import CategoryModel from "../categories/category.model";
 import LabelModel from "../tags/tag.model";
 import TagModel from '../tags/tag.model';
 
-export type RecipeDocument = Omit<Recipe, "category" | "labels"> & {
+export type RecipeDocument = Omit<Recipe, "category" | "tags"> & {
   category: Types.ObjectId;
-  labels: Types.ObjectId[] | [];
+  tags: Types.ObjectId[] | [];
 };
 
 const ingredientSchema = new Schema<IIngredient>({
