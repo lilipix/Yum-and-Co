@@ -20,6 +20,6 @@ tagSchema.set("toObject", { virtuals: true });
 tagSchema.set("toJSON", { virtuals: true });
 
 const TagModel = (Model<Tag> =
-  models.Label || model<Tag>("Label", tagSchema));
+  models.Tag || model<Tag>("Tag", tagSchema));
 
 export default TagModel;
