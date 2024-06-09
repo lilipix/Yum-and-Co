@@ -5,7 +5,7 @@ const AddRecipeButton = () => {
   return (
     <Link
       href="recipes/new"
-      className="flex flex-row items-center gap-2 rounded-full bg-pinkLight lg:py-2 lg:px-4 lg:rounded-xl fixed bottom-8 right-8 hover:bg-pinkMedium hover:border-pinkLight transition duration-150 ease-in-out cursor-pointer"
+      className="flex flex-row items-center gap-2 rounded-full bg-pinklight lg:py-2 lg:px-4 lg:rounded-xl fixed bottom-8 right-8 hover:bg-pinkMedium hover:border-pinklight transition duration-150 ease-in-out cursor-pointer"
     >
       <div>
         <Plus className="m-3" />

@@ -1,9 +1,20 @@
+import connectToDatabase from '@/lib/mongodb';
 import AddRecipeButton from "./components/AddRecipeButton";
+import { findCategories } from '@/database/categories/category.repository';
+import CategoriesList from './components/CategoriesList';
 
-export default function Home() {
+const HomePage =  async() =>{
+
+  await connectToDatabase();
+  const categories = await findCategories();
+
+
   return (
-    <main className="flex flex-col items-center p-24">
+    <main className="flex flex-col items-center p-6">
       <AddRecipeButton />
+      <CategoriesList categories={categories} />
     </main>
   );
 }
+
+export default HomePage;
