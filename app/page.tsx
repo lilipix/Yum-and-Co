@@ -8,11 +8,11 @@ const HomePage =  async() =>{
   await connectToDatabase();
   const categories = await findCategories();
 
-
   return (
     <main className="flex flex-col items-center p-6">
       <AddRecipeButton />
-      <CategoriesList categories={categories} />
+      <CategoriesList 
+      categories={categories.length === 0 ? [] : categories} />
     </main>
   );
 }

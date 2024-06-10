@@ -11,11 +11,13 @@ const CategoriesPage = async({ searchParams }: CategoriesPageProps) => {
     const categories = await findCategories();
 
     return(
+        <div className="flex flex-col items-center p-6">
     <div className="max-w-[1280px] mx-auto">
 <Card>
     
 </Card>
 
+       </div>
        </div>
  
     )

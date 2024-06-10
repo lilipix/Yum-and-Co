@@ -2,7 +2,7 @@ import connectToDatabase from "@/lib/mongodb";
 import { CreateRecipeDTO } from "./recipe.dto";
 import RecipeModel from "./recipe.model";
 import { populateRecipe } from "./utils/populate-recipe";
-import { RecipePopulated } from "@/validators/recipe";
+import { Recipe, RecipePopulated } from "@/validators/recipe";
 
 export const createRecipe = async (
   data: CreateRecipeDTO,
@@ -42,3 +42,18 @@ export const findRecipes = async () => {
     throw new Error("Failed to find recipes");
   }
 };
+
+export const findRecipesByCategories = async (category: string): Promise<RecipePopulated[]> => {
+  try {
+    await connectToDatabase();
+    const documents = await RecipeModel.find({ category });
+    return documents.map((document) => document.toJSON({
+      //serialized ObjectId to string
+      flattenObjectIds: true,
+      //__v non-inclusion
+      versionKey: false,
+    }))
+  } catch (error) {
+    throw new Error("Failed to find recipe by categories");
+  }
+}

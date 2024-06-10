@@ -9,17 +9,17 @@ type CategoriesListProps = {
 const CategoriesList = ({categories}:CategoriesListProps) => {
     return (
         <div className="max-w-[1024px] w-full mx-auto">
-            <div className="w-full">
                 <Card>
                     <CardHeader>
                         <CardTitle>Catégories</CardTitle>
-                        <CardDescription>Recherchez les recettes par catégories.</CardDescription>
+                        {categories.length > 0 ? <CardDescription>Recherchez les recettes par catégories.</CardDescription>
+                        : <CardDescription>Ajoutez une première recette pour afficher une catégorie</CardDescription>}
                     </CardHeader>
                     <CardContent>
                         <ul className="flex flex-wrap gap-4">
                             {categories.map((category) => (
                                 <li key={category.id}>
-                                    <Link  
+                                    <Link
                                     className="flex flex-row flex-wrap items-center gap-2 bg-pinklight py-2 px-4 rounded-xl hover:bg-pinkMedium hover:border-pinkLight transition duration-150 ease-in-out cursor-pointer font-semibold" 
                                     href={`/categories/${category.id}`}>{category.name}</Link>
                                 </li>
@@ -27,7 +27,6 @@ const CategoriesList = ({categories}:CategoriesListProps) => {
                         </ul>
                     </CardContent>
                 </Card>
-            </div>
         </div>
     );
 };
