@@ -15,8 +15,8 @@ import { z } from "zod";
 import RecipeCategoriesSelectField, {
   RecipeCategorySelectFieldSchema,
 } from "./RecipeCategoriesSelectField";
-import RecipeTagsSelectField from './RecipeTagsSelectField';
-import { Tag } from '@/validators/tag';
+import RecipeTagsSelectField from "./RecipeTagsSelectField";
+import { Tag } from "@/validators/tag";
 
 const IngredientsListFields = dynamic(() => import("./IngredientsListFields"));
 
@@ -60,7 +60,8 @@ export type GeneralRecipeInformationFieldsValues = z.infer<
 >;
 
 const GeneralRecipeInformationFields = ({
-  categories, tags
+  categories,
+  tags,
 }: GeneralRecipeInformationFieldsProps) => {
   const form = useFormContext<GeneralRecipeInformationFieldsValues>();
 
@@ -76,18 +77,23 @@ const GeneralRecipeInformationFields = ({
           <FormItem>
             <FormLabel>Nom de la recette *</FormLabel>
             <FormControl>
-              <Input type="text" {...field} value={field.value ?? ""} placeholder="Ex : Salade de saison" />
+              <Input
+                type="text"
+                {...field}
+                value={field.value ?? ""}
+                placeholder="Ex : Salade de saison"
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
         )}
       />
       <div className="flex flex-col gap-4 xl:flex-row xl:justify-between">
-      <div className="xl:w-1/2">
-        <RecipeCategoriesSelectField categories={categories} />
+        <div className="xl:w-1/2">
+          <RecipeCategoriesSelectField categories={categories} />
         </div>
         <div className="xl:w-1/2">
-        <RecipeTagsSelectField tags={tags} />
+          <RecipeTagsSelectField tags={tags} />
         </div>
       </div>
       <div className="flex justify-between gap-4">
@@ -122,7 +128,12 @@ const GeneralRecipeInformationFields = ({
               <FormItem>
                 <FormLabel>Temps de préparation (en min)</FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} value={field.value ?? ""} placeholder="Ex : 40" />
+                  <Input
+                    type="text"
+                    {...field}
+                    value={field.value ?? ""}
+                    placeholder="Ex : 40"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -141,7 +152,12 @@ const GeneralRecipeInformationFields = ({
                   Temps de cuisson <br /> (en min)
                 </FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} value={field.value ?? ""} placeholder="Ex : 10" />
+                  <Input
+                    type="text"
+                    {...field}
+                    value={field.value ?? ""}
+                    placeholder="Ex : 10"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -158,7 +174,12 @@ const GeneralRecipeInformationFields = ({
                   Température du four <br /> (en °)
                 </FormLabel>
                 <FormControl>
-                  <Input type="text" {...field} value={field.value ?? ""} placeholder="Ex : 180" />
+                  <Input
+                    type="text"
+                    {...field}
+                    value={field.value ?? ""}
+                    placeholder="Ex : 180"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

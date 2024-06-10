@@ -19,7 +19,6 @@ tagSchema.virtual("id").get(function getVirtualId() {
 tagSchema.set("toObject", { virtuals: true });
 tagSchema.set("toJSON", { virtuals: true });
 
-const TagModel = (Model<Tag> =
-  models.Tag || model<Tag>("Tag", tagSchema));
+const TagModel = (Model<Tag> = models.Tag || model<Tag>("Tag", tagSchema));
 
 export default TagModel;

@@ -1,23 +1,19 @@
 "use client";
 
-import { MoreHorizontal, Trash } from "lucide-react";
-import { ChangeEventHandler, useEffect, useState } from "react";
+import { MoreHorizontal } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuSeparator,
-  DropdownMenuGroup,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 
 import { SelectOption } from "./CreateSelect";
 import ColorSelectItemMenu from "./ColorSelectItemMenu";
-import { ColorPalette } from '@/validators/tag';
-import { on } from 'events';
+import { ColorPalette } from "@/validators/tag";
 
 type CreateSelectItemMenuProps = {
   option: SelectOption;
@@ -68,12 +64,12 @@ const CreateSelectItemMenu = ({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        {enableColors?(
-        <Button className="h-8 w-8 p-0" variant="ghost">
-          <span className="sr-only">Open menu</span>
-          <MoreHorizontal className="h-4 w-4" />
-        </Button>
-        ):null}
+        {enableColors ? (
+          <Button className="h-8 w-8 p-0" variant="ghost">
+            <span className="sr-only">Open menu</span>
+            <MoreHorizontal className="h-4 w-4" />
+          </Button>
+        ) : null}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         {/* <DropdownMenuGroup className="gap-2 hover:cursor-pointer">
@@ -85,7 +81,7 @@ const CreateSelectItemMenu = ({
             option={option}
             onChangeColor={handleChangeColor}
           />
-        ) : null} 
+        ) : null}
       </DropdownMenuContent>
     </DropdownMenu>
   );

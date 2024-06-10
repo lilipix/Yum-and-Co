@@ -1,10 +1,6 @@
 "use client";
 import { fetcher } from "@/lib/utils/fetcher.utils";
-import {
-  Recipe,
-  RecipePopulated,
-  RecipePopulatedSchema,
-} from "@/validators/recipe";
+import { RecipePopulated } from "@/validators/recipe";
 import { ReactNode, useCallback, useMemo, useState } from "react";
 import useSWR from "swr";
 import { createRecipe as createRecipeRequest } from "@/services/recipes.service";

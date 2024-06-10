@@ -9,12 +9,14 @@ const categorySchema = new Schema<ICategory>({
 });
 
 categorySchema.set("toObject", { virtuals: true });
-categorySchema.set("toJSON", { virtuals: true, 
-	versionKey: false,
+categorySchema.set("toJSON", {
+  virtuals: true,
+  versionKey: false,
   transform: function (doc, ret) {
     delete ret._id;
-    return ret; }
-  });
+    return ret;
+  },
+});
 
 const CategoryModel = (Model<ICategory> =
   models.Category || model<ICategory>("Category", categorySchema));

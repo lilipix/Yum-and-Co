@@ -3,7 +3,7 @@ import { IIngredient, Unit } from "@/validators/recipe/ingredient.validator";
 import { Recipe } from "@/validators/recipe";
 import CategoryModel from "../categories/category.model";
 import LabelModel from "../tags/tag.model";
-import TagModel from '../tags/tag.model';
+import TagModel from "../tags/tag.model";
 
 export type RecipeDocument = Omit<Recipe, "category" | "tags"> & {
   category: Types.ObjectId;
