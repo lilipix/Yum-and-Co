@@ -35,8 +35,11 @@ const RecipeCategoriesSelectField = ({
   label = "Catégorie *",
 }: RecipeCategoriesSelectFieldProps) => {
   const form = useFormContext<RecipeCategorySelectFieldValues>();
-  const { categories, isLoading, createCategory: handleCreateCategory } =
-    useCategoryCreate(initialCategories);
+  const {
+    categories,
+    isLoading,
+    createCategory: handleCreateCategory,
+  } = useCategoryCreate(initialCategories);
 
   const categoriesOptions = categories.map((category) => ({
     value: category.id,

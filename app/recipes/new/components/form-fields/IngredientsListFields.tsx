@@ -1,5 +1,5 @@
-import { nullable, z } from "zod";
-import { Form, useFieldArray, useFormContext } from "react-hook-form";
+import { z } from "zod";
+import { useFieldArray, useFormContext } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
   FormControl,
@@ -9,7 +9,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Select,
   SelectContent,
@@ -20,11 +19,7 @@ import {
 import { Plus, Trash } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import React from "react";
-import {
-  IngredientSchema,
-  Unit,
-  getUnitLabel,
-} from "@/validators/recipe/ingredient.validator";
+import { Unit, getUnitLabel } from "@/validators/recipe/ingredient.validator";
 
 export const IngredientsListFieldsSchema = z.object({
   ingredients: z.array(
@@ -76,10 +71,14 @@ const IngredientsListFields = () => {
                 control={form.control}
                 name={`ingredients.${index}.baseQuantity`}
                 render={({ field }) => (
-                  <FormItem className="w-1/2 flex-1 ">
+                  <FormItem className="w-1/2 flex-1">
                     <FormLabel>Quantité</FormLabel>
                     <FormControl>
-                      <Input type="number" defaultValue={field.value} placeholder="Ex : 400" />
+                      <Input
+                        type="number"
+                        defaultValue={field.value}
+                        placeholder="Ex : 400"
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

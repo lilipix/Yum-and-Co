@@ -1,5 +1,5 @@
-import { TagSchema } from '@/validators/tag';
-import { z } from 'zod';
+import { TagSchema } from "@/validators/tag";
+import { z } from "zod";
 
 export const CreateTagSchemaDTO = TagSchema.omit({
   id: true,

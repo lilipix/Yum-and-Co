@@ -20,7 +20,10 @@ const NewRecipePage = async () => {
 
   return (
     <div className="mx-2 my-8">
-      <NewEmptyRecipeForm categories={parsedCategories} tags={parsedTags}/>
+      <NewEmptyRecipeForm 
+      categories={parsedCategories} 
+      tags={parsedTags} 
+      />
     </div>
   );
 };

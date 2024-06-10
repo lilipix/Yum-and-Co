@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Dispatch, SetStateAction, createContext } from "react";
 import { Recipe, RecipePopulated } from "@/validators/recipe";

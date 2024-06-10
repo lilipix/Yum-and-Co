@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { CreateCategorySchema } from "./_validators/create-category.validator";
-import { createCategory } from "@/database/categories/category.repository";
+import {
+  createCategory,
+  findCategories,
+} from "@/database/categories/category.repository";
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,6 +18,18 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to create category" },
+      { status: 500 },
+    );
+  }
+}
+
+export async function GET() {
+  try {
+    const categories = await findCategories();
+    return NextResponse.json(categories);
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to find categories" },
       { status: 500 },
     );
   }

@@ -7,6 +7,6 @@ export const CreateRecipeSchemaDTO = RecipeSchema.omit({
 
 export type CreateRecipeDTO = z.infer<typeof CreateRecipeSchemaDTO>;
 
-export const UpdateRecipeSchemaDTO = RecipeSchema
+export const UpdateRecipeSchemaDTO = RecipeSchema;
 
 export type UpdateRecipeDTO = z.infer<typeof UpdateRecipeSchemaDTO>;

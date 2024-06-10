@@ -46,7 +46,7 @@ export const findRecipes = async () => {
 export const findRecipesByCategories = async (category: string): Promise<RecipePopulated[]> => {
   try {
     await connectToDatabase();
-    const documents = await RecipeModel.find({ category });
+    const documents = await RecipeModel.find({ category }).populate('tags');
     return documents.map((document) => document.toJSON({
       //serialized ObjectId to string
       flattenObjectIds: true,

@@ -19,13 +19,13 @@ import {
 } from "@/components/ui/popover";
 
 import CreateSelectItemMenu from "./CreateSelectItemMenu";
-import { ColorTelltale } from '@/components/ui/colorTelltale';
-import { ColorPalette } from '@/validators/tag';
+import { ColorTelltale } from "@/components/ui/colorTelltale";
+import { ColorPalette } from "@/validators/tag";
 
 export type SelectOption = {
   value: string;
   label: string;
- color?: ColorPalette;
+  color?: ColorPalette;
 };
 
 type CreateSelectProps = PropsWithChildren<{
@@ -60,7 +60,6 @@ const CreateSelect = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [options, setOptions] = useState<SelectOption[]>(initialOptions);
-  
 
   const [selectedOptions, setSelectedOptions] = useState<string[]>(
     typeof value === "string" ? [value] : value || [],
@@ -128,36 +127,39 @@ const CreateSelect = ({
   const handleCreateOption = () => {
     if (inputValue && onCreateOption) {
       try {
-        onCreateOption(inputValue).then((option) => {
-          if (option) {
-            setSelectedOptions((prevSelectedOptions) => { 
-             if (allowMultiple) {
-                return [...prevSelectedOptions, option.value]
-              } else { return [option.value]; }
-           } );
-            setOptions((prevOptions) => [...prevOptions, option]);
-            setInputValue(""); 
-            setIsOpen(false)
-          }
-        }).catch(error => {
-          console.error('Error creating option:', error);
-        });
+        onCreateOption(inputValue)
+          .then((option) => {
+            if (option) {
+              setSelectedOptions((prevSelectedOptions) => {
+                if (allowMultiple) {
+                  return [...prevSelectedOptions, option.value];
+                } else {
+                  return [option.value];
+                }
+              });
+              setOptions((prevOptions) => [...prevOptions, option]);
+              setInputValue("");
+              setIsOpen(false);
+            }
+          })
+          .catch((error) => {
+            console.error("Error creating option:", error);
+          });
       } catch (error) {
-        console.error('Error in handleCreateOption function:', error);
+        console.error("Error in handleCreateOption function:", error);
       }
     }
-  }
+  };
 
   const handleUpdateOption = async (option: SelectOption) => {
-		if (onUpdateOption) {
-			const currentOption = options.find((cO) => cO.value === option.value);
-			if (currentOption && currentOption.color !== option.color) {
-				const updatedOption = { ...currentOption, color: option.color };
-      onUpdateOption(updatedOption);
-			}
-		}
-	};
-
+    if (onUpdateOption) {
+      const currentOption = options.find((cO) => cO.value === option.value);
+      if (currentOption && currentOption.color !== option.color) {
+        const updatedOption = { ...currentOption, color: option.color };
+        onUpdateOption(updatedOption);
+      }
+    }
+  };
 
   const handleInputClick: MouseEventHandler<HTMLInputElement> = (event) => {
     event.preventDefault();
@@ -197,7 +199,7 @@ const CreateSelect = ({
           role="listbox"
           onClick={handleInputClick}
         >
-          <div className="flex flex-wrap items-center gap-2 px-3 py-2 h-fit">
+          <div className="flex h-fit flex-wrap items-center gap-2 px-3 py-2">
             {selectedOptions.length > 0
               ? initialOptions
                   .filter((option) => selectedOptions.includes(option.value))
@@ -213,7 +215,7 @@ const CreateSelect = ({
               : null}
             <input
               aria-disabled={disabled}
-              className="block grow focus-visible:outline-none w-full"
+              className="block w-full grow focus-visible:outline-none"
               disabled={disabled}
               placeholder={!inputValue ? placeholder : undefined}
               ref={inputRef}
@@ -242,13 +244,14 @@ const CreateSelect = ({
             </p>
             {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
           </div>
-        ) : 
+        ) : (
           <div className="flex items-center justify-between p-2">
             <p className="text-sm text-muted-foreground">
               Sélectionnez ou créez une option.
             </p>
             {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-          </div>}
+          </div>
+        )}
         <div className="flex max-h-[300px] flex-col overflow-y-auto overflow-x-hidden">
           {options.map((option) => (
             <div
@@ -273,22 +276,23 @@ const CreateSelect = ({
                     className="mr-2"
                     variant={option.color || ColorPalette.SECONDARY}
                   />
-                ) : null} 
+                ) : null}
                 {option.label}
               </div>
-                <CreateSelectItemMenu
-                  enableColors={enableColors}
-                  option={option}
-                  onUpdateOption={handleUpdateOption}
-                />
+              <CreateSelectItemMenu
+                enableColors={enableColors}
+                option={option}
+                onUpdateOption={handleUpdateOption}
+              />
             </div>
           ))}
           {onCreateOption &&
           inputValue &&
           !initialOptions.find(
             (option) =>
-              option.label.trim().toLowerCase() === inputValue.trim().toLowerCase())
-            ? (
+              option.label.trim().toLowerCase() ===
+              inputValue.trim().toLowerCase(),
+          ) ? (
             <Button
               className="justify-start px-2 py-1.5 text-sm"
               role="menuitem"

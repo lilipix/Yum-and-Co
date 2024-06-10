@@ -1,6 +1,6 @@
-import { PopulateOptions } from 'mongoose';
+import { PopulateOptions } from "mongoose";
 
 export const populateRecipe: PopulateOptions[] = [
-    {path: 'category'},
-    {path: 'tags'}
-]
+  { path: "category" },
+  { path: "tags" },
+];

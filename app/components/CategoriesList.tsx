@@ -1,34 +1,50 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ICategory } from '@/validators/category';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { ICategory } from "@/validators/category";
 import Link from "next/link";
-import React from 'react';
+import React from "react";
 
 type CategoriesListProps = {
-    categories: ICategory[];
+  categories: ICategory[];
 };
-const CategoriesList = ({categories}:CategoriesListProps) => {
-    return (
-        <div className="max-w-[1024px] w-full mx-auto">
-                <Card>
-                    <CardHeader>
-                        <CardTitle>Catégories</CardTitle>
-                        {categories.length > 0 ? <CardDescription>Recherchez les recettes par catégories.</CardDescription>
-                        : <CardDescription>Ajoutez une première recette pour afficher une catégorie</CardDescription>}
-                    </CardHeader>
-                    <CardContent>
-                        <ul className="flex flex-wrap gap-4">
-                            {categories.map((category) => (
-                                <li key={category.id}>
-                                    <Link
-                                    className="flex flex-row flex-wrap items-center gap-2 bg-pinklight py-2 px-4 rounded-xl hover:bg-pinkMedium hover:border-pinkLight transition duration-150 ease-in-out cursor-pointer font-semibold" 
-                                    href={`/categories/${category.id}`}>{category.name}</Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </CardContent>
-                </Card>
-        </div>
-    );
+const CategoriesList = ({ categories }: CategoriesListProps) => {
+  return (
+    <div className="mx-auto w-full max-w-[1024px]">
+      <Card>
+        <CardHeader>
+          <CardTitle>Catégories</CardTitle>
+          {categories.length > 0 ? (
+            <CardDescription>
+              Recherchez les recettes par catégories.
+            </CardDescription>
+          ) : (
+            <CardDescription>
+              Ajoutez une première recette pour afficher une catégorie
+            </CardDescription>
+          )}
+        </CardHeader>
+        <CardContent>
+          <ul className="flex flex-wrap gap-4">
+            {categories.map((category) => (
+              <li key={category.id}>
+                <Link
+                  className="hover:border-pinkLight flex cursor-pointer flex-row flex-wrap items-center gap-2 rounded-xl bg-pinklight px-4 py-2 font-semibold transition duration-150 ease-in-out hover:bg-pinkMedium"
+                  href={`/categories/${category.id}`}
+                >
+                  {category.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </CardContent>
+      </Card>
+    </div>
+  );
 };
 
 export default CategoriesList;

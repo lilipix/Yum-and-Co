@@ -2,10 +2,8 @@
 
 import { z } from "zod";
 import { IngredientsListFieldsSchema } from "./form-fields/IngredientsListFields";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { createRecipe } from "@/services/recipes.service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
@@ -17,7 +15,6 @@ import { ICategory } from "@/validators/category";
 import { toast } from "sonner";
 import useRecipe from "@/context/recipe/useRecipe";
 import { GeneralRecipeInformationFieldsSchema } from './form-fields/GeneralRecipeInformationFields';
-import RecipeTagsSelectField, { RecipeTagsSelectFieldSchema } from './form-fields/RecipeTagsSelectField';
 import { Tag } from '@/validators/tag';
 
 const IngredientsListForm = dynamic(() => import("./form-fields/IngredientsListFields"));
@@ -42,9 +39,8 @@ export const NewEmptyRecipeFormSchema = z
 export type NewEmptyRecipeFormValues = z.infer<typeof NewEmptyRecipeFormSchema>;
 
 const NewEmptyRecipeForm = ({ categories, tags }: NewEmptyRecipeFormProps) => {
-  // const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { createRecipe, isMutating, isLoading } = useRecipe();
+  const { createRecipe, isMutating, isLoading } = useRecipe(); 
 
   const form = useForm<NewEmptyRecipeFormValues>({
     resolver: zodResolver(NewEmptyRecipeFormSchema),
