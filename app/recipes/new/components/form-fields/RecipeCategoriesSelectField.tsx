@@ -6,7 +6,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import useCategoryCreate from "@/hooks/useCategoryCreate";
-import { ICategory } from "@/validators/category";
+import { Category } from "@/validators/category";
 import { ReactNode } from "react";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
@@ -22,7 +22,7 @@ export type RecipeCategorySelectFieldValues = z.infer<
 >;
 
 type RecipeCategoriesSelectFieldProps = {
-  categories: ICategory[];
+  categories: Category[];
   allowMultiple?: boolean;
   placeholder?: string;
   isDisabled?: boolean;

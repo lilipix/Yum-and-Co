@@ -1,7 +1,7 @@
-import { ICategory } from "@/validators/category";
+import { Category } from "@/validators/category";
 import { Model, Schema, model, models } from "mongoose";
 
-const categorySchema = new Schema<ICategory>({
+const categorySchema = new Schema<Category>({
   name: {
     type: String,
     required: true,
@@ -18,7 +18,7 @@ categorySchema.set("toJSON", {
   },
 });
 
-const CategoryModel = (Model<ICategory> =
-  models.Category || model<ICategory>("Category", categorySchema));
+const CategoryModel = (Model<Category> =
+  models.Category || model<Category>("Category", categorySchema));
 
 export default CategoryModel;

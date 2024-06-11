@@ -5,12 +5,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ICategory } from "@/validators/category";
+import { Category } from "@/validators/category";
 import Link from "next/link";
 import React from "react";
 
 type CategoriesListProps = {
-  categories: ICategory[];
+  categories: Category[];
 };
 const CategoriesList = ({ categories }: CategoriesListProps) => {
   return (

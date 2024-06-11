@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { putFirstLetterCapital } from "@/lib/utils/string.utils";
-import { ICategory } from "@/validators/category";
+import { Category } from "@/validators/category";
 import { IngredientSchema } from "@/validators/recipe/ingredient.validator";
 import dynamic from "next/dynamic";
 import { useFormContext } from "react-hook-form";
@@ -21,7 +21,7 @@ import { Tag } from "@/validators/tag";
 const IngredientsListFields = dynamic(() => import("./IngredientsListFields"));
 
 type GeneralRecipeInformationFieldsProps = {
-  categories: ICategory[];
+  categories: Category[];
   tags: Tag[];
 };
 
