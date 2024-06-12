@@ -1,8 +1,6 @@
 import useCategory from "@/context/category/useCategory";
 import React from "react";
-import CategoryFormBlock, {
-  CategoryFormBlockSchema,
-} from "./CategoryFormBlock";
+
 import {
   Card,
   CardContent,
@@ -18,14 +16,30 @@ import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import {
+  DialogClose,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import CategoryFormBlock, {
+  CategoryFormBlockSchema,
+} from "./CategoryFormBlock";
 
 type EditCategoryModalProps = {
-  isOpen: boolean;
-  onClose: () => void;
+  //   onClose: () => void;
+  currentCategory: string;
 };
-type EditCategoryValues = z.infer<typeof CategoryFormBlockSchema>;
 
-const EditCategoryModal = ({ onClose, isOpen }: EditCategoryModalProps) => {
+export const EditCategoryModalSchema = z.object({
+  // id: z.string().min(1, "Requis"),
+  name: z.string().min(1, "Requis"),
+});
+
+type EditCategoryValues = z.infer<typeof EditCategoryModalSchema>;
+
+const EditCategoryModal = ({ currentCategory }: EditCategoryModalProps) => {
   const { category, updateCategory, isLoading, isMutating } = useCategory();
 
   const form = useForm<EditCategoryValues>({
@@ -41,44 +55,46 @@ const EditCategoryModal = ({ onClose, isOpen }: EditCategoryModalProps) => {
       toast.error("Pas de catégories trouvées. Merci d'en créer une.");
       return;
     }
-    if (values) {
-      try {
-        await updateCategory({
-          id: category.id,
-          name: values.name,
-        });
-      } catch (error) {
-        toast.error(
-          "Une erreur s'est produite lors de la mise à jour de la catégorie.",
-        );
-      } finally {
-        onClose();
-      }
+    try {
+      await updateCategory({
+        ...values,
+        id: category.id,
+      });
+      toast.success("La catégorie a été mise à jour avec succès.");
+    } catch (error) {
+      toast.error(
+        "Une erreur s'est produite lors de la mise à jour de la catégorie.",
+      );
+    } finally {
+      form.reset();
     }
   };
 
-  return isOpen ? (
+  return (
     <Form {...form}>
-      <form
-        // className="my-8 flex flex-col items-center gap-8"
-        onSubmit={form.handleSubmit(handleSubmit)}
-      >
-        <Card>
-          <CardHeader>
-            <CardTitle>Modifier la catégorie</CardTitle>
-            <CardDescription>
+      <form onSubmit={form.handleSubmit(handleSubmit)}>
+        <div>
+          <DialogHeader>
+            <DialogTitle>{`Modifier la catégorie ${currentCategory}`}</DialogTitle>
+            <DialogDescription>
               La catégorie sera modifiée sur toutes les recettes rattachées à
               cette catégorie.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+            </DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
             <CategoryFormBlock />
-          </CardContent>
-          <CardFooter>
-            <div className="flex">
-              <Button className="items-center gap-2" onClick={onClose}>
-                Annuler
-              </Button>
+          </div>
+          <DialogFooter>
+            <div className="flex w-full justify-between">
+              <DialogClose asChild>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  className="items-center gap-2"
+                >
+                  Annuler
+                </Button>
+              </DialogClose>
               <Button
                 className="items-center gap-2"
                 disabled={isMutating || isLoading}
@@ -92,11 +108,11 @@ const EditCategoryModal = ({ onClose, isOpen }: EditCategoryModalProps) => {
                 Enregistrer
               </Button>
             </div>
-          </CardFooter>
-        </Card>
+          </DialogFooter>
+        </div>
       </form>
     </Form>
-  ) : null;
+  );
 };
 
 export default EditCategoryModal;

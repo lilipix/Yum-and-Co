@@ -24,8 +24,9 @@ const ColorSelectItemMenu = ({
     "info",
     "success",
     "warning",
-    "pinklight",
+    "pinkdark",
     "purple",
+    "orange",
   ];
 
   return (

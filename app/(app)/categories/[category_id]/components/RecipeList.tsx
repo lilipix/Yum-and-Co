@@ -14,9 +14,9 @@ const RecipeList = ({ recipes }: RecipeProps) => {
     <CardContent>
       <ul className="flex flex-wrap gap-4">
         {recipes.map((recipe) => (
-          <li className="flex" key={recipe.id}>
+          <li className="mx-auto flex" key={recipe.id}>
             <Link
-              className="hover:border-pinkLight w-[200px] cursor-pointer flex-wrap items-center rounded-xl bg-pinklight px-4 py-2 font-semibold transition duration-150 ease-in-out hover:bg-pinkMedium"
+              className="w-[200px] cursor-pointer flex-wrap items-center rounded-xl bg-pinklight px-4 py-2 font-semibold transition duration-150 ease-in-out hover:border-pinklight hover:bg-pinkMedium"
               href={`/recipes/${recipe.id}`}
             >
               <div className="w-full">

@@ -14,15 +14,15 @@ type CategoryProviderProps = {
   category?: Category | null;
 };
 
-const CategoryProvider = ({ children }: CategoryProviderProps) => {
+const CategoryProvider = ({
+  category: initialCategory,
+  children,
+}: CategoryProviderProps) => {
   const [isMutating, setIsMutating] = useState(false);
 
   const { data, error, isLoading, mutate } = useSWR<Category | null>(
     "/api/categories",
-    fetcher,
-    {
-      fallbackData: null,
-    },
+    { fallbackData: initialCategory },
   );
 
   const updateCategory = useCallback(
@@ -36,6 +36,7 @@ const CategoryProvider = ({ children }: CategoryProviderProps) => {
         const updatedCategory = await mutate(
           updateCategoryRequest({
             ...category,
+            id: data.id,
           }),
           { optimisticData: category, rollbackOnError: true },
         );

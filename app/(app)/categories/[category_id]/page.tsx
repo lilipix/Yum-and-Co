@@ -34,9 +34,12 @@ const PageCategory = async ({ params }: PageCategoryProps) => {
           <CardHeader>
             <div className="flex justify-between">
               <div>
-                <CardTitle>Catégorie : {category.name}</CardTitle>
+                <CardTitle>{category.name}</CardTitle>
                 <CardDescription>
-                  Visualisez les recettes de la catégorie {category.name}.
+                  <span className="block sm:inline">
+                    Visualisez les recettes de la
+                  </span>{" "}
+                  catégorie {category.name}.
                 </CardDescription>
               </div>
               <EditCategory currentCategory={category.name} />

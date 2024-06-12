@@ -1,7 +1,6 @@
 "use client";
 import { Pencil } from "lucide-react";
 import React, { useState } from "react";
-import EditCategoryModal from "./EditCategoryModal";
 import {
   Dialog,
   DialogContent,
@@ -10,18 +9,12 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
-import EditCategoryModal1 from "./EditCategoryModalTest";
-import EditCategoryModalTest from "./EditCategoryModalTest";
+import EditCategoryModal from "./EditCategoryModal";
 
 type EditCategoryProps = {
   currentCategory: string;
 };
 const EditCategory = ({ currentCategory }: EditCategoryProps) => {
-  // const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
-  // const handleOpenModal = () => setIsModalOpen(true);
-  // const handleCloseModal = () => setIsModalOpen(false);
-
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -30,10 +23,7 @@ const EditCategory = ({ currentCategory }: EditCategoryProps) => {
         </Button>
       </DialogTrigger>
       <DialogContent className="flex flex-col items-center gap-8">
-        <EditCategoryModalTest
-          // onClose={handleCloseModal}
-          currentCategory={currentCategory}
-        />
+        <EditCategoryModal currentCategory={currentCategory} />
       </DialogContent>
     </Dialog>
   );
