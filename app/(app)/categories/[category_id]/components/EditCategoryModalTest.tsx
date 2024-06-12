@@ -26,13 +26,16 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-// type EditCategoryModalTestProps = {
-//   onClose: () => void;
-// };
+type EditCategoryModalTestProps = {
+  //   onClose: () => void;
+  currentCategory: string;
+};
 
 type EditCategoryValues = z.infer<typeof CategoryFormBlockSchema>;
 
-const EditCategoryModalTest = () => {
+const EditCategoryModalTest = ({
+  currentCategory,
+}: EditCategoryModalTestProps) => {
   const { category, updateCategory, isLoading, isMutating } = useCategory();
 
   const form = useForm<EditCategoryValues>({
@@ -67,7 +70,7 @@ const EditCategoryModalTest = () => {
       <form onSubmit={form.handleSubmit(handleSubmit)}>
         <div>
           <DialogHeader>
-            <DialogTitle>Modifier la catégorie</DialogTitle>
+            <DialogTitle>{`Modifier la catégorie ${currentCategory}`}</DialogTitle>
             <DialogDescription>
               La catégorie sera modifiée sur toutes les recettes rattachées à
               cette catégorie.

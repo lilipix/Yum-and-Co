@@ -13,7 +13,10 @@ import { DialogClose } from "@radix-ui/react-dialog";
 import EditCategoryModal1 from "./EditCategoryModalTest";
 import EditCategoryModalTest from "./EditCategoryModalTest";
 
-const EditCategory = () => {
+type EditCategoryProps = {
+  currentCategory: string;
+};
+const EditCategory = ({ currentCategory }: EditCategoryProps) => {
   // const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   // const handleOpenModal = () => setIsModalOpen(true);
@@ -22,17 +25,16 @@ const EditCategory = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button variant="outline" size="icon">
           <Pencil />
         </Button>
       </DialogTrigger>
-      <div className="my-8 flex flex-col items-center gap-8">
-        <DialogContent>
-          <EditCategoryModalTest
+      <DialogContent className="flex flex-col items-center gap-8">
+        <EditCategoryModalTest
           // onClose={handleCloseModal}
-          />
-        </DialogContent>
-      </div>
+          currentCategory={currentCategory}
+        />
+      </DialogContent>
     </Dialog>
   );
 };
