@@ -1,3 +1,4 @@
+"use client";
 import { UpdateCategorySchema } from "@/app/api/categories/_validators/update-category.validator";
 import { fetcher } from "@/lib/utils/fetcher.utils";
 import { Category } from "@/validators/category";

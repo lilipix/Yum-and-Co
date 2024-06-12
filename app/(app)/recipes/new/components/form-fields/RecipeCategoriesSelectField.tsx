@@ -1,4 +1,4 @@
-import CreateSelect from "@/app/components/Select/CreateSelect";
+import CreateSelect from "@/app/(app)/components/Select/CreateSelect";
 import {
   FormField,
   FormItem,
