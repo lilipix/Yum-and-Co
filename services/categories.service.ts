@@ -46,3 +46,14 @@ export const updateCategory = async (
     throw error;
   }
 };
+
+export const deleteCategory = async (categoryId: string): Promise<Category> => {
+  try {
+    const data = await fetch(`/api/categories/${categoryId}`, {
+      method: "DELETE",
+    });
+    throw new Error("Failed to delete category");
+  } catch (error) {
+    throw error;
+  }
+};

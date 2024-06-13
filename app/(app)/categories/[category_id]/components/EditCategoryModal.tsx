@@ -1,5 +1,3 @@
-import useCategory from "@/context/category/useCategory";
-
 import { Button } from "@/components/ui/button";
 import { Loader2, Save } from "lucide-react";
 import { z } from "zod";
@@ -18,6 +16,7 @@ import CategoryFormBlock, {
   CategoryFormBlockSchema,
 } from "./CategoryFormBlock";
 import { useEffect } from "react";
+import useCategory from "@/context/category/useCategory";
 
 export const EditCategoryModalSchema = z.object({
   name: z.string().min(1, "Requis"),
@@ -27,8 +26,6 @@ type EditCategoryValues = z.infer<typeof EditCategoryModalSchema>;
 
 const EditCategoryModal = () => {
   const { category, updateCategory, isLoading, isMutating } = useCategory();
-  console.log("CategoryModale:", category);
-  console.log("updateCategory:", updateCategory);
 
   const form = useForm<EditCategoryValues>({
     resolver: zodResolver(CategoryFormBlockSchema),

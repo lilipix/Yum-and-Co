@@ -5,7 +5,10 @@ import { ReactNode, useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
 import useSWR from "swr";
 import { z } from "zod";
-import { updateCategory as updateCategoryRequest } from "@/services/categories.service";
+import {
+  updateCategory as updateCategoryRequest,
+  deleteCategory as deleteCategoryRequest,
+} from "@/services/categories.service";
 import CategoryContext, { CategoryContextValue } from ".";
 
 type CategoryProviderProps = {
@@ -48,17 +51,40 @@ const CategoryProvider = ({
     [],
   );
 
+  const deleteCategory = useCallback(
+    async () => {
+      if (!data) {
+        toast.error("Pas de catégories trouvées. Merci d'en créer une.");
+        return null;
+      }
+      setIsMutating(true);
+      try {
+        const deletedCategory = await deleteCategoryRequest(data.id);
+        await mutate(null);
+        return deletedCategory;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      } finally {
+        setIsMutating(false);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+
   const contextValue: CategoryContextValue = useMemo(
     () => ({
       category: data,
       updateCategory,
+      deleteCategory,
       isMutating,
       error,
       isLoading,
       mutate,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data, isMutating, error, isLoading, updateCategory],
+    [data, isMutating, error, isLoading, updateCategory, deleteCategory],
   );
 
   return (
