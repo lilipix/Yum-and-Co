@@ -1,14 +1,5 @@
 import useCategory from "@/context/category/useCategory";
-import React from "react";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Loader2, Save } from "lucide-react";
 import { z } from "zod";
@@ -26,21 +17,18 @@ import {
 import CategoryFormBlock, {
   CategoryFormBlockSchema,
 } from "./CategoryFormBlock";
-
-type EditCategoryModalProps = {
-  //   onClose: () => void;
-  currentCategory: string;
-};
+import { useEffect } from "react";
 
 export const EditCategoryModalSchema = z.object({
-  // id: z.string().min(1, "Requis"),
   name: z.string().min(1, "Requis"),
 });
 
 type EditCategoryValues = z.infer<typeof EditCategoryModalSchema>;
 
-const EditCategoryModal = ({ currentCategory }: EditCategoryModalProps) => {
+const EditCategoryModal = () => {
   const { category, updateCategory, isLoading, isMutating } = useCategory();
+  console.log("CategoryModale:", category);
+  console.log("updateCategory:", updateCategory);
 
   const form = useForm<EditCategoryValues>({
     resolver: zodResolver(CategoryFormBlockSchema),
@@ -49,6 +37,14 @@ const EditCategoryModal = ({ currentCategory }: EditCategoryModalProps) => {
       name: category?.name,
     },
   });
+
+  useEffect(() => {
+    if (category) {
+      ({
+        name: category.name,
+      });
+    }
+  }, [category, form]);
 
   const handleSubmit = async (values: EditCategoryValues) => {
     if (!category) {
@@ -65,8 +61,6 @@ const EditCategoryModal = ({ currentCategory }: EditCategoryModalProps) => {
       toast.error(
         "Une erreur s'est produite lors de la mise à jour de la catégorie.",
       );
-    } finally {
-      form.reset();
     }
   };
 
@@ -75,7 +69,7 @@ const EditCategoryModal = ({ currentCategory }: EditCategoryModalProps) => {
       <form onSubmit={form.handleSubmit(handleSubmit)}>
         <div>
           <DialogHeader>
-            <DialogTitle>{`Modifier la catégorie ${currentCategory}`}</DialogTitle>
+            <DialogTitle>{`Modifier la catégorie ${category?.name}`}</DialogTitle>
             <DialogDescription>
               La catégorie sera modifiée sur toutes les recettes rattachées à
               cette catégorie.

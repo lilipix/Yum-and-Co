@@ -11,10 +11,7 @@ import { Button } from "@/components/ui/button";
 import { DialogClose } from "@radix-ui/react-dialog";
 import EditCategoryModal from "./EditCategoryModal";
 
-type EditCategoryProps = {
-  currentCategory: string;
-};
-const EditCategory = ({ currentCategory }: EditCategoryProps) => {
+const EditCategory = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -23,7 +20,7 @@ const EditCategory = ({ currentCategory }: EditCategoryProps) => {
         </Button>
       </DialogTrigger>
       <DialogContent className="flex flex-col items-center gap-8">
-        <EditCategoryModal currentCategory={currentCategory} />
+        <EditCategoryModal />
       </DialogContent>
     </Dialog>
   );

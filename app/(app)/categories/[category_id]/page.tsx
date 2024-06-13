@@ -11,6 +11,7 @@ import connectToDatabase from "@/lib/mongodb";
 import CategoryProvider from "@/context/category/provider";
 import EditCategory from "./components/EditCategory";
 import RecipeList from "./components/RecipeList";
+import CategoryHeader from "./components/CategoryHeader";
 
 type PageCategoryProps = {
   params: {
@@ -33,16 +34,8 @@ const PageCategory = async ({ params }: PageCategoryProps) => {
         <Card>
           <CardHeader>
             <div className="flex justify-between">
-              <div>
-                <CardTitle>{category.name}</CardTitle>
-                <CardDescription>
-                  <span className="block sm:inline">
-                    Visualisez les recettes de la
-                  </span>{" "}
-                  catégorie {category.name}.
-                </CardDescription>
-              </div>
-              <EditCategory currentCategory={category.name} />
+              <CategoryHeader />
+              <EditCategory />
             </div>
           </CardHeader>
           <RecipeList recipes={recipes} />

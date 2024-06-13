@@ -1,6 +1,5 @@
 "use client";
 import { UpdateCategorySchema } from "@/app/api/categories/_validators/update-category.validator";
-import { fetcher } from "@/lib/utils/fetcher.utils";
 import { Category } from "@/validators/category";
 import { ReactNode, useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -21,7 +20,7 @@ const CategoryProvider = ({
   const [isMutating, setIsMutating] = useState(false);
 
   const { data, error, isLoading, mutate } = useSWR<Category | null>(
-    "/api/categories",
+    "/api/categories/",
     { fallbackData: initialCategory },
   );
 
@@ -33,14 +32,12 @@ const CategoryProvider = ({
           return null;
         }
         setIsMutating(true);
-        const updatedCategory = await mutate(
-          updateCategoryRequest({
-            ...category,
-            id: data.id,
-          }),
-          { optimisticData: category, rollbackOnError: true },
-        );
-        return updatedCategory || null;
+        const updatedCategory = await updateCategoryRequest({
+          ...category,
+          id: data.id,
+        });
+        await mutate(updatedCategory);
+        return updatedCategory;
       } catch (error) {
         throw error;
       } finally {
@@ -48,7 +45,7 @@ const CategoryProvider = ({
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data],
+    [],
   );
 
   const contextValue: CategoryContextValue = useMemo(
@@ -58,8 +55,10 @@ const CategoryProvider = ({
       isMutating,
       error,
       isLoading,
+      mutate,
     }),
-    [updateCategory, data, isMutating, error, isLoading],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [data, isMutating, error, isLoading, updateCategory],
   );
 
   return (
