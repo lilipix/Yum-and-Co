@@ -2,7 +2,7 @@ import { CategorySchema, Category } from "@/validators/category";
 import { z } from "zod";
 
 export const createCategory = async (
-  category: z.infer<typeof CategorySchema>,
+  category: Partial<Category>,
 ): Promise<Category> => {
   try {
     const data = await fetch("/api/categories", {
