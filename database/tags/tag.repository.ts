@@ -5,7 +5,6 @@ import TagModel from "./tag.model";
 
 export const createTag = async (data: CreateTagDTO): Promise<Tag> => {
   try {
-    await connectToDatabase();
     const document = await TagModel.create(data);
     return document.toJSON({
       //serialized ObjectId to string
@@ -20,7 +19,6 @@ export const createTag = async (data: CreateTagDTO): Promise<Tag> => {
 
 export const findTags = async (): Promise<Tag[]> => {
   try {
-    await connectToDatabase();
     const documents = await TagModel.find();
     return documents.map((document) =>
       document.toJSON({
@@ -40,8 +38,13 @@ export const updateTag = async (
   data: UpdateTagDTO,
 ): Promise<Tag> => {
   try {
-    await connectToDatabase();
-    const document = await TagModel.findByIdAndUpdate(id, data, { new: true });
+    const document = await TagModel.findByIdAndUpdate(
+      id,
+      // update the document with the new data
+      { $set: { ...data } },
+      // return the updated document
+      { new: true },
+    );
     return document.toJSON({
       flattenObjectIds: true,
       versionKey: false,

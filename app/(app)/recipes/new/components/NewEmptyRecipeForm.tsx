@@ -11,22 +11,26 @@ import { Form } from "@/components/ui/form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import dynamic from "next/dynamic";
 import { RecipePreparationFieldSchema } from "./form-fields/RecipePreparationField";
-import { ICategory } from "@/validators/category";
+import { Category } from "@/validators/category";
 import { toast } from "sonner";
 import useRecipe from "@/context/recipe/useRecipe";
-import { GeneralRecipeInformationFieldsSchema } from './form-fields/GeneralRecipeInformationFields';
-import { Tag } from '@/validators/tag';
+import { GeneralRecipeInformationFieldsSchema } from "./form-fields/GeneralRecipeInformationFields";
+import { Tag } from "@/validators/tag";
 
-const IngredientsListForm = dynamic(() => import("./form-fields/IngredientsListFields"));
-
-const GeneralRecipeInformationFields = dynamic(
-  () => import('./form-fields/GeneralRecipeInformationFields'),
+const IngredientsListForm = dynamic(
+  () => import("./form-fields/IngredientsListFields"),
 );
 
-const RecipePreparationForm = dynamic(() => import("./form-fields/RecipePreparationField"));
+const GeneralRecipeInformationFields = dynamic(
+  () => import("./form-fields/GeneralRecipeInformationFields"),
+);
+
+const RecipePreparationForm = dynamic(
+  () => import("./form-fields/RecipePreparationField"),
+);
 
 type NewEmptyRecipeFormProps = {
-  categories: ICategory[];
+  categories: Category[];
   tags: Tag[];
 };
 
@@ -40,7 +44,7 @@ export type NewEmptyRecipeFormValues = z.infer<typeof NewEmptyRecipeFormSchema>;
 
 const NewEmptyRecipeForm = ({ categories, tags }: NewEmptyRecipeFormProps) => {
   const router = useRouter();
-  const { createRecipe, isMutating, isLoading } = useRecipe(); 
+  const { createRecipe, isMutating, isLoading } = useRecipe();
 
   const form = useForm<NewEmptyRecipeFormValues>({
     resolver: zodResolver(NewEmptyRecipeFormSchema),
@@ -105,7 +109,10 @@ const NewEmptyRecipeForm = ({ categories, tags }: NewEmptyRecipeFormProps) => {
                 <CardTitle>Informations générales</CardTitle>
               </CardHeader>
               <CardContent>
-                <GeneralRecipeInformationFields categories={categories} tags={tags} />
+                <GeneralRecipeInformationFields
+                  categories={categories}
+                  tags={tags}
+                />
               </CardContent>
             </Card>
             <Card>

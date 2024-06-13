@@ -7,4 +7,4 @@ export const CategorySchema = z.object({
 
 export const CategoriesSchema = z.array(CategorySchema);
 
-export type ICategory = z.infer<typeof CategorySchema>;
+export type Category = z.infer<typeof CategorySchema>;

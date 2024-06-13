@@ -5,12 +5,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ICategory } from "@/validators/category";
+import { Category } from "@/validators/category";
 import Link from "next/link";
 import React from "react";
 
 type CategoriesListProps = {
-  categories: ICategory[];
+  categories: Category[];
 };
 const CategoriesList = ({ categories }: CategoriesListProps) => {
   return (
@@ -33,7 +33,7 @@ const CategoriesList = ({ categories }: CategoriesListProps) => {
             {categories.map((category) => (
               <li key={category.id}>
                 <Link
-                  className="hover:border-pinkLight flex cursor-pointer flex-row flex-wrap items-center gap-2 rounded-xl bg-pinklight px-4 py-2 font-semibold transition duration-150 ease-in-out hover:bg-pinkMedium"
+                  className="flex cursor-pointer flex-row flex-wrap items-center gap-2 rounded-xl bg-pinklight px-4 py-2 font-semibold transition duration-150 ease-in-out hover:border-pinklight hover:bg-pinkMedium"
                   href={`/categories/${category.id}`}
                 >
                   {category.name}

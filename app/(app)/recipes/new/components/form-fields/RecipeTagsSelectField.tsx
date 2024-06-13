@@ -9,7 +9,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import CreateSelect from "@/app/components/Select/CreateSelect";
+import CreateSelect from "@/app/(app)/components/Select/CreateSelect";
 
 export const RecipeTagsSelectFieldSchema = z.object({
   tags: z.array(z.string()),

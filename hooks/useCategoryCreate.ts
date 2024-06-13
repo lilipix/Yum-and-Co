@@ -1,10 +1,10 @@
 "use client";
-import { ICategory } from "@/validators/category";
+import { Category } from "@/validators/category";
 import { createCategory as createCategoryRequest } from "@/services/categories.service";
 import { useState } from "react";
 
-const useCategoryCreate = (initialCategories: ICategory[]) => {
-  const [categories, setCategories] = useState<ICategory[]>(initialCategories);
+const useCategoryCreate = (initialCategories: Category[]) => {
+  const [categories, setCategories] = useState<Category[]>(initialCategories);
   const [isLoading, setIsLoading] = useState(false);
 
   const createCategory = async (name: string) => {
