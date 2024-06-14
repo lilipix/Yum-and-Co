@@ -62,3 +62,21 @@ export const findRecipesByCategories = async (
     throw new Error("Failed to find recipe by categories");
   }
 };
+
+export const findRecipesByTag = async (
+  tag: string,
+): Promise<RecipePopulated[]> => {
+  try {
+    const documents = await RecipeModel.find({ tag }).populate(populateRecipe);
+    return documents.map((document) =>
+      document.toJSON({
+        //serialized ObjectId to string
+        flattenObjectIds: true,
+        //__v non-inclusion
+        versionKey: false,
+      }),
+    );
+  } catch (error) {
+    throw new Error("Failed to find recipe by categories");
+  }
+};
