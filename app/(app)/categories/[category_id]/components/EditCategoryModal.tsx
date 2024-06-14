@@ -1,5 +1,3 @@
-import useCategory from "@/context/category/useCategory";
-
 import { Button } from "@/components/ui/button";
 import { Loader2, Save } from "lucide-react";
 import { z } from "zod";
@@ -18,6 +16,7 @@ import CategoryFormBlock, {
   CategoryFormBlockSchema,
 } from "./CategoryFormBlock";
 import { useEffect } from "react";
+import useCategory from "@/context/category/useCategory";
 
 export const EditCategoryModalSchema = z.object({
   name: z.string().min(1, "Requis"),
@@ -27,8 +26,6 @@ type EditCategoryValues = z.infer<typeof EditCategoryModalSchema>;
 
 const EditCategoryModal = () => {
   const { category, updateCategory, isLoading, isMutating } = useCategory();
-  console.log("CategoryModale:", category);
-  console.log("updateCategory:", updateCategory);
 
   const form = useForm<EditCategoryValues>({
     resolver: zodResolver(CategoryFormBlockSchema),
@@ -89,18 +86,20 @@ const EditCategoryModal = () => {
                   Annuler
                 </Button>
               </DialogClose>
-              <Button
-                className="items-center gap-2"
-                disabled={isMutating || isLoading}
-                type="submit"
-              >
-                {isMutating ? (
-                  <Loader2 className="animate-spin" size="16" />
-                ) : (
-                  <Save size="16" />
-                )}
-                Enregistrer
-              </Button>
+              <DialogClose asChild>
+                <Button
+                  className="items-center gap-2"
+                  disabled={isMutating || isLoading}
+                  type="submit"
+                >
+                  {isMutating ? (
+                    <Loader2 className="animate-spin" size="16" />
+                  ) : (
+                    <Save size="16" />
+                  )}
+                  Enregistrer
+                </Button>
+              </DialogClose>
             </div>
           </DialogFooter>
         </div>

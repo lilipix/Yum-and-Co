@@ -74,3 +74,18 @@ export const updateCategory = async (
     throw new Error("Failed to update category");
   }
 };
+
+export const deleteCategory = async (id: string): Promise<Category> => {
+  try {
+    const document = await CategoryModel.findByIdAndDelete(id);
+    if (!document) {
+      throw new Error("Category not found");
+    }
+    return document.toJSON({
+      flattenObjectIds: true,
+      versionKey: false,
+    });
+  } catch (error) {
+    throw new Error("Failed to delete category");
+  }
+};

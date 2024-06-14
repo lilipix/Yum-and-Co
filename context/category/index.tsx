@@ -1,3 +1,5 @@
+"use client";
+
 import { UpdateCategorySchema } from "@/app/api/categories/_validators/update-category.validator";
 import { Category } from "@/validators/category";
 import { createContext } from "react";
@@ -12,6 +14,7 @@ export type CategoryContextValue = {
   updateCategory: (
     category: z.infer<typeof UpdateCategorySchema>,
   ) => Promise<Category | null>;
+  deleteCategory: () => Promise<Category | null>;
   mutate: KeyedMutator<Category | null>;
 };
 

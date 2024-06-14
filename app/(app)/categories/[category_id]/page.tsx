@@ -12,6 +12,7 @@ import CategoryProvider from "@/context/category/provider";
 import EditCategory from "./components/EditCategory";
 import RecipeList from "./components/RecipeList";
 import CategoryHeader from "./components/CategoryHeader";
+import DeleteCategory from "./components/DeleteCategory";
 
 type PageCategoryProps = {
   params: {
@@ -35,7 +36,10 @@ const PageCategory = async ({ params }: PageCategoryProps) => {
           <CardHeader>
             <div className="flex justify-between">
               <CategoryHeader />
-              <EditCategory />
+              <div className="flex gap-2">
+                <EditCategory />
+                <DeleteCategory />
+              </div>
             </div>
           </CardHeader>
           <RecipeList recipes={recipes} />
