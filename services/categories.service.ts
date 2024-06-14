@@ -1,4 +1,5 @@
 import { CategorySchema, Category } from "@/validators/category";
+import { toast } from "sonner";
 import { z } from "zod";
 
 export const createCategory = async (
@@ -49,10 +50,14 @@ export const updateCategory = async (
 
 export const deleteCategory = async (categoryId: string): Promise<Category> => {
   try {
-    const data = await fetch(`/api/categories/${categoryId}`, {
+    const response = await fetch(`/api/categories/${categoryId}`, {
       method: "DELETE",
     });
-    throw new Error("Failed to delete category");
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Failed to delete category");
+    }
+    return await response.json();
   } catch (error) {
     throw error;
   }

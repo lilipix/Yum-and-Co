@@ -10,29 +10,39 @@ import {
 } from "@/components/ui/dialog";
 import useCategory from "@/context/category/useCategory";
 import { Loader2, Trash } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 const ConfirmDeleteModal = () => {
+  const Router = useRouter();
   const { category, deleteCategory, isLoading, isMutating } = useCategory();
 
   const handleDelete = async () => {
     try {
       await deleteCategory();
       toast.success("La catégorie a été supprimée avec succès.");
+      Router.push("/");
     } catch (error) {
-      toast.error(
-        "Une erreur s'est produite lors de la suppression de la catégorie.",
-      );
       console.error("Failed to delete category", error);
+      if (
+        (error as Error).message === "Category has recipes associated with it"
+      ) {
+        toast.warning(
+          "La catégorie a des recettes associées, veuillez d'abord les supprimer ou modifier leurs catégories.",
+        );
+      } else {
+        toast.error(
+          "Une erreur s'est produite lors de la suppression de la catégorie.",
+        );
+      }
     }
   };
-
   return (
     <DialogHeader className="space-y-4">
       <DialogTitle>Supprimer la catégorie {category?.name}</DialogTitle>
       <DialogDescription className="text-destructive">
-        Pour supprimer cette catégorie, veuillez modifier les catégories des
-        recettes associées ou supprimer les recettes.
+        Etes vous sûrs de vouloir supprimer la catégorie {category?.name}? Cette
+        action est irréversible.
       </DialogDescription>
       <DialogFooter>
         <div className="flex w-full justify-between">

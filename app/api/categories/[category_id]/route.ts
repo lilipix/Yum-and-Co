@@ -4,6 +4,8 @@ import {
 } from "@/database/categories/category.repository";
 import { NextRequest, NextResponse } from "next/server";
 import { UpdateCategorySchema } from "../_validators/update-category.validator";
+import { findRecipesByCategories } from "@/database/recipes/recipe.repository";
+import { toast } from "sonner";
 
 export async function PUT(
   request: NextRequest,
@@ -31,6 +33,15 @@ export async function DELETE(
   { params }: { params: { category_id: string } },
 ) {
   try {
+    const recipesByCategories = await findRecipesByCategories(
+      params.category_id,
+    );
+    if (recipesByCategories.length > 0) {
+      return NextResponse.json(
+        { error: "Category has recipes associated with it" },
+        { status: 400 },
+      );
+    }
     const deletedCategory = await deleteCategory(params.category_id);
     return NextResponse.json(deletedCategory);
   } catch (error) {
