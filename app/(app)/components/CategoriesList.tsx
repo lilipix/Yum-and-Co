@@ -24,7 +24,7 @@ const CategoriesList = ({ categories }: CategoriesListProps) => {
             </CardDescription>
           ) : (
             <CardDescription>
-              Ajoutez une première recette pour afficher une catégorie
+              Ajoutez une première recette pour afficher une catégorie.
             </CardDescription>
           )}
         </CardHeader>
