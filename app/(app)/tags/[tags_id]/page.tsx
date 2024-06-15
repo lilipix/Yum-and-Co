@@ -9,21 +9,23 @@ import TagsHeader from "./components/TagsHeader";
 
 type TagsPageProps = {
   params: {
-    tags_id: string | string[];
+    tags_id: string;
   };
 };
 
 const TagsPage = async ({ params }: TagsPageProps) => {
   const { tags_id } = params;
-  console.log("tagsids", tags_id);
-  const tagIdsArray = Array.isArray(tags_id) ? tags_id : [tags_id];
+
+  const decodedTagIds = decodeURIComponent(tags_id);
+  const tagIdsArray = decodedTagIds.split(",");
+
   if (!tagIdsArray || tagIdsArray.length === 0) {
     throw new Error("No tag_ids provided");
   }
+
   await connectToDatabase();
 
   const tags = await findTagByIds(tagIdsArray);
-  console.log(tags);
 
   const recipesArrays = await Promise.all(
     tagIdsArray.map((tag_id) => findRecipesByTag(tag_id)),
@@ -39,7 +41,7 @@ const TagsPage = async ({ params }: TagsPageProps) => {
             <div className="flex gap-2"></div>
           </div>
         </CardHeader>
-        <RecipeListByTag tags={tags} recipes={recipes} />
+        <RecipeListByTag recipes={recipes} />
       </Card>
     </div>
   );

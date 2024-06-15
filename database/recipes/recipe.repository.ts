@@ -64,10 +64,12 @@ export const findRecipesByCategories = async (
 };
 
 export const findRecipesByTag = async (
-  tag: string,
+  tagId: string,
 ): Promise<RecipePopulated[]> => {
   try {
-    const documents = await RecipeModel.find({ tag }).populate(populateRecipe);
+    const documents = await RecipeModel.find({ tags: tagId }).populate(
+      populateRecipe,
+    );
     return documents.map((document) =>
       document.toJSON({
         //serialized ObjectId to string

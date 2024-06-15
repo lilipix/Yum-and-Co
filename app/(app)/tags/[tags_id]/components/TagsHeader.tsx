@@ -16,7 +16,7 @@ const TagsHeader = ({ tags }: TagsHeaderProps) => {
       <CardDescription>
         Visualisez les recettes liées aux tags suivants :
         {tags.map((tag) => (
-          <span key={tag.id}>{tag.name}</span>
+          <span key={tag.id}> {tag.name}</span>
         ))}
       </CardDescription>
     </div>
