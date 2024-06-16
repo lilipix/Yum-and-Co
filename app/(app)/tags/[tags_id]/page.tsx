@@ -31,6 +31,7 @@ const TagsPage = async ({ params }: TagsPageProps) => {
     tagIdsArray.map((tag_id) => findRecipesByTag(tag_id)),
   );
   const recipes = recipesArrays.flat();
+  console.log(recipes);
 
   return (
     <div className="mx-auto flex w-full max-w-[1024px] flex-col p-6">

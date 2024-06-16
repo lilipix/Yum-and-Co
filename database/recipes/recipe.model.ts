@@ -74,7 +74,11 @@ const recipeSchema = new Schema<RecipeDocument>({
 // );
 
 recipeSchema.set("toObject", { virtuals: true });
-recipeSchema.set("toJSON", { virtuals: true });
+recipeSchema.set("toJSON", {
+  virtuals: true,
+  flattenObjectIds: true,
+  versionKey: false,
+});
 
 const RecipeModel: Model<RecipeDocument> =
   models.Recipe || model<RecipeDocument>("Recipe", recipeSchema);
