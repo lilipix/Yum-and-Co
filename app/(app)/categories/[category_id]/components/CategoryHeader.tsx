@@ -8,10 +8,9 @@ const CategoryHeader = () => {
   const { category } = useCategory();
   return (
     <div>
-      <CardTitle>{category?.name}</CardTitle>
+      <CardTitle className="mb-4">{category?.name}</CardTitle>
       <CardDescription>
-        <span className="block sm:inline">Visualisez les recettes de la</span>{" "}
-        catégorie {category?.name}.
+        Visualisez les recettes de la catégorie {category?.name}.
       </CardDescription>
     </div>
   );

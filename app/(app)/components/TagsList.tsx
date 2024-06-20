@@ -21,9 +21,7 @@ type TagsListProps = {
   recipes: Recipe[];
 };
 const TagsList = ({ tags, recipes }: TagsListProps) => {
-  console.log("tags", tags);
   const router = useRouter();
-
   const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
 
   const handleNavigation = () => {
@@ -41,10 +39,14 @@ const TagsList = ({ tags, recipes }: TagsListProps) => {
     );
   };
 
+  // Get all tags from recipes that have all selected tags
   const getRelatedTags = (selectedTagIds: string[]) => {
+    // Create a set to avoid duplicates and stock related tags
     const relatedTags = new Set<string>();
     recipes.forEach((recipe) => {
+      // Check if the recipe has all selected tags
       if (selectedTagIds.every((tagId) => recipe.tags.includes(tagId))) {
+        // Add all tags from the recipe
         recipe.tags.forEach((tag) => {
           if (tag) {
             relatedTags.add(tag);
@@ -56,9 +58,7 @@ const TagsList = ({ tags, recipes }: TagsListProps) => {
   };
 
   const relatedTags =
-    selectedTagIds.length > 0
-      ? getRelatedTags(selectedTagIds)
-      : new Set<string>();
+    selectedTagIds.length > 0 ? getRelatedTags(selectedTagIds) : null;
 
   return (
     <div className="mx-auto w-full max-w-[1024px] gap-8">
@@ -80,15 +80,18 @@ const TagsList = ({ tags, recipes }: TagsListProps) => {
               const isSelected = selectedTagIds.includes(tag.id);
               const isDisabled =
                 selectedTagIds.length > 0 &&
+                relatedTags &&
                 !relatedTags.has(tag.id) &&
                 !isSelected;
 
               return (
-                <li key={tag.id}>
+                <li key={tag.name}>
                   <Badge
-                    onClick={() => handleBadgeClick(tag.id)}
+                    onClick={() => {
+                      !isDisabled ? handleBadgeClick(tag.id) : undefined;
+                    }}
                     variant={tag.color || ColorPalette.SECONDARY}
-                    className={`${isSelected ? "border-2 !border-gray-600" : ""} ${isDisabled ? "!cursor-not-allowed opacity-50" : ""} cursor-pointer text-sm`}
+                    className={`${isSelected ? "border-2 !border-gray-600" : ""} ${isDisabled ? "!cursor-not-allowed opacity-50" : "cursor-pointer"} text-sm`}
                   >
                     {tag.name}
                   </Badge>

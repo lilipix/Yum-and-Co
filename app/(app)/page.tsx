@@ -12,7 +12,6 @@ const HomePage = async () => {
   const categories = await findCategories();
   const tags = await findTags();
   const recipes = await findRecipes();
-  console.log("homepage", recipes);
 
   return (
     <main className="flex flex-col items-center gap-8 p-6">

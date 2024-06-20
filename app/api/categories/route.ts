@@ -26,7 +26,6 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   try {
     const categories = await findCategories();
-    console.log("Categories fetched:", categories);
     return NextResponse.json(categories);
   } catch (error) {
     return NextResponse.json(
