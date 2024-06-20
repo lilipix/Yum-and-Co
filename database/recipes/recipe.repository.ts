@@ -34,10 +34,18 @@ export const findRecipeByTitle = async (title: string) => {
   }
 };
 
-export const findRecipes = async () => {
+export const findRecipes = async (): Promise<Recipe[]> => {
   try {
     await connectToDatabase();
-    return await RecipeModel.find();
+    const documents = await RecipeModel.find();
+    return documents.map((document) =>
+      document.toJSON({
+        //serialized ObjectId to string
+        flattenObjectIds: true,
+        //__v non-inclusion
+        versionKey: false,
+      }),
+    );
   } catch (error) {
     throw new Error("Failed to find recipes");
   }
@@ -48,6 +56,26 @@ export const findRecipesByCategories = async (
 ): Promise<RecipePopulated[]> => {
   try {
     const documents = await RecipeModel.find({ category }).populate(
+      populateRecipe,
+    );
+    return documents.map((document) =>
+      document.toJSON({
+        //serialized ObjectId to string
+        flattenObjectIds: true,
+        //__v non-inclusion
+        versionKey: false,
+      }),
+    );
+  } catch (error) {
+    throw new Error("Failed to find recipe by categories");
+  }
+};
+
+export const findRecipesByTag = async (
+  tagId: string,
+): Promise<RecipePopulated[]> => {
+  try {
+    const documents = await RecipeModel.find({ tags: tagId }).populate(
       populateRecipe,
     );
     return documents.map((document) =>

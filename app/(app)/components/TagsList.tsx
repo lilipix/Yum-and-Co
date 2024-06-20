@@ -1,51 +1,113 @@
+"use client";
+
 import { ColorPalette, Tag } from "@/validators/tag";
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Recipe } from "@/validators/recipe";
 
 type TagsListProps = {
   tags: Tag[];
+  recipes: Recipe[];
 };
-const TagsList = ({ tags }: TagsListProps) => {
+const TagsList = ({ tags, recipes }: TagsListProps) => {
+  const router = useRouter();
+  const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
+
+  const handleNavigation = () => {
+    if (selectedTagIds.length > 0) {
+      const tagsParam = selectedTagIds.join(",");
+      router.push(`/tags/${tagsParam}`);
+    }
+  };
+
+  const handleBadgeClick = (id: string) => {
+    setSelectedTagIds((prevSelectedTagIds) =>
+      prevSelectedTagIds.includes(id)
+        ? prevSelectedTagIds.filter((tagId) => tagId !== id)
+        : [...prevSelectedTagIds, id],
+    );
+  };
+
+  // Get all tags from recipes that have all selected tags
+  const getRelatedTags = (selectedTagIds: string[]) => {
+    // Create a set to avoid duplicates and stock related tags
+    const relatedTags = new Set<string>();
+    recipes.forEach((recipe) => {
+      // Check if the recipe has all selected tags
+      if (selectedTagIds.every((tagId) => recipe.tags.includes(tagId))) {
+        // Add all tags from the recipe
+        recipe.tags.forEach((tag) => {
+          if (tag) {
+            relatedTags.add(tag);
+          }
+        });
+      }
+    });
+    return relatedTags;
+  };
+
+  const relatedTags =
+    selectedTagIds.length > 0 ? getRelatedTags(selectedTagIds) : null;
+
   return (
     <div className="mx-auto w-full max-w-[1024px] gap-8">
-      <Card>
+      <Card className="flex flex-col">
         <CardHeader>
           <CardTitle>Tags</CardTitle>
           {tags.length > 0 ? (
             <CardDescription>
-              Sélectionnez le ou les tags pour trouvez les recettes qui
+              Sélectionnez le ou les tags pour trouver les recettes qui
               correspondent.
             </CardDescription>
           ) : (
-            <CardDescription>
-              Ajoutez une première recette pour afficher un tag.
-            </CardDescription>
+            <CardDescription>Ajoutez un tag dans une recette.</CardDescription>
           )}
         </CardHeader>
         <CardContent>
           <ul className="flex flex-wrap gap-4">
-            {tags.map((tag) => (
-              <li key={tag.id}>
-                <Link href={`/tags/${tag.id}`}>
+            {tags.map((tag) => {
+              const isSelected = selectedTagIds.includes(tag.id);
+              const isDisabled =
+                selectedTagIds.length > 0 &&
+                relatedTags &&
+                !relatedTags.has(tag.id) &&
+                !isSelected;
+
+              return (
+                <li key={tag.name}>
                   <Badge
+                    onClick={() => {
+                      !isDisabled ? handleBadgeClick(tag.id) : undefined;
+                    }}
                     variant={tag.color || ColorPalette.SECONDARY}
-                    className="text-sm"
+                    className={`${isSelected ? "border-2 !border-gray-600" : ""} ${isDisabled ? "!cursor-not-allowed opacity-50" : "cursor-pointer"} text-sm`}
                   >
                     {tag.name}
                   </Badge>
-                </Link>
-              </li>
-            ))}
+                </li>
+              );
+            })}
           </ul>
         </CardContent>
+        <CardFooter className="self-end">
+          <Button
+            onClick={handleNavigation}
+            disabled={selectedTagIds.length === 0}
+          >
+            Rechercher
+          </Button>
+        </CardFooter>
       </Card>
     </div>
   );

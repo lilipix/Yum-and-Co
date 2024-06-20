@@ -33,6 +33,22 @@ export const findTags = async (): Promise<Tag[]> => {
   }
 };
 
+export const findTagByIds = async (tagIds: string[]): Promise<Tag[]> => {
+  try {
+    const documents = await TagModel.find({ _id: { $in: tagIds } });
+    return documents.map((doc) =>
+      doc.toJSON({
+        //serialized ObjectId to string
+        flattenObjectIds: true,
+        //__v non-inclusion
+        versionKey: false,
+      }),
+    );
+  } catch (error) {
+    throw new Error("Failed to find tag by id");
+  }
+};
+
 export const updateTag = async (
   id: string,
   data: UpdateTagDTO,
