@@ -28,12 +28,22 @@ type ColorTelltaleProps = VariantProps<typeof colorTelltaleVariants> &
 const ColorTelltale = ({
   variant,
   className,
+  // fill: customFill = undefined,
   ...props
-}: ColorTelltaleProps) => (
-  <Diamond
-    className={cn(colorTelltaleVariants({ variant }), className)}
-    {...props}
-  />
-);
+}: ColorTelltaleProps) => {
+  const fillclass = colorTelltaleVariants({ variant });
+
+  return (
+    <Diamond
+      className={cn(
+        colorTelltaleVariants({ variant }),
+        fillclass,
+        "fill-current",
+        className,
+      )}
+      {...props}
+    />
+  );
+};
 
 export { ColorTelltale, colorTelltaleVariants };

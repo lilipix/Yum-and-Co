@@ -1,4 +1,5 @@
 "use client";
+
 import { UpdateCategorySchema } from "@/app/api/categories/_validators/update-category.validator";
 import { Category } from "@/validators/category";
 import { ReactNode, useCallback, useMemo, useState } from "react";
