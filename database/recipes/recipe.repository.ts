@@ -90,3 +90,23 @@ export const findRecipesByTag = async (
     throw new Error("Failed to find recipe by categories");
   }
 };
+
+export const findRecipesByTags = async (
+  tagIds: string[],
+): Promise<RecipePopulated[]> => {
+  try {
+    const documents = await RecipeModel.find({
+      tags: { $all: tagIds },
+    }).populate(populateRecipe);
+    return documents.map((document) =>
+      document.toJSON({
+        //serialized ObjectId to string
+        flattenObjectIds: true,
+        //__v non-inclusion
+        versionKey: false,
+      }),
+    );
+  } catch (error) {
+    throw new Error("Failed to find recipe by categories");
+  }
+};

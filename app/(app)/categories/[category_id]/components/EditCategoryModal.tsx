@@ -35,13 +35,13 @@ const EditCategoryModal = () => {
     },
   });
 
-  useEffect(() => {
-    if (category) {
-      ({
-        name: category.name,
-      });
-    }
-  }, [category, form]);
+  // useEffect(() => {
+  //   if (category) {
+  //     ({
+  //       name: category.name,
+  //     });
+  //   }
+  // }, [category, form]);
 
   const handleSubmit = async (values: EditCategoryValues) => {
     if (!category) {

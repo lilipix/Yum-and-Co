@@ -14,10 +14,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { useState } from "react";
 import { ColorPalette, Tag } from "@/validators/tag";
 import useTags from "@/context/tags/useTags";
 import TagFormBlock from "./TagFormBlock";
+import { useEffect } from "react";
 
 const EditTagModalSchema = z.object({
   name: z.string().min(1, "Requis"),
@@ -28,15 +28,15 @@ type EditTagValues = z.infer<typeof EditTagModalSchema>;
 
 const EditTagModal = () => {
   const { tags, updateTag, isLoading, isMutating } = useTags();
-  const [selectedTag, setSelectedTag] = useState<Tag | null>(null);
   const form = useForm<EditTagValues>({
     resolver: zodResolver(EditTagModalSchema),
     mode: "onSubmit",
     defaultValues: {
-      name: selectedTag?.name,
-      color: selectedTag?.color,
+      name: tags?.[0].name,
+      color: tags?.[0]?.color,
     },
   });
+
   const handleSubmit = async (values: EditTagValues) => {
     if (!tags) {
       toast.error("Pas de tags trouvés. Merci d'en créer un.");

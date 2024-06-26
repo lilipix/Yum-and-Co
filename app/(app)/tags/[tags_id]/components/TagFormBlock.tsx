@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ColorPalette } from "@/validators/tag";
+import { Circle } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
 
@@ -28,7 +29,7 @@ export type TagFormBlockValues = z.infer<typeof TagFormBlockSchema>;
 const TagFormBlock = () => {
   const form = useFormContext<TagFormBlockValues>();
   return (
-    <>
+    <div className="flex flex-col gap-2">
       <FormField
         control={form.control}
         name="name"
@@ -61,8 +62,10 @@ const TagFormBlock = () => {
                     key={color}
                     value={color}
                   >
-                    <ColorTelltale variant={color} />
-                    <div className="capitalize">
+                    <div className="flex items-center">
+                      <div
+                        className={`mr-2 h-4 w-4 rounded-full bg-${color} border-${color}`}
+                      ></div>
                       {color === ColorPalette.DEFAULT ? "Primary" : color}
                     </div>
                   </SelectItem>
@@ -73,7 +76,7 @@ const TagFormBlock = () => {
           </FormItem>
         )}
       />
-    </>
+    </div>
   );
 };
 

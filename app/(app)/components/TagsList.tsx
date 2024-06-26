@@ -71,7 +71,7 @@ const TagsList = ({ tags, recipes }: TagsListProps) => {
               correspondent.
             </CardDescription>
           ) : (
-            <CardDescription>Ajoutez un tag dans une recette.</CardDescription>
+            <CardDescription>Pas de tags existants.</CardDescription>
           )}
         </CardHeader>
         <CardContent>

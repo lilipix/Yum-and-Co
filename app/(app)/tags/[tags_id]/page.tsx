@@ -1,4 +1,7 @@
-import { findRecipesByTag } from "@/database/recipes/recipe.repository";
+import {
+  findRecipesByTag,
+  findRecipesByTags,
+} from "@/database/recipes/recipe.repository";
 import { findTagByIds } from "@/database/tags/tag.repository";
 import connectToDatabase from "@/lib/mongodb";
 import { Card, CardHeader } from "@/components/ui/card";
@@ -29,22 +32,17 @@ const TagsPage = async ({ params }: TagsPageProps) => {
 
   const tags = await findTagByIds(tagIdsArray);
 
-  // Get all recipes that have all selected tags
-  const recipesArrays = await Promise.all(
-    tagIdsArray.map((tag_id) => findRecipesByTag(tag_id)),
-  );
-
-  const recipes = recipesArrays.flat();
+  const recipes = await findRecipesByTags(tagIdsArray);
 
   return (
     <TagsProvider tags={tags}>
-      <div className="mx-auto flex w-full max-w-[1024px] flex-col items-center gap-8 p-6">
+      <div className="mx-auto flex w-full max-w-[1024px] flex-col p-6">
         <Card>
           <CardHeader>
             <div className="flex justify-between">
               <TagsHeader tags={tags} recipes={recipes} />
               <div className="flex gap-2">
-                <EditTag tags={tags} />
+                <EditTag />
               </div>
             </div>
           </CardHeader>

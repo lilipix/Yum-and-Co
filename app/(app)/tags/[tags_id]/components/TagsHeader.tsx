@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { CardDescription, CardTitle } from "@/components/ui/card";
+import useTags from "@/context/tags/useTags";
 import { RecipePopulated } from "@/validators/recipe";
 import { ColorPalette, Tag } from "@/validators/tag";
 

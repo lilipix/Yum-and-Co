@@ -25,6 +25,7 @@ const CategoryProvider = ({
 
   const { data, error, isLoading, mutate } = useSWR<Category | null>(
     "/api/categories/",
+    // provide initial data
     { fallbackData: initialCategory },
   );
 
@@ -40,6 +41,7 @@ const CategoryProvider = ({
           ...category,
           id: data.id,
         });
+        // Update the local cache
         await mutate(updatedCategory);
         return updatedCategory;
       } catch (error) {
