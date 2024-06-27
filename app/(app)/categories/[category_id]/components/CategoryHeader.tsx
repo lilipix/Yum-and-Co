@@ -2,7 +2,6 @@
 
 import { CardDescription, CardTitle } from "@/components/ui/card";
 import useCategory from "@/context/category/useCategory";
-import React from "react";
 
 const CategoryHeader = () => {
   const { category } = useCategory();

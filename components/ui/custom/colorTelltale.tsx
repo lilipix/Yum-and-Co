@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
-import { Diamond, Disc, LucideProps } from "lucide-react";
+import { Circle, LucideProps } from "lucide-react";
 import * as React from "react";
 
 const colorTelltaleVariants = cva("w-4 h-4", {
@@ -14,7 +14,7 @@ const colorTelltaleVariants = cva("w-4 h-4", {
       warning: "text-warning",
       pinklight: "text-pinklight",
       pinkdark: "text-pinkdark",
-      outline: "text-outline",
+      // outline: "text-outline",
       purple: "text-purple",
       orange: "text-orange",
     },
@@ -28,12 +28,22 @@ type ColorTelltaleProps = VariantProps<typeof colorTelltaleVariants> &
 const ColorTelltale = ({
   variant,
   className,
+  // fill: customFill = undefined,
   ...props
-}: ColorTelltaleProps) => (
-  <Diamond
-    className={cn(colorTelltaleVariants({ variant }), className)}
-    {...props}
-  />
-);
+}: ColorTelltaleProps) => {
+  const fillclass = colorTelltaleVariants({ variant });
+
+  return (
+    <Circle
+      className={cn(
+        colorTelltaleVariants({ variant }),
+        fillclass,
+        "fill-current",
+        className,
+      )}
+      {...props}
+    />
+  );
+};
 
 export { ColorTelltale, colorTelltaleVariants };

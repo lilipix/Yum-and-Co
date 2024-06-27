@@ -1,5 +1,5 @@
 import { badgeVariants } from "@/components/ui/badge";
-import { colorTelltaleVariants } from "@/components/ui/colorTelltale";
+import { colorTelltaleVariants } from "@/components/ui/custom/colorTelltale";
 import { VariantProps } from "class-variance-authority";
 import { z } from "zod";
 

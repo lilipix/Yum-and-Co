@@ -1,4 +1,5 @@
 "use client";
+
 import { UpdateCategorySchema } from "@/app/api/categories/_validators/update-category.validator";
 import { Category } from "@/validators/category";
 import { ReactNode, useCallback, useMemo, useState } from "react";
@@ -24,6 +25,7 @@ const CategoryProvider = ({
 
   const { data, error, isLoading, mutate } = useSWR<Category | null>(
     "/api/categories/",
+    // provide initial data
     { fallbackData: initialCategory },
   );
 
@@ -39,6 +41,7 @@ const CategoryProvider = ({
           ...category,
           id: data.id,
         });
+        // Update the local cache
         await mutate(updatedCategory);
         return updatedCategory;
       } catch (error) {
@@ -81,7 +84,7 @@ const CategoryProvider = ({
       isMutating,
       error,
       isLoading,
-      mutate,
+      refetchCategory: mutate,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [data, isMutating, error, isLoading, updateCategory, deleteCategory],

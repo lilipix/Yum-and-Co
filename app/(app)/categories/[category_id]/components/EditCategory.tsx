@@ -1,14 +1,8 @@
 "use client";
 import { Pencil } from "lucide-react";
 import React, { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { DialogClose } from "@radix-ui/react-dialog";
 import EditCategoryModal from "./EditCategoryModal";
 
 const EditCategory = () => {

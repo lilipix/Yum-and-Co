@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/popover";
 
 import CreateSelectItemMenu from "./CreateSelectItemMenu";
-import { ColorTelltale } from "@/components/ui/colorTelltale";
+import { ColorTelltale } from "@/components/ui/custom/colorTelltale";
 import { ColorPalette } from "@/validators/tag";
 
 export type SelectOption = {

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { updateTagSchema } from "../_validators/update-tag.validator";
 import { z } from "zod";
-import { updateTag } from "@/database/tags/tag.repository";
+import { findTags, updateTag } from "@/database/tags/tag.repository";
 
 export async function PUT(
   request: NextRequest,
