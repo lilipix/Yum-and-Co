@@ -15,7 +15,6 @@ import {
 import CategoryFormBlock, {
   CategoryFormBlockSchema,
 } from "./CategoryFormBlock";
-import { useEffect } from "react";
 import useCategory from "@/context/category/useCategory";
 
 export const EditCategoryModalSchema = z.object({
@@ -25,7 +24,8 @@ export const EditCategoryModalSchema = z.object({
 type EditCategoryValues = z.infer<typeof EditCategoryModalSchema>;
 
 const EditCategoryModal = () => {
-  const { category, updateCategory, isLoading, isMutating } = useCategory();
+  const { category, updateCategory, refetchCategory, isLoading, isMutating } =
+    useCategory();
 
   const form = useForm<EditCategoryValues>({
     resolver: zodResolver(CategoryFormBlockSchema),
@@ -53,6 +53,7 @@ const EditCategoryModal = () => {
         ...values,
         id: category.id,
       });
+      refetchCategory();
       toast.success("La catégorie a été mise à jour avec succès.");
     } catch (error) {
       toast.error(

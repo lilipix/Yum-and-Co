@@ -26,7 +26,6 @@ const TagsProvider = ({
     },
   );
 
-  //
   const updateTag = useCallback(
     async (tag: z.infer<typeof updateTagSchema>) => {
       try {
@@ -59,7 +58,7 @@ const TagsProvider = ({
       isMutating,
       error,
       isLoading,
-      mutate,
+      refetchTags: mutate,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [data, isMutating, error, isLoading, updateTag],

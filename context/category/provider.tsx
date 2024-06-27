@@ -84,7 +84,7 @@ const CategoryProvider = ({
       isMutating,
       error,
       isLoading,
-      mutate,
+      refetchCategory: mutate,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [data, isMutating, error, isLoading, updateCategory, deleteCategory],

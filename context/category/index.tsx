@@ -15,7 +15,7 @@ export type CategoryContextValue = {
     category: z.infer<typeof UpdateCategorySchema>,
   ) => Promise<Category | null>;
   deleteCategory: () => Promise<Category | null>;
-  mutate: KeyedMutator<Category | null>;
+  refetchCategory: KeyedMutator<Category | null>;
 };
 
 const CategoryContext = createContext<CategoryContextValue | null>(null);

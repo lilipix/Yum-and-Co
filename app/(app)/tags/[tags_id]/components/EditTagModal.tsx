@@ -27,7 +27,7 @@ const EditTagModalSchema = z.object({
 type EditTagValues = z.infer<typeof EditTagModalSchema>;
 
 const EditTagModal = () => {
-  const { tags, updateTag, isLoading, isMutating } = useTags();
+  const { tags, updateTag, refetchTags, isLoading, isMutating } = useTags();
   const form = useForm<EditTagValues>({
     resolver: zodResolver(EditTagModalSchema),
     mode: "onSubmit",
@@ -54,6 +54,7 @@ const EditTagModal = () => {
         ...values,
         id: tag.id,
       });
+      refetchTags();
       toast.success("Le tag a été mis à jour avec succès.");
     } catch (error) {
       toast.error("Une erreur s'est produite lors de la mise à jour du tag.");

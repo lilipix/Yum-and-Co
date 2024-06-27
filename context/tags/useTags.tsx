@@ -4,7 +4,7 @@ import TagsContext, { TagsContextValue } from ".";
 const useTags = () => {
   const context = useContext(TagsContext);
   if (!context) {
-    throw new Error("useTag was used outside of its Provider");
+    throw new Error("useTags was used outside of its Provider");
   }
   return context as TagsContextValue;
 };

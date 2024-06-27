@@ -12,7 +12,7 @@ export type TagsContextValue = {
   isMutating: boolean;
   error: Error | null;
   updateTag: (tag: z.infer<typeof updateTagSchema>) => Promise<Tag | null>;
-  mutate: KeyedMutator<Tag[] | null>;
+  refetchTags: KeyedMutator<Tag[] | null>;
 };
 
 const TagsContext = React.createContext<TagsContextValue | null>(null);

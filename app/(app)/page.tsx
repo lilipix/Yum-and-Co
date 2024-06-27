@@ -16,7 +16,9 @@ const HomePage = async () => {
   return (
     <main className="flex flex-col items-center gap-8 p-6">
       <AddRecipeButton />
-      <CategoriesList categories={categories.length === 0 ? [] : categories} />
+      <CategoriesList
+        initialCategories={categories.length === 0 ? [] : categories}
+      />
       <TagsList tags={tags.length === 0 ? [] : tags} recipes={recipes} />
     </main>
   );
