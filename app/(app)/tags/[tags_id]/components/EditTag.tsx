@@ -7,11 +7,7 @@ import EditTagModal from "./EditTagModal";
 import { toast } from "sonner";
 import useTags from "@/context/tags/useTags";
 
-type EditTagProps = {
-  onModalClose: () => void;
-};
-
-const EditTag = ({ onModalClose }: EditTagProps) => {
+const EditTag = () => {
   const { tags } = useTags();
 
   const handleClickUpdateButton = () => {
@@ -36,7 +32,7 @@ const EditTag = ({ onModalClose }: EditTagProps) => {
       </DialogTrigger>
       {tags?.length === 1 ? (
         <DialogContent className="flex flex-col items-center gap-8">
-          <EditTagModal onModalClose={onModalClose} />
+          <EditTagModal />
         </DialogContent>
       ) : null}
     </Dialog>

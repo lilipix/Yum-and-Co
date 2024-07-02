@@ -9,13 +9,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Recipe } from "@/validators/recipe";
-import useTags from "@/context/tags/useTags";
 import { fetchTags } from "@/services/tags.service";
 
 type TagsListProps = {
@@ -24,7 +22,7 @@ type TagsListProps = {
 };
 const TagsList = ({ initialTags, recipes }: TagsListProps) => {
   const router = useRouter();
-  const [tags, setTags] = useState<Tag[]>([]);
+  const [tags, setTags] = useState<Tag[]>(initialTags);
   const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
 
   useEffect(() => {
@@ -34,12 +32,6 @@ const TagsList = ({ initialTags, recipes }: TagsListProps) => {
     };
     getTags();
   }, []);
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setTags(initialTags);
-  //   }, 0);
-  // }, [initialTags]);
 
   const handleNavigation = () => {
     if (selectedTagIds.length > 0) {
@@ -82,7 +74,7 @@ const TagsList = ({ initialTags, recipes }: TagsListProps) => {
       <Card className="flex flex-col">
         <CardHeader>
           <CardTitle>Tags</CardTitle>
-          {initialTags.length > 0 ? (
+          {tags.length > 0 ? (
             <CardDescription>
               Sélectionnez le ou les tags pour trouver les recettes qui
               correspondent.

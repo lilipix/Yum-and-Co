@@ -21,7 +21,6 @@ const HomePage = async () => {
       <CategoriesList
         initialCategories={categories.length === 0 ? [] : categories}
       />
-
       <TagsList initialTags={tags.length === 0 ? [] : tags} recipes={recipes} />
     </main>
   );

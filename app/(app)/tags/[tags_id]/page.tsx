@@ -9,6 +9,7 @@ import TagsHeader from "./components/TagsHeader";
 import RecipeList from "../../components/RecipeList";
 import EditTag from "./components/EditTag";
 import TagsProvider from "@/context/tags/provider";
+import RecipeListContainer from "./components/RecipeListContainer";
 
 type TagsPageProps = {
   params: {
@@ -40,13 +41,13 @@ const TagsPage = async ({ params }: TagsPageProps) => {
         <Card>
           <CardHeader>
             <div className="flex justify-between">
-              <TagsHeader initialTags={tags} recipes={recipes} />
-              {/* <div className="flex gap-2">
+              <TagsHeader recipes={recipes} />
+              <div className="flex gap-2">
                 <EditTag />
-              </div> */}
+              </div>
             </div>
           </CardHeader>
-          <RecipeList recipes={recipes} />
+          <RecipeListContainer initialRecipes={recipes} />
         </Card>
       </div>
     </TagsProvider>

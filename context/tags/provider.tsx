@@ -40,16 +40,11 @@ const TagsProvider = ({
         }
         setIsMutating(true);
         const updatedTag = await updateTagRequest(tag);
-        // await mutate(
-        //   data.map((t) => (t.id === updatedTag.id ? updatedTag : t)),
-        // );
-        await mutate((currentData) => {
-          if (!currentData) return [];
-          return currentData.map((t) =>
-            t.id === updatedTag.id ? updatedTag : t,
-          );
-        }, false);
-        await mutate();
+        await mutate(
+          data.map((t) => (t.id === updatedTag.id ? updatedTag : t)),
+          false,
+        );
+
         return updatedTag;
       } catch (error) {
         throw error;
@@ -58,7 +53,7 @@ const TagsProvider = ({
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [mutate],
+    [data, mutate],
   );
 
   const contextValue: TagsContextValue = useMemo(

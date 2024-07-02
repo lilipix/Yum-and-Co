@@ -4,35 +4,17 @@ import { CardDescription, CardTitle } from "@/components/ui/card";
 import useTags from "@/context/tags/useTags";
 import { RecipePopulated } from "@/validators/recipe";
 import { ColorPalette, Tag } from "@/validators/tag";
-import { useEffect, useState } from "react";
-import EditTag from "./EditTag";
-import { fetchTags } from "@/services/tags.service";
 
 type TagsHeaderProps = {
   recipes: RecipePopulated[];
-  initialTags: Tag[];
 };
-const TagsHeader = ({ recipes, initialTags }: TagsHeaderProps) => {
-  const [tags, setTags] = useState<Tag[]>(initialTags || []);
-  const [refresh, setRefresh] = useState(false);
-
-  const handleModalClose = () => {
-    setRefresh((prev) => !prev);
-  };
-  useEffect(() => {
-    const getTags = async () => {
-      const fetchedTags = await fetchTags();
-      if (fetchedTags.length > 0) {
-        setTags(fetchedTags);
-      }
-    };
-    getTags();
-  }, [refresh]);
+const TagsHeader = ({ recipes }: TagsHeaderProps) => {
+  const { tags } = useTags();
 
   return (
     <div>
       <CardTitle className="mb-4">
-        {tags.map((tag) => (
+        {tags?.map((tag) => (
           <Badge
             key={tag.name}
             className="mr-2 text-2xl font-semibold capitalize"
@@ -42,7 +24,6 @@ const TagsHeader = ({ recipes, initialTags }: TagsHeaderProps) => {
           </Badge>
         ))}
       </CardTitle>
-      <EditTag onModalClose={handleModalClose} />
       <CardDescription>
         {recipes.length === 0
           ? "Aucune recette liée à ce tag."

@@ -4,7 +4,7 @@ export const fetchTags = async () => {
   try {
     const response = await fetch("./api/tags");
     if (!response.ok) {
-      throw new Error("Failed to fetch tags");
+      throw new Error("Network Failed to fetch tags");
     }
     const data = await response.json();
     return data;
