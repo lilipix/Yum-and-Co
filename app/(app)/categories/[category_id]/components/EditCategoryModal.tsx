@@ -35,14 +35,6 @@ const EditCategoryModal = () => {
     },
   });
 
-  // useEffect(() => {
-  //   if (category) {
-  //     ({
-  //       name: category.name,
-  //     });
-  //   }
-  // }, [category, form]);
-
   const handleSubmit = async (values: EditCategoryValues) => {
     if (!category) {
       toast.error("Pas de catégories trouvées. Merci d'en créer une.");
@@ -53,7 +45,6 @@ const EditCategoryModal = () => {
         ...values,
         id: category.id,
       });
-      refetchCategory();
       toast.success("La catégorie a été mise à jour avec succès.");
     } catch (error) {
       toast.error(

@@ -1,3 +1,9 @@
+import LoadingSvg from "@/assets/svg/LoadingSvg";
+
 export default function Loading() {
-  return <div>Loading...</div>;
+  return (
+    <div>
+      <LoadingSvg />
+    </div>
+  );
 }

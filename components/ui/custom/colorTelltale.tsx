@@ -28,17 +28,16 @@ type ColorTelltaleProps = VariantProps<typeof colorTelltaleVariants> &
 const ColorTelltale = ({
   variant,
   className,
-  // fill: customFill = undefined,
   ...props
 }: ColorTelltaleProps) => {
-  const fillclass = colorTelltaleVariants({ variant });
+  // const fillclass = colorTelltaleVariants({ variant });
 
   return (
     <Circle
       className={cn(
         colorTelltaleVariants({ variant }),
-        fillclass,
-        "fill-current",
+        // fillclass,
+        // "fill-current",
         className,
       )}
       {...props}

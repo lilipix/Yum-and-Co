@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { fetchCategories } from "@/services/categories.service";
 import { Category } from "@/validators/category";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -18,35 +19,15 @@ const CategoriesList = ({ initialCategories }: CategoriesListProps) => {
   const [categories, setCategories] = useState<Category[]>(
     initialCategories || [],
   );
-  const fetchCategories = async () => {
-    try {
-      const response = await fetch("/api/categories");
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
-      console.log("Fetched data:", data);
-      if (Array.isArray(data)) {
-        return data;
-      } else {
-        console.error("Categories are undefined in the response:", data);
-        return [];
-      }
-    } catch (error) {
-      console.error("Failed to fetch categories:", error);
-      return [];
-    }
-  };
 
   useEffect(() => {
     const getCategories = async () => {
       const fetchedCategories = await fetchCategories();
       setCategories(fetchedCategories);
-      console.log("Updated categories state:", fetchedCategories);
     };
-
     getCategories();
   }, []);
+
   return (
     <div className="mx-auto w-full max-w-[1024px]">
       <Card>

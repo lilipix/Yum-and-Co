@@ -40,10 +40,10 @@ const TagsPage = async ({ params }: TagsPageProps) => {
         <Card>
           <CardHeader>
             <div className="flex justify-between">
-              <TagsHeader tags={tags} recipes={recipes} />
-              <div className="flex gap-2">
+              <TagsHeader initialTags={tags} recipes={recipes} />
+              {/* <div className="flex gap-2">
                 <EditTag />
-              </div>
+              </div> */}
             </div>
           </CardHeader>
           <RecipeList recipes={recipes} />

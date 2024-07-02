@@ -14,10 +14,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { ColorPalette, Tag } from "@/validators/tag";
+import { ColorPalette } from "@/validators/tag";
 import useTags from "@/context/tags/useTags";
 import TagFormBlock from "./TagFormBlock";
-import { useEffect } from "react";
+
+type EditTagModalProps = {
+  onModalClose: () => void;
+};
 
 const EditTagModalSchema = z.object({
   name: z.string().min(1, "Requis"),
@@ -26,7 +29,7 @@ const EditTagModalSchema = z.object({
 
 type EditTagValues = z.infer<typeof EditTagModalSchema>;
 
-const EditTagModal = () => {
+const EditTagModal = ({ onModalClose }: EditTagModalProps) => {
   const { tags, updateTag, refetchTags, isLoading, isMutating } = useTags();
   const form = useForm<EditTagValues>({
     resolver: zodResolver(EditTagModalSchema),
@@ -54,8 +57,8 @@ const EditTagModal = () => {
         ...values,
         id: tag.id,
       });
-      refetchTags();
       toast.success("Le tag a été mis à jour avec succès.");
+      onModalClose();
     } catch (error) {
       toast.error("Une erreur s'est produite lors de la mise à jour du tag.");
     }

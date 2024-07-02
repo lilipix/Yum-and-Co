@@ -4,9 +4,12 @@ import { updateTagSchema } from "@/app/api/tags/_validators/update-tag.validator
 import { Tag } from "@/validators/tag";
 import { ReactNode, useCallback, useMemo, useState } from "react";
 import { toast } from "sonner";
-import useSWR from "swr";
+import useSWR, { KeyedMutator } from "swr";
 import { z } from "zod";
-import { updateTag as updateTagRequest } from "@/services/tags.service";
+import {
+  fetchTags,
+  updateTag as updateTagRequest,
+} from "@/services/tags.service";
 import TagsContext, { TagsContextValue } from ".";
 
 type TagsProviderProps = {
@@ -37,9 +40,16 @@ const TagsProvider = ({
         }
         setIsMutating(true);
         const updatedTag = await updateTagRequest(tag);
-        await mutate(
-          data.map((t) => (t.id === updatedTag.id ? updatedTag : t)),
-        );
+        // await mutate(
+        //   data.map((t) => (t.id === updatedTag.id ? updatedTag : t)),
+        // );
+        await mutate((currentData) => {
+          if (!currentData) return [];
+          return currentData.map((t) =>
+            t.id === updatedTag.id ? updatedTag : t,
+          );
+        }, false);
+        await mutate();
         return updatedTag;
       } catch (error) {
         throw error;
@@ -48,7 +58,7 @@ const TagsProvider = ({
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [mutate],
   );
 
   const contextValue: TagsContextValue = useMemo(
@@ -61,7 +71,7 @@ const TagsProvider = ({
       refetchTags: mutate,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data, isMutating, error, isLoading, updateTag],
+    [data, isMutating, error, isLoading, updateTag, mutate],
   );
 
   return (

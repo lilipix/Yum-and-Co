@@ -12,7 +12,7 @@ export type Variant =
   | "info"
   | "purple"
   | "pinkdark"
-  | "outline"
+  // | "outline"
   | "pinklight"
   | "orange"
   | null
@@ -30,7 +30,6 @@ export enum ColorPalette {
   WARNING = "warning",
   PINKDARK = "pinkdark",
   PURPLE = "purple",
-  OUTLINE = "outline",
   INFO = "info",
   PINKLIGHT = "pinklight",
   ORANGE = "orange",

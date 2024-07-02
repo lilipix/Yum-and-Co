@@ -6,6 +6,8 @@ import TagsList from "./components/TagsList";
 
 import { findTags } from "@/database/tags/tag.repository";
 import { findRecipes } from "@/database/recipes/recipe.repository";
+import LoadingSvg from "@/assets/svg/LoadingSvg";
+import TagsProvider from "@/context/tags/provider";
 
 const HomePage = async () => {
   await connectToDatabase();
@@ -19,7 +21,8 @@ const HomePage = async () => {
       <CategoriesList
         initialCategories={categories.length === 0 ? [] : categories}
       />
-      <TagsList tags={tags.length === 0 ? [] : tags} recipes={recipes} />
+
+      <TagsList initialTags={tags.length === 0 ? [] : tags} recipes={recipes} />
     </main>
   );
 };
