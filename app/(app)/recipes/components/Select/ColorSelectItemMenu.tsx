@@ -5,7 +5,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { SelectOption } from "./CreateSelect";
-import { ColorTelltale } from "@/components/ui/colorTelltale";
+import { ColorTelltale } from "@/components/ui/custom/colorTelltale";
 import { ColorPalette, ColorTelltaleVariant } from "@/validators/tag";
 
 type ColorSelectItemMenuProps = {

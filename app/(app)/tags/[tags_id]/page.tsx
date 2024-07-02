@@ -1,9 +1,15 @@
-import { findRecipesByTag } from "@/database/recipes/recipe.repository";
+import {
+  findRecipesByTag,
+  findRecipesByTags,
+} from "@/database/recipes/recipe.repository";
 import { findTagByIds } from "@/database/tags/tag.repository";
 import connectToDatabase from "@/lib/mongodb";
 import { Card, CardHeader } from "@/components/ui/card";
 import TagsHeader from "./components/TagsHeader";
 import RecipeList from "../../components/RecipeList";
+import EditTag from "./components/EditTag";
+import TagsProvider from "@/context/tags/provider";
+import RecipeListContainer from "./components/RecipeListContainer";
 
 type TagsPageProps = {
   params: {
@@ -27,22 +33,24 @@ const TagsPage = async ({ params }: TagsPageProps) => {
 
   const tags = await findTagByIds(tagIdsArray);
 
-  // Get all recipes that have all selected tags
-  const recipesArrays = await Promise.all(
-    tagIdsArray.map((tag_id) => findRecipesByTag(tag_id)),
-  );
-
-  const recipes = recipesArrays.flat();
+  const recipes = await findRecipesByTags(tagIdsArray);
 
   return (
-    <div className="mx-auto flex w-full max-w-[1024px] flex-col items-center gap-8 p-6">
-      <Card>
-        <CardHeader>
-          <TagsHeader tags={tags} recipes={recipes} />
-        </CardHeader>
-        <RecipeList recipes={recipes} />
-      </Card>
-    </div>
+    <TagsProvider tags={tags}>
+      <div className="mx-auto flex w-full max-w-[1024px] flex-col p-6">
+        <Card>
+          <CardHeader>
+            <div className="flex justify-between">
+              <TagsHeader recipes={recipes} />
+              <div className="flex gap-2">
+                <EditTag />
+              </div>
+            </div>
+          </CardHeader>
+          <RecipeListContainer initialRecipes={recipes} />
+        </Card>
+      </div>
+    </TagsProvider>
   );
 };
 

@@ -1,5 +1,5 @@
 import { badgeVariants } from "@/components/ui/badge";
-import { colorTelltaleVariants } from "@/components/ui/colorTelltale";
+import { colorTelltaleVariants } from "@/components/ui/custom/colorTelltale";
 import { VariantProps } from "class-variance-authority";
 import { z } from "zod";
 
@@ -12,7 +12,7 @@ export type Variant =
   | "info"
   | "purple"
   | "pinkdark"
-  | "outline"
+  // | "outline"
   | "pinklight"
   | "orange"
   | null
@@ -30,7 +30,6 @@ export enum ColorPalette {
   WARNING = "warning",
   PINKDARK = "pinkdark",
   PURPLE = "purple",
-  OUTLINE = "outline",
   INFO = "info",
   PINKLIGHT = "pinklight",
   ORANGE = "orange",

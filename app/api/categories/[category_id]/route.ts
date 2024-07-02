@@ -1,6 +1,7 @@
 import {
   updateCategory,
   deleteCategory,
+  findCategories,
 } from "@/database/categories/category.repository";
 import { NextRequest, NextResponse } from "next/server";
 import { UpdateCategorySchema } from "../_validators/update-category.validator";

@@ -1,27 +1,35 @@
+"use client";
+import { Badge } from "@/components/ui/badge";
 import { CardDescription, CardTitle } from "@/components/ui/card";
-import { Recipe, RecipePopulated } from "@/validators/recipe";
-import { Tag } from "@/validators/tag";
+import useTags from "@/context/tags/useTags";
+import { RecipePopulated } from "@/validators/recipe";
+import { ColorPalette, Tag } from "@/validators/tag";
 
 type TagsHeaderProps = {
-  tags: Tag[];
   recipes: RecipePopulated[];
 };
-const TagsHeader = ({ tags, recipes }: TagsHeaderProps) => {
-  const formattedTags = tags
-    .map((tag) => {
-      return tag.name.charAt(0).toUpperCase() + tag.name.slice(1);
-    })
-    .join(" / ");
+const TagsHeader = ({ recipes }: TagsHeaderProps) => {
+  const { tags } = useTags();
 
   return (
     <div>
-      <CardTitle className="mb-2">{formattedTags}</CardTitle>
+      <CardTitle className="mb-4">
+        {tags?.map((tag) => (
+          <Badge
+            key={tag.name}
+            className="mr-2 text-2xl font-semibold capitalize"
+            variant={tag.color || ColorPalette.SECONDARY}
+          >
+            {tag.name.charAt(0).toUpperCase() + tag.name.slice(1)}
+          </Badge>
+        ))}
+      </CardTitle>
       <CardDescription>
         {recipes.length === 0
           ? "Aucune recette liée à ce tag."
-          : tags.length > 1
-            ? `Visualisez les recettes liées aux tags suivants : ${formattedTags}`
-            : `Visualisez les recettes liées au tag suivant : ${formattedTags}`}
+          : tags && tags.length > 1
+            ? "Visualisez les recettes liées aux tags sélectionnés."
+            : "Visualisez les recettes liées au tag sélectionné."}
       </CardDescription>
     </div>
   );

@@ -9,20 +9,29 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Recipe } from "@/validators/recipe";
+import { fetchTags } from "@/services/tags.service";
 
 type TagsListProps = {
-  tags: Tag[];
+  initialTags: Tag[];
   recipes: Recipe[];
 };
-const TagsList = ({ tags, recipes }: TagsListProps) => {
+const TagsList = ({ initialTags, recipes }: TagsListProps) => {
   const router = useRouter();
+  const [tags, setTags] = useState<Tag[]>(initialTags);
   const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    const getTags = async () => {
+      const fetchedTags = await fetchTags();
+      setTags(fetchedTags);
+    };
+    getTags();
+  }, []);
 
   const handleNavigation = () => {
     if (selectedTagIds.length > 0) {
@@ -71,7 +80,7 @@ const TagsList = ({ tags, recipes }: TagsListProps) => {
               correspondent.
             </CardDescription>
           ) : (
-            <CardDescription>Ajoutez un tag dans une recette.</CardDescription>
+            <CardDescription>Pas de tags existants.</CardDescription>
           )}
         </CardHeader>
         <CardContent>
