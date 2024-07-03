@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Recipe } from "@/validators/recipe";
 import { fetchTags } from "@/services/tags.service";
+import useTags from "@/context/tags/useTags";
 
 type TagsListProps = {
   initialTags: Tag[];
@@ -22,8 +23,13 @@ type TagsListProps = {
 };
 const TagsList = ({ initialTags, recipes }: TagsListProps) => {
   const router = useRouter();
-  const [tags, setTags] = useState<Tag[]>(initialTags);
+  const { tags, refetchTags } = useTags();
+  // const [selectedTagIds, setSelectedTagIds] = useState<Tag[]>(initialTags);
   const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    refetchTags(); // Assurez-vous de toujours avoir les tags à jour
+  }, [refetchTags]);
 
   // useEffect(() => {
   //   const getTags = async () => {
@@ -74,7 +80,7 @@ const TagsList = ({ initialTags, recipes }: TagsListProps) => {
       <Card className="flex flex-col">
         <CardHeader>
           <CardTitle>Tags</CardTitle>
-          {tags.length > 0 ? (
+          {tags && tags?.length > 0 ? (
             <CardDescription>
               Sélectionnez le ou les tags pour trouver les recettes qui
               correspondent.
@@ -85,28 +91,29 @@ const TagsList = ({ initialTags, recipes }: TagsListProps) => {
         </CardHeader>
         <CardContent>
           <ul className="flex flex-wrap gap-4">
-            {tags.map((tag) => {
-              const isSelected = selectedTagIds.includes(tag.id);
-              const isDisabled =
-                selectedTagIds.length > 0 &&
-                relatedTags &&
-                !relatedTags.has(tag.id) &&
-                !isSelected;
+            {tags &&
+              tags.map((tag) => {
+                const isSelected = selectedTagIds.includes(tag.id);
+                const isDisabled =
+                  selectedTagIds.length > 0 &&
+                  relatedTags &&
+                  !relatedTags.has(tag.id) &&
+                  !isSelected;
 
-              return (
-                <li key={tag.name}>
-                  <Badge
-                    onClick={() => {
-                      !isDisabled ? handleBadgeClick(tag.id) : undefined;
-                    }}
-                    variant={tag.color || ColorPalette.SECONDARY}
-                    className={`${isSelected ? "border-2 !border-gray-600" : ""} ${isDisabled ? "!cursor-not-allowed opacity-50" : "cursor-pointer"} text-sm`}
-                  >
-                    {tag.name}
-                  </Badge>
-                </li>
-              );
-            })}
+                return (
+                  <li key={tag.name}>
+                    <Badge
+                      onClick={() => {
+                        !isDisabled ? handleBadgeClick(tag.id) : undefined;
+                      }}
+                      variant={tag.color || ColorPalette.SECONDARY}
+                      className={`${isSelected ? "border-2 !border-gray-600" : ""} ${isDisabled ? "!cursor-not-allowed opacity-50" : "cursor-pointer"} text-sm`}
+                    >
+                      {tag.name}
+                    </Badge>
+                  </li>
+                );
+              })}
           </ul>
         </CardContent>
         <CardFooter className="self-end">

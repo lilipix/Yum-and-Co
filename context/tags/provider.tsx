@@ -28,23 +28,20 @@ const TagsProvider = ({
       fallbackData: initialTags,
     },
   );
-
   const updateTag = useCallback(
     async (tag: z.infer<typeof updateTagSchema>) => {
       try {
-        if (!data || data.length !== 1) {
-          toast.error(
-            "La modification n'est autorisée que lorsqu'un seul tag est présent.",
-          );
-          return null;
-        }
         setIsMutating(true);
         const updatedTag = await updateTagRequest(tag);
         await mutate(
-          data.map((t) => (t.id === updatedTag.id ? updatedTag : t)),
+          (currentData) =>
+            currentData
+              ? currentData.map((t) =>
+                  t.id === updatedTag.id ? updatedTag : t,
+                )
+              : [updatedTag],
           false,
         );
-
         return updatedTag;
       } catch (error) {
         throw error;
@@ -52,9 +49,35 @@ const TagsProvider = ({
         setIsMutating(false);
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data, mutate],
+    [mutate],
   );
+
+  // const updateTag = useCallback(
+  //   async (tag: z.infer<typeof updateTagSchema>) => {
+  //     try {
+  //       if (!data || data.length !== 1) {
+  //         toast.error(
+  //           "La modification n'est autorisée que lorsqu'un seul tag est présent.",
+  //         );
+  //         return null;
+  //       }
+  //       setIsMutating(true);
+  //       const updatedTag = await updateTagRequest(tag);
+  //       await mutate(
+  //         data.map((t) => (t.id === updatedTag.id ? updatedTag : t)),
+  //         false,
+  //       );
+
+  //       return updatedTag;
+  //     } catch (error) {
+  //       throw error;
+  //     } finally {
+  //       setIsMutating(false);
+  //     }
+  //   },
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   [data, mutate],
+  // );
 
   const deleteTags = useCallback(
     async () => {

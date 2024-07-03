@@ -4,7 +4,7 @@ import { findRecipesByCategories } from "@/database/recipes/recipe.repository";
 import connectToDatabase from "@/lib/mongodb";
 import CategoryProvider from "@/context/category/provider";
 import EditCategory from "./components/EditCategory";
-import RecipeList from "../../components/RecipeList";
+import RecipeList from "../../_components/RecipeList";
 import CategoryHeader from "./components/CategoryHeader";
 import DeleteCategory from "./components/DeleteCategory";
 

@@ -1,12 +1,10 @@
 import connectToDatabase from "@/lib/mongodb";
-import AddRecipeButton from "./components/AddRecipeButton";
+import AddRecipeButton from "./_components/AddRecipeButton";
 import { findCategories } from "@/database/categories/category.repository";
-import CategoriesList from "./components/CategoriesList";
-import TagsList from "./components/TagsList";
-
+import CategoriesList from "./_components/CategoriesList";
+import TagsList from "./_components/TagsList";
 import { findTags } from "@/database/tags/tag.repository";
 import { findRecipes } from "@/database/recipes/recipe.repository";
-import LoadingSvg from "@/assets/svg/LoadingSvg";
 import TagsProvider from "@/context/tags/provider";
 
 const HomePage = async () => {
@@ -21,7 +19,12 @@ const HomePage = async () => {
       <CategoriesList
         initialCategories={categories.length === 0 ? [] : categories}
       />
-      <TagsList initialTags={tags.length === 0 ? [] : tags} recipes={recipes} />
+      <TagsProvider tags={tags}>
+        <TagsList
+          initialTags={tags.length === 0 ? [] : tags}
+          recipes={recipes}
+        />
+      </TagsProvider>
     </main>
   );
 };
