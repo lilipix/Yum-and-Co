@@ -43,7 +43,7 @@ const EditTagModal = () => {
     }
     if (tags.length > 1) {
       toast.warning(
-        "La modification n'est autorisée que lorsqu'un seul tag est présent.",
+        "La modification de plusieurs tags n'est pas possible simultanément.",
       );
       return;
     }

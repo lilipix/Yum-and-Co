@@ -55,3 +55,24 @@ export const updateTag = async (tag: Partial<Tag>): Promise<Tag> => {
     throw error;
   }
 };
+
+export const deleteTag = async (tagIds: string[]) => {
+  try {
+    const responses = await Promise.all(
+      tagIds.map(async (tagId) => {
+        const response = await fetch(`/api/tags/${tagId}`, {
+          method: "DELETE",
+        });
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Failed to delete tag");
+        }
+        return await response.json();
+      }),
+    );
+
+    return responses;
+  } catch (error) {
+    throw error;
+  }
+};

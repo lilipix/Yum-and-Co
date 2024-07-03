@@ -6,7 +6,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { putFirstLetterCapital } from "@/lib/utils/string.utils";
+import { capitalizeFirstLetter } from "@/lib/utils/string.utils";
 import { Category } from "@/validators/category";
 import { IngredientSchema } from "@/validators/recipe/ingredient.validator";
 import dynamic from "next/dynamic";
@@ -30,7 +30,7 @@ export const GeneralRecipeInformationFieldsSchema = z
     title: z.coerce
       .string({ required_error: "Requis." })
       .min(1, { message: "Le nom doit être renseigné." })
-      .transform(putFirstLetterCapital),
+      .transform(capitalizeFirstLetter),
     tags: z.array(z.coerce.string().nullable()),
     numberOfPersons: z.coerce.number().optional(),
     preparationTime: z.coerce

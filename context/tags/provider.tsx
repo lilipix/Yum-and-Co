@@ -7,8 +7,8 @@ import { toast } from "sonner";
 import useSWR, { KeyedMutator } from "swr";
 import { z } from "zod";
 import {
-  fetchTags,
   updateTag as updateTagRequest,
+  deleteTag as deleteTagRequest,
 } from "@/services/tags.service";
 import TagsContext, { TagsContextValue } from ".";
 
@@ -56,17 +56,40 @@ const TagsProvider = ({
     [data, mutate],
   );
 
+  const deleteTags = useCallback(
+    async () => {
+      if (!data) {
+        toast.error("Pas de tags trouvés. Merci d'en créer un.");
+        return null;
+      }
+      setIsMutating(true);
+      try {
+        const deletedTag = await deleteTagRequest(data.map((d) => d.id));
+        await mutate(null);
+        return deletedTag;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      } finally {
+        setIsMutating(false);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+
   const contextValue: TagsContextValue = useMemo(
     () => ({
       tags: data,
       updateTag,
+      deleteTags,
       isMutating,
       error,
       isLoading,
       refetchTags: mutate,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data, isMutating, error, isLoading, updateTag, mutate],
+    [data, isMutating, error, isLoading, updateTag, deleteTags, mutate],
   );
 
   return (

@@ -6,34 +6,10 @@ import { ReactNode } from "react";
 
 type TagLayoutProps = {
   children: ReactNode;
-  // params: {
-  //   tags_id: string;
-  // };
 };
 
 const TagLayout = async ({ children }: TagLayoutProps) => {
-  // const { tags_id } = params;
-
-  // // Decode the tag_ids "," separated string
-  // const decodedTagIds = decodeURIComponent(tags_id);
-
-  // const tagIdsArray = decodedTagIds.split(",");
-
-  // if (!tagIdsArray || tagIdsArray.length === 0) {
-  //   throw new Error("No tag_ids provided");
-  // }
-
-  // await connectToDatabase();
-
-  // const tags = await findTagByIds(tagIdsArray);
-
-  return (
-    <div>
-      {/* <TagsProvider tags={tags}> */}
-      {children}
-      {/* </TagsProvider> */}
-    </div>
-  );
+  return <div>{children}</div>;
 };
 
 export default TagLayout;

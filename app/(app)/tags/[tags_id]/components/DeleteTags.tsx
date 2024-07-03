@@ -1,10 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Trash } from "lucide-react";
-import React from "react";
-import ConfirmDeleteModal from "./ConfirmDeleteCategoryModal";
+import ConfirmDeleteTagModal from "./ConfirmDeleteTagModal";
 
-const DeleteCategory = () => {
+const DeleteTags = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -13,10 +12,10 @@ const DeleteCategory = () => {
         </Button>
       </DialogTrigger>
       <DialogContent className="flex flex-col items-center gap-8">
-        <ConfirmDeleteModal />
+        <ConfirmDeleteTagModal />
       </DialogContent>
     </Dialog>
   );
 };
 
-export default DeleteCategory;
+export default DeleteTags;

@@ -5,11 +5,13 @@ import useTags from "@/context/tags/useTags";
 import { Recipe, RecipePopulated } from "@/validators/recipe";
 import { useEffect, useState } from "react";
 
-type RecipeListContainerProps = {
+type RecipesListContainerProps = {
   initialRecipes: RecipePopulated[];
 };
 
-const RecipeListContainer = ({ initialRecipes }: RecipeListContainerProps) => {
+const RecipesListContainer = ({
+  initialRecipes,
+}: RecipesListContainerProps) => {
   const { tags } = useTags();
   const [recipes, setRecipes] = useState(initialRecipes);
 
@@ -33,4 +35,4 @@ const RecipeListContainer = ({ initialRecipes }: RecipeListContainerProps) => {
   );
 };
 
-export default RecipeListContainer;
+export default RecipesListContainer;
