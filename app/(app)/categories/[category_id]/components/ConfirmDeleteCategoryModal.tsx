@@ -13,15 +13,15 @@ import { Loader2, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-const ConfirmDeleteModal = () => {
-  const Router = useRouter();
+const ConfirmDeleteCategoryModal = () => {
+  const router = useRouter();
   const { category, deleteCategory, isLoading, isMutating } = useCategory();
 
   const handleDelete = async () => {
     try {
       await deleteCategory();
       toast.success("La catégorie a été supprimée avec succès.");
-      Router.push("/");
+      router.push("/");
     } catch (error) {
       console.error("Failed to delete category", error);
       if (
@@ -75,4 +75,4 @@ const ConfirmDeleteModal = () => {
   );
 };
 
-export default ConfirmDeleteModal;
+export default ConfirmDeleteCategoryModal;

@@ -86,6 +86,6 @@ export const deleteCategory = async (id: string): Promise<Category> => {
       versionKey: false,
     });
   } catch (error) {
-    throw new Error("Failed to delete category");
+    throw Error("Failed to delete category");
   }
 };

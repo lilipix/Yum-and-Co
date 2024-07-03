@@ -69,3 +69,18 @@ export const updateTag = async (
     throw error;
   }
 };
+
+export const deleteTag = async (id: string): Promise<Tag> => {
+  try {
+    const document = await TagModel.findByIdAndDelete(id);
+    if (!document) {
+      throw new Error("Tag not found");
+    }
+    return document.toJSON({
+      flattenObjectIds: true,
+      versionKey: false,
+    });
+  } catch (error) {
+    throw Error("Failed to delete tag");
+  }
+};

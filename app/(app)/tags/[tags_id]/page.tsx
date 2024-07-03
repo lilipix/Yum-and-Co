@@ -1,15 +1,12 @@
-import {
-  findRecipesByTag,
-  findRecipesByTags,
-} from "@/database/recipes/recipe.repository";
+import { findRecipesByTags } from "@/database/recipes/recipe.repository";
 import { findTagByIds } from "@/database/tags/tag.repository";
 import connectToDatabase from "@/lib/mongodb";
 import { Card, CardHeader } from "@/components/ui/card";
 import TagsHeader from "./components/TagsHeader";
-import RecipeList from "../../components/RecipeList";
 import EditTag from "./components/EditTag";
 import TagsProvider from "@/context/tags/provider";
-import RecipeListContainer from "./components/RecipeListContainer";
+import RecipeListContainer from "./components/RecipesListContainer";
+import DeleteTags from "./components/DeleteTags";
 
 type TagsPageProps = {
   params: {
@@ -44,6 +41,7 @@ const TagsPage = async ({ params }: TagsPageProps) => {
               <TagsHeader recipes={recipes} />
               <div className="flex gap-2">
                 <EditTag />
+                <DeleteTags />
               </div>
             </div>
           </CardHeader>
