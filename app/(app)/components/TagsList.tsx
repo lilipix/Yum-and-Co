@@ -25,13 +25,13 @@ const TagsList = ({ initialTags, recipes }: TagsListProps) => {
   const [tags, setTags] = useState<Tag[]>(initialTags);
   const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
 
-  useEffect(() => {
-    const getTags = async () => {
-      const fetchedTags = await fetchTags();
-      setTags(fetchedTags);
-    };
-    getTags();
-  }, []);
+  // useEffect(() => {
+  //   const getTags = async () => {
+  //     const fetchedTags = await fetchTags();
+  //     setTags(fetchedTags);
+  //   };
+  //   getTags();
+  // }, []);
 
   const handleNavigation = () => {
     if (selectedTagIds.length > 0) {

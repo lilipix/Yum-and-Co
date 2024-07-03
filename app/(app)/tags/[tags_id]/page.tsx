@@ -3,10 +3,12 @@ import { findTagByIds } from "@/database/tags/tag.repository";
 import connectToDatabase from "@/lib/mongodb";
 import { Card, CardHeader } from "@/components/ui/card";
 import TagsHeader from "./components/TagsHeader";
-import EditTag from "./components/EditTag";
 import TagsProvider from "@/context/tags/provider";
 import RecipeListContainer from "./components/RecipesListContainer";
-import DeleteTags from "./components/DeleteTags";
+import dynamic from "next/dynamic";
+
+const EditTag = dynamic(() => import("./components/EditTag"));
+const DeleteTags = dynamic(() => import("./components/DeleteTags"));
 
 type TagsPageProps = {
   params: {
