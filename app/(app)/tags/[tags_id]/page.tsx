@@ -30,12 +30,12 @@ const TagsPage = async ({ params }: TagsPageProps) => {
 
   await connectToDatabase();
 
-  const tags = await findTagByIds(tagIdsArray);
+  const fetchedTags = await findTagByIds(tagIdsArray);
 
   const recipes = await findRecipesByTags(tagIdsArray);
 
   return (
-    <TagsProvider tags={tags}>
+    <TagsProvider tags={fetchedTags}>
       <div className="mx-auto flex w-full max-w-[1024px] flex-col p-6">
         <Card>
           <CardHeader>

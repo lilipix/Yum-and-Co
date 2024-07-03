@@ -24,20 +24,19 @@ type TagsListProps = {
 const TagsList = ({ initialTags, recipes }: TagsListProps) => {
   const router = useRouter();
   const { tags, refetchTags } = useTags();
-  // const [selectedTagIds, setSelectedTagIds] = useState<Tag[]>(initialTags);
   const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
+  const [allTags, setAllTags] = useState<Tag[]>(initialTags);
 
   useEffect(() => {
-    refetchTags(); // Assurez-vous de toujours avoir les tags à jour
-  }, [refetchTags]);
-
-  // useEffect(() => {
-  //   const getTags = async () => {
-  //     const fetchedTags = await fetchTags();
-  //     setTags(fetchedTags);
-  //   };
-  //   getTags();
-  // }, []);
+    if (tags && tags.length > 0) {
+      // Combine initialTags with updated tags to have all tags
+      const updatedTags = initialTags.map((tag) => {
+        const updatedTag = tags.find((t) => t.id === tag.id);
+        return updatedTag ? updatedTag : tag;
+      });
+      setAllTags(updatedTags);
+    }
+  }, [tags, initialTags]);
 
   const handleNavigation = () => {
     if (selectedTagIds.length > 0) {
@@ -80,7 +79,7 @@ const TagsList = ({ initialTags, recipes }: TagsListProps) => {
       <Card className="flex flex-col">
         <CardHeader>
           <CardTitle>Tags</CardTitle>
-          {tags && tags?.length > 0 ? (
+          {allTags && allTags?.length > 0 ? (
             <CardDescription>
               Sélectionnez le ou les tags pour trouver les recettes qui
               correspondent.
@@ -91,8 +90,8 @@ const TagsList = ({ initialTags, recipes }: TagsListProps) => {
         </CardHeader>
         <CardContent>
           <ul className="flex flex-wrap gap-4">
-            {tags &&
-              tags.map((tag) => {
+            {allTags &&
+              allTags.map((tag) => {
                 const isSelected = selectedTagIds.includes(tag.id);
                 const isDisabled =
                   selectedTagIds.length > 0 &&

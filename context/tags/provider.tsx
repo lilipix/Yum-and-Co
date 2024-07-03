@@ -22,17 +22,19 @@ const TagsProvider = ({
   children,
 }: TagsProviderProps) => {
   const [isMutating, setIsMutating] = useState(false);
-  const { data, error, isLoading, mutate } = useSWR<Tag[] | null>(
-    "/api/tags/",
-    {
-      fallbackData: initialTags,
-    },
-  );
+  const {
+    data: tags = initialTags,
+    error,
+    isLoading,
+    mutate,
+  } = useSWR<Tag[] | null>("/api/tags/", {
+    fallbackData: initialTags,
+  });
   const updateTag = useCallback(
-    async (tag: z.infer<typeof updateTagSchema>) => {
+    async (tagIds: z.infer<typeof updateTagSchema>) => {
       try {
         setIsMutating(true);
-        const updatedTag = await updateTagRequest(tag);
+        const updatedTag = await updateTagRequest(tagIds);
         await mutate(
           (currentData) =>
             currentData
@@ -52,42 +54,15 @@ const TagsProvider = ({
     [mutate],
   );
 
-  // const updateTag = useCallback(
-  //   async (tag: z.infer<typeof updateTagSchema>) => {
-  //     try {
-  //       if (!data || data.length !== 1) {
-  //         toast.error(
-  //           "La modification n'est autorisée que lorsqu'un seul tag est présent.",
-  //         );
-  //         return null;
-  //       }
-  //       setIsMutating(true);
-  //       const updatedTag = await updateTagRequest(tag);
-  //       await mutate(
-  //         data.map((t) => (t.id === updatedTag.id ? updatedTag : t)),
-  //         false,
-  //       );
-
-  //       return updatedTag;
-  //     } catch (error) {
-  //       throw error;
-  //     } finally {
-  //       setIsMutating(false);
-  //     }
-  //   },
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   [data, mutate],
-  // );
-
   const deleteTags = useCallback(
     async () => {
-      if (!data) {
+      if (!tags) {
         toast.error("Pas de tags trouvés. Merci d'en créer un.");
         return null;
       }
       setIsMutating(true);
       try {
-        const deletedTag = await deleteTagRequest(data.map((d) => d.id));
+        const deletedTag = await deleteTagRequest(tags.map((t) => t.id));
         await mutate(null);
         return deletedTag;
       } catch (error) {
@@ -103,7 +78,7 @@ const TagsProvider = ({
 
   const contextValue: TagsContextValue = useMemo(
     () => ({
-      tags: data,
+      tags,
       updateTag,
       deleteTags,
       isMutating,
@@ -112,7 +87,7 @@ const TagsProvider = ({
       refetchTags: mutate,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data, isMutating, error, isLoading, updateTag, deleteTags, mutate],
+    [tags, isMutating, error, isLoading, updateTag, deleteTags, mutate],
   );
 
   return (
