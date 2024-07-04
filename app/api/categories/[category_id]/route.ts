@@ -12,12 +12,16 @@ export async function PUT(
   { params }: { params: { category_id: string } },
 ) {
   try {
+    console.log("PUT request received for category_id:", params.category_id);
     const body = await request.json();
+    console.log("Request body:", body);
     const { name } = UpdateCategorySchema.parse(body);
+    console.log("Parsed name:", name);
     const updatedCategory = await updateCategory(params.category_id, {
       id: params.category_id,
       name,
     });
+    console.log("Category updated successfully:", updatedCategory);
     return NextResponse.json(updatedCategory);
   } catch (schemaError) {
     console.error("Schema Validation Error:", schemaError);
@@ -43,6 +47,7 @@ export async function DELETE(
       );
     }
     const deletedCategory = await deleteCategory(params.category_id);
+    console.log("Category deleted successfully:", deletedCategory);
     return NextResponse.json(deletedCategory);
   } catch (error) {
     console.error("Error:", error);
