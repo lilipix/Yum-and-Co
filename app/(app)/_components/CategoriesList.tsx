@@ -7,23 +7,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { useCategories } from "@/context/categories/provider";
-import useCategory from "@/context/categories/category/useCategory";
-import { fetchCategories } from "@/services/categories.service";
 import { Category } from "@/validators/category";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import useSWR from "swr";
 
 type CategoriesListProps = {
-  initialCategories: Category[];
+  categories: Category[];
 };
-const CategoriesList = ({ initialCategories }: CategoriesListProps) => {
-  // const [categories, setCategories] = useState<Category[]>(
-  //   initialCategories || [],
-  // );
-
-  const { categories } = useCategories();
-
+const CategoriesList = ({ categories }: CategoriesListProps) => {
   return (
     <div className="mx-auto w-full max-w-[1024px]">
       <Card>
