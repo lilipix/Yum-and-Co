@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/card";
 import { Category } from "@/validators/category";
 import Link from "next/link";
-import useSWR from "swr";
 
 type CategoriesListProps = {
   categories: Category[];

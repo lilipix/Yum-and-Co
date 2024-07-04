@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { UpdateCategorySchema } from "../_validators/update-category.validator";
 import { findRecipesByCategories } from "@/database/recipes/recipe.repository";
 import { toast } from "sonner";
-
+export const maxDuration = 30;
 export async function PUT(
   request: NextRequest,
   { params }: { params: { category_id: string } },
