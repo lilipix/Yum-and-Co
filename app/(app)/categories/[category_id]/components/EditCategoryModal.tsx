@@ -78,20 +78,20 @@ const EditCategoryModal = () => {
                   Annuler
                 </Button>
               </DialogClose>
-              <DialogClose asChild>
-                <Button
-                  className="items-center gap-2"
-                  disabled={isMutating || isLoading}
-                  type="submit"
-                >
-                  {isMutating ? (
-                    <Loader2 className="animate-spin" size="16" />
-                  ) : (
-                    <Save size="16" />
-                  )}
-                  Enregistrer
-                </Button>
-              </DialogClose>
+              {/* <DialogClose asChild> */}
+              <Button
+                className="items-center gap-2"
+                disabled={isMutating || isLoading}
+                type="submit"
+              >
+                {isMutating ? (
+                  <Loader2 className="animate-spin" size="16" />
+                ) : (
+                  <Save size="16" />
+                )}
+                Enregistrer
+              </Button>
+              {/* </DialogClose> */}
             </div>
           </DialogFooter>
         </div>
