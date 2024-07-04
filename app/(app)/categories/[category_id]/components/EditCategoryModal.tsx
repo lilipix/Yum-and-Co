@@ -15,7 +15,7 @@ import {
 import CategoryFormBlock, {
   CategoryFormBlockSchema,
 } from "./CategoryFormBlock";
-import useCategory from "@/context/category/useCategory";
+import useCategory from "@/context/categories/category/useCategory";
 
 export const EditCategoryModalSchema = z.object({
   name: z.string().min(1, "Requis"),

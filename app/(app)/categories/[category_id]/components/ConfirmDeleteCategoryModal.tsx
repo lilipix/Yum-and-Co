@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import useCategory from "@/context/category/useCategory";
+import useCategory from "@/context/categories/category/useCategory";
 import { Loader2, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";

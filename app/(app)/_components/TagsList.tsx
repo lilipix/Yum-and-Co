@@ -23,7 +23,7 @@ type TagsListProps = {
 };
 const TagsList = ({ initialTags, recipes }: TagsListProps) => {
   const router = useRouter();
-  const { tags, refetchTags } = useTags();
+  const { tags } = useTags();
   const [selectedTagIds, setSelectedTagIds] = useState<string[]>([]);
   const [allTags, setAllTags] = useState<Tag[]>(initialTags);
 

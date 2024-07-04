@@ -6,6 +6,8 @@ import TagsList from "./_components/TagsList";
 import { findTags } from "@/database/tags/tag.repository";
 import { findRecipes } from "@/database/recipes/recipe.repository";
 import TagsProvider from "@/context/tags/provider";
+import CategoryProvider from "@/context/categories/category/provider";
+import { CategoriesProvider } from "@/context/categories/provider";
 
 const HomePage = async () => {
   await connectToDatabase();
@@ -16,9 +18,11 @@ const HomePage = async () => {
   return (
     <main className="flex flex-col items-center gap-8 p-6">
       <AddRecipeButton />
-      <CategoriesList
-        initialCategories={categories.length === 0 ? [] : categories}
-      />
+      <CategoriesProvider>
+        <CategoriesList
+          initialCategories={categories.length === 0 ? [] : categories}
+        />
+      </CategoriesProvider>
       <TagsProvider tags={tags}>
         <TagsList
           initialTags={tags.length === 0 ? [] : tags}

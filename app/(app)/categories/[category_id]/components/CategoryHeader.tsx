@@ -1,10 +1,14 @@
 "use client";
 
 import { CardDescription, CardTitle } from "@/components/ui/card";
-import useCategory from "@/context/category/useCategory";
+import useCategory from "@/context/categories/category/useCategory";
+import { Category } from "@/validators/category";
+import { useEffect } from "react";
 
 const CategoryHeader = () => {
   const { category } = useCategory();
+
+  console.log(category);
   return (
     <div>
       <CardTitle className="mb-4">{category?.name}</CardTitle>
