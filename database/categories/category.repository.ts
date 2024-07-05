@@ -53,30 +53,61 @@ export const findCategoryById = async (id: string): Promise<Category> => {
   }
 };
 
+// export const updateCategory = async (
+//   id: string,
+//   data: { name: string },
+// ): Promise<Category> => {
+//   try {
+//     console.log("repository");
+//     console.log("repo", data);
+//     const document = await CategoryModel.findByIdAndUpdate(
+//       id,
+//       { $set: { ...data } },
+//       { new: true },
+//     );
+//     if (!document) {
+//       console.error("Category not found");
+//       throw new Error("Category not found");
+//     }
+//     console.log("Document updated:", document);
+//     return document.toJSON({
+//       flattenObjectIds: true,
+//       versionKey: false,
+//     });
+//   } catch (error) {
+//     console.error("Error in updateCategory:", error);
+//     throw new Error("Failed to update category");
+//   }
+// };
+
 export const updateCategory = async (
   id: string,
   data: { name: string },
 ): Promise<Category> => {
   try {
-    console.log("repository");
-    console.log("repo", data);
+    console.log("Entering updateCategory function");
+    console.log("Updating category with id:", id);
+    console.log("Data to update:", data);
+
     const document = await CategoryModel.findByIdAndUpdate(
       id,
       { $set: { ...data } },
       { new: true },
     );
+
     if (!document) {
       console.error("Category not found");
       throw new Error("Category not found");
     }
-    console.log("Document updated:", document);
+
+    console.log("Document updated successfully:", document);
     return document.toJSON({
       flattenObjectIds: true,
       versionKey: false,
     });
   } catch (error) {
     console.error("Error in updateCategory:", error);
-    throw new Error("Failed to update category");
+    throw new Error(`Failed to update category: ${error.message}`);
   }
 };
 
