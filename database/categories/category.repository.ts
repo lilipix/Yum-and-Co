@@ -58,6 +58,8 @@ export const updateCategory = async (
   data: UpdateCategoryDTO,
 ): Promise<Category> => {
   try {
+    console.log("repository");
+    console.log("repo", data);
     const document = await CategoryModel.findByIdAndUpdate(
       id,
       { $set: { ...data } },
