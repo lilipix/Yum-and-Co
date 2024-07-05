@@ -11,7 +11,7 @@ export type TagsContextValue = {
   isLoading: boolean;
   isMutating: boolean;
   error: Error | null;
-  updateTag: (tag: z.infer<typeof updateTagSchema>) => Promise<Tag | null>;
+  updateTag: (tagIds: z.infer<typeof updateTagSchema>) => Promise<Tag | null>;
   deleteTags: () => Promise<Tag[] | null>;
   refetchTags: KeyedMutator<Tag[] | null>;
 };

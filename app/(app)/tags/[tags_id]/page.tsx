@@ -3,10 +3,12 @@ import { findTagByIds } from "@/database/tags/tag.repository";
 import connectToDatabase from "@/lib/mongodb";
 import { Card, CardHeader } from "@/components/ui/card";
 import TagsHeader from "./components/TagsHeader";
-import EditTag from "./components/EditTag";
 import TagsProvider from "@/context/tags/provider";
 import RecipeListContainer from "./components/RecipesListContainer";
-import DeleteTags from "./components/DeleteTags";
+import dynamic from "next/dynamic";
+
+const EditTag = dynamic(() => import("./components/EditTag"));
+const DeleteTags = dynamic(() => import("./components/DeleteTags"));
 
 type TagsPageProps = {
   params: {
@@ -28,12 +30,12 @@ const TagsPage = async ({ params }: TagsPageProps) => {
 
   await connectToDatabase();
 
-  const tags = await findTagByIds(tagIdsArray);
+  const fetchedTags = await findTagByIds(tagIdsArray);
 
   const recipes = await findRecipesByTags(tagIdsArray);
 
   return (
-    <TagsProvider tags={tags}>
+    <TagsProvider tags={fetchedTags}>
       <div className="mx-auto flex w-full max-w-[1024px] flex-col p-6">
         <Card>
           <CardHeader>

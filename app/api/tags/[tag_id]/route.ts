@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { updateTagSchema } from "../_validators/update-tag.validator";
 import { z } from "zod";
 import { deleteTag, findTags, updateTag } from "@/database/tags/tag.repository";
-
+export const maxDuration = 60;
 export async function PUT(
   request: NextRequest,
   { params }: { params: { tag_id: string } },

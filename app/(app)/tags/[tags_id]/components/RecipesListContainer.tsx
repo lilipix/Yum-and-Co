@@ -1,6 +1,6 @@
 "use client";
 
-import RecipeList from "@/app/(app)/components/RecipeList";
+import RecipeList from "@/app/(app)/_components/RecipeList";
 import useTags from "@/context/tags/useTags";
 import { Recipe, RecipePopulated } from "@/validators/recipe";
 import { useEffect, useState } from "react";

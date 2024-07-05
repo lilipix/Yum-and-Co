@@ -6,19 +6,34 @@ import {
 import { NextRequest, NextResponse } from "next/server";
 import { UpdateCategorySchema } from "../_validators/update-category.validator";
 import { findRecipesByCategories } from "@/database/recipes/recipe.repository";
-import { toast } from "sonner";
-
+export const maxDuration = 60;
 export async function PUT(
   request: NextRequest,
   { params }: { params: { category_id: string } },
 ) {
   try {
+    const { category_id } = params;
+    console.log("PUT request received for category_id:", category_id);
+
     const body = await request.json();
-    const { name } = UpdateCategorySchema.parse(body);
-    const updatedCategory = await updateCategory(params.category_id, {
-      id: params.category_id,
-      name,
+    console.log("Request body:", body);
+
+    const parsedBody = UpdateCategorySchema.parse(body);
+    console.log("Parsed body:", parsedBody);
+
+    // const { name } = UpdateCategorySchema.parse(body);
+    // console.log("Parsed name:", name);
+
+    // const updatedCategory = await updateCategory(params.category_id, {
+    //   // id: params.category_id,
+    //   name: parsedBody.name,
+    // });
+    const updatedCategory = await updateCategory({
+      id: category_id,
+      name: parsedBody.name,
     });
+
+    console.log("Category updated successfully:", updatedCategory);
     return NextResponse.json(updatedCategory);
   } catch (schemaError) {
     console.error("Schema Validation Error:", schemaError);
@@ -44,6 +59,7 @@ export async function DELETE(
       );
     }
     const deletedCategory = await deleteCategory(params.category_id);
+    console.log("Category deleted successfully:", deletedCategory);
     return NextResponse.json(deletedCategory);
   } catch (error) {
     console.error("Error:", error);

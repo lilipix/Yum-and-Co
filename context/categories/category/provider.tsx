@@ -22,7 +22,7 @@ const CategoryProvider = ({
   children,
 }: CategoryProviderProps) => {
   const [isMutating, setIsMutating] = useState(false);
-
+  console.log("SENDTOCONTEXT", initialCategory);
   const { data, error, isLoading, mutate } = useSWR<Category | null>(
     "/api/categories/",
     // provide initial data

@@ -15,7 +15,7 @@ import {
 import CategoryFormBlock, {
   CategoryFormBlockSchema,
 } from "./CategoryFormBlock";
-import useCategory from "@/context/category/useCategory";
+import useCategory from "@/context/categories/category/useCategory";
 
 export const EditCategoryModalSchema = z.object({
   name: z.string().min(1, "Requis"),
@@ -43,7 +43,6 @@ const EditCategoryModal = () => {
     try {
       await updateCategory({
         ...values,
-        id: category.id,
       });
       toast.success("La catégorie a été mise à jour avec succès.");
     } catch (error) {
@@ -78,20 +77,20 @@ const EditCategoryModal = () => {
                   Annuler
                 </Button>
               </DialogClose>
-              <DialogClose asChild>
-                <Button
-                  className="items-center gap-2"
-                  disabled={isMutating || isLoading}
-                  type="submit"
-                >
-                  {isMutating ? (
-                    <Loader2 className="animate-spin" size="16" />
-                  ) : (
-                    <Save size="16" />
-                  )}
-                  Enregistrer
-                </Button>
-              </DialogClose>
+              {/* <DialogClose asChild> */}
+              <Button
+                className="items-center gap-2"
+                disabled={isMutating || isLoading}
+                type="submit"
+              >
+                {isMutating ? (
+                  <Loader2 className="animate-spin" size="16" />
+                ) : (
+                  <Save size="16" />
+                )}
+                Enregistrer
+              </Button>
+              {/* </DialogClose> */}
             </div>
           </DialogFooter>
         </div>
