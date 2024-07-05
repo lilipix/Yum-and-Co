@@ -28,7 +28,8 @@ export async function PUT(
     //   // id: params.category_id,
     //   name: parsedBody.name,
     // });
-    const updatedCategory = await updateCategory(category_id, {
+    const updatedCategory = await updateCategory({
+      id: category_id,
       name: parsedBody.name,
     });
 

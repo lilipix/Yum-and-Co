@@ -3,6 +3,25 @@ import CategoryModel from "./category.model";
 import { CreateCategoryDTO, UpdateCategoryDTO } from "./category.dto";
 import connectToDatabase from "@/lib/mongodb";
 import { error } from "console";
+import { Types } from "mongoose";
+
+export type Id = Types.ObjectId;
+export const newId = <T extends string | Id | null | undefined>(
+  idString?: T,
+): T extends null ? null : Id => {
+  if (typeof idString === "undefined" || idString === undefined) {
+    return new Types.ObjectId() as T extends null ? null : Id;
+  }
+  if (idString === null) {
+    return null as T extends null ? null : Id;
+  }
+  if (typeof idString === "string" && idString.length === 0) {
+    throw new Error(
+      "Error at newId: cannot create a new id from an empty string.",
+    );
+  }
+  return new Types.ObjectId(idString) as T extends null ? null : Id;
+};
 
 export const createCategory = async (
   data: CreateCategoryDTO,
@@ -81,16 +100,14 @@ export const findCategoryById = async (id: string): Promise<Category> => {
 // };
 
 export const updateCategory = async (
-  id: string,
-  data: { name: string },
-): Promise<Category> => {
+  data: UpdateCategoryDTO,
+): Promise<Category | null> => {
   try {
     console.log("Entering updateCategory function");
-    console.log("Updating category with id:", id);
     console.log("Data to update:", data);
 
     const document = await CategoryModel.findByIdAndUpdate(
-      id,
+      newId(data.id),
       { $set: { ...data } },
       { new: true },
     );
