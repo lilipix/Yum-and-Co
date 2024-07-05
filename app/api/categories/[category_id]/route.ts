@@ -15,11 +15,16 @@ export async function PUT(
     console.log("PUT request received for category_id:", params.category_id);
     const body = await request.json();
     console.log("Request body:", body);
-    const { name } = UpdateCategorySchema.parse(body);
-    console.log("Parsed name:", name);
+
+    const parsedBody = UpdateCategorySchema.parse(body);
+    console.log("Parsed body:", parsedBody);
+
+    // const { name } = UpdateCategorySchema.parse(body);
+    // console.log("Parsed name:", name);
+
     const updatedCategory = await updateCategory(params.category_id, {
-      id: params.category_id,
-      name,
+      // id: params.category_id,
+      name: parsedBody.name,
     });
     console.log("Category updated successfully:", updatedCategory);
     return NextResponse.json(updatedCategory);

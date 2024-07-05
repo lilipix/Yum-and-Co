@@ -55,7 +55,7 @@ export const findCategoryById = async (id: string): Promise<Category> => {
 
 export const updateCategory = async (
   id: string,
-  data: UpdateCategoryDTO,
+  data: { name: string },
 ): Promise<Category> => {
   try {
     console.log("repository");
@@ -73,6 +73,7 @@ export const updateCategory = async (
       versionKey: false,
     });
   } catch (error) {
+    console.error("Error in updateCategory:", error);
     throw new Error("Failed to update category");
   }
 };
