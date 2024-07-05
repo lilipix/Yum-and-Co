@@ -48,6 +48,7 @@ export const updateCategory = async (
   category: z.infer<typeof CategorySchema>,
 ): Promise<Category> => {
   try {
+    console.log("Sending request to update category:", category);
     const data = await fetch(`/api/categories/${category.id}`, {
       method: "PUT",
       headers: {
@@ -58,6 +59,7 @@ export const updateCategory = async (
 
     if (data.ok) {
       const parsedData = await data.json();
+      console.log("Parsed data:", parsedData);
       return CategorySchema.parse(parsedData);
     }
 

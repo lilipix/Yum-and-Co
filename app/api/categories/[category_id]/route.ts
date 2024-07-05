@@ -12,7 +12,9 @@ export async function PUT(
   { params }: { params: { category_id: string } },
 ) {
   try {
-    console.log("PUT request received for category_id:", params.category_id);
+    const { category_id } = params;
+    console.log("PUT request received for category_id:", category_id);
+
     const body = await request.json();
     console.log("Request body:", body);
 
@@ -22,10 +24,14 @@ export async function PUT(
     // const { name } = UpdateCategorySchema.parse(body);
     // console.log("Parsed name:", name);
 
-    const updatedCategory = await updateCategory(params.category_id, {
-      // id: params.category_id,
+    // const updatedCategory = await updateCategory(params.category_id, {
+    //   // id: params.category_id,
+    //   name: parsedBody.name,
+    // });
+    const updatedCategory = await updateCategory(category_id, {
       name: parsedBody.name,
     });
+
     console.log("Category updated successfully:", updatedCategory);
     return NextResponse.json(updatedCategory);
   } catch (schemaError) {

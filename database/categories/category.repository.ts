@@ -66,8 +66,10 @@ export const updateCategory = async (
       { new: true },
     );
     if (!document) {
+      console.error("Category not found");
       throw new Error("Category not found");
     }
+    console.log("Document updated:", document);
     return document.toJSON({
       flattenObjectIds: true,
       versionKey: false,
