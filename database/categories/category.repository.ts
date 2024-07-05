@@ -105,9 +105,13 @@ export const updateCategory = async (
       flattenObjectIds: true,
       versionKey: false,
     });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("Error in updateCategory:", error);
-    throw new Error(`Failed to update category: ${error.message}`);
+    if (error instanceof Error) {
+      throw new Error(`Failed to update category: ${error.message}`);
+    } else {
+      throw new Error("Failed to update category: Unknown error");
+    }
   }
 };
 
