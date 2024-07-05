@@ -43,7 +43,6 @@ const EditCategoryModal = () => {
     try {
       await updateCategory({
         ...values,
-        id: category.id,
       });
       toast.success("La catégorie a été mise à jour avec succès.");
     } catch (error) {
