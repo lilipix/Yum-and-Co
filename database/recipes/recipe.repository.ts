@@ -51,6 +51,28 @@ export const findRecipes = async (): Promise<Recipe[]> => {
   }
 };
 
+export const findRecipeById = async (
+  id: string,
+): Promise<RecipePopulated | null> => {
+  try {
+    const document = await RecipeModel.findById(id).populate(populateRecipe);
+
+    if (!document) {
+      throw new Error("Recipe not found");
+    }
+    return (
+      document.toJSON({
+        //serialized ObjectId to string
+        flattenObjectIds: true,
+        //__v non-inclusion
+        versionKey: false,
+      }) || null
+    );
+  } catch (error) {
+    throw new Error("Failed to find category by id");
+  }
+};
+
 export const findRecipesByCategories = async (
   category: string,
 ): Promise<RecipePopulated[]> => {

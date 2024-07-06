@@ -77,6 +77,8 @@ const IngredientsListFields = () => {
                       <Input
                         type="number"
                         defaultValue={field.value}
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
                         placeholder="Ex : 400"
                       />
                     </FormControl>

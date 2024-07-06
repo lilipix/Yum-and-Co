@@ -68,10 +68,9 @@ const recipeSchema = new Schema<RecipeDocument>({
   },
 });
 
-// recipeSchema.virtual('id').get(function getVirtualId () {
-//   return this._id?.toHexString();
-// }
-// );
+recipeSchema.virtual("id").get(function getVirtualId() {
+  return this._id?.toHexString();
+});
 
 recipeSchema.set("toObject", { virtuals: true });
 recipeSchema.set("toJSON", {
