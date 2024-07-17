@@ -1,5 +1,6 @@
 "use client";
 
+import useRecipe from "@/context/recipe/useRecipe";
 import { formatQuantity } from "@/lib/utils/recipe.utils";
 import { RecipePopulated } from "@/validators/recipe";
 import { getUnitLabel } from "@/validators/recipe/ingredient.validator";
@@ -7,11 +8,8 @@ import { Minus, Plus } from "lucide-react";
 import { useState } from "react";
 import { number } from "zod";
 
-type IngredientsListProps = {
-  recipe: RecipePopulated | null;
-};
-
-const IngredientsList = ({ recipe }: IngredientsListProps) => {
+const IngredientsList = () => {
+  const { recipe } = useRecipe();
   const [numberOfServings, setNumberOfServings] = useState<number>(
     recipe?.numberOfPersons ?? 0,
   );

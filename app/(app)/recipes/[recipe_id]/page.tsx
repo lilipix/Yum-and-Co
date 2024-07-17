@@ -7,6 +7,11 @@ import IngredientsList from "./components/IngredientsList";
 import RecipePreparation from "./components/RecipePreparation";
 import { Badge } from "@/components/ui/badge";
 import { ColorPalette } from "@/validators/tag";
+import { Edit } from "lucide-react";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import RecipeProvider from "@/context/recipe/provider";
+import RecipeEditButton from "./components/RecipeEditButton";
 type RecipePageProps = {
   params: {
     recipe_id: string;
@@ -17,45 +22,52 @@ const RecipePage = async ({ params }: RecipePageProps) => {
   await connectToDatabase();
 
   const recipe = await findRecipeById(recipe_id);
+
   return (
-    <div className="mx-auto flex w-full max-w-[768px] flex-col gap-4 p-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>
-            <span>{recipe?.title} </span>
-            <span>/ {recipe?.category.name}</span>
-          </CardTitle>
-          <div className="flex flex-wrap gap-2">
-            {recipe?.tags.map((tag) => (
-              <div key={tag.id}>
-                <Badge variant={tag.color || ColorPalette.SECONDARY}>
-                  {tag.name}
-                </Badge>
+    <RecipeProvider recipe={recipe}>
+      <div className="mx-auto flex w-full max-w-[768px] flex-col gap-4 p-6">
+        <Card>
+          <CardHeader>
+            <div className="flex justify-between">
+              <div className="flex flex-col gap-2">
+                <CardTitle>
+                  <span>{recipe?.title} </span>
+                </CardTitle>
+                <div className="flex flex-wrap gap-2">
+                  {recipe?.tags.map((tag) => (
+                    <div key={tag.id}>
+                      <Badge variant={tag.color || ColorPalette.SECONDARY}>
+                        {tag.name}
+                      </Badge>
+                    </div>
+                  ))}
+                </div>
               </div>
-            ))}
-          </div>
-        </CardHeader>
-        <CardContent>
-          <GeneralRecipeInformation recipe={recipe} />
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Ingrédients</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <IngredientsList recipe={recipe} />
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Préparation</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <RecipePreparation recipe={recipe} />
-        </CardContent>
-      </Card>
-    </div>
+              <RecipeEditButton recipe_id={recipe_id} />
+            </div>
+          </CardHeader>
+          <CardContent>
+            <GeneralRecipeInformation />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Ingrédients</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <IngredientsList />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Préparation</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <RecipePreparation />
+          </CardContent>
+        </Card>
+      </div>
+    </RecipeProvider>
   );
 };
 

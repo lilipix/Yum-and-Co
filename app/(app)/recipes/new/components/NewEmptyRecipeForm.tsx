@@ -1,7 +1,6 @@
 "use client";
 
-import { z } from "zod";
-import { IngredientsListFieldsSchema } from "./form-fields/IngredientsListFields";
+import { IngredientsListFieldsSchema } from "../../components/form-fields/IngredientsListFields";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,23 +9,24 @@ import { Loader2 } from "lucide-react";
 import { Form } from "@/components/ui/form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import dynamic from "next/dynamic";
-import { RecipePreparationFieldSchema } from "./form-fields/RecipePreparationField";
+import { RecipePreparationFieldSchema } from "../../components/form-fields/RecipePreparationField";
 import { Category } from "@/validators/category";
 import { toast } from "sonner";
 import useRecipe from "@/context/recipe/useRecipe";
-import { GeneralRecipeInformationFieldsSchema } from "./form-fields/GeneralRecipeInformationFields";
+import { GeneralRecipeInformationFieldsSchema } from "../../components/form-fields/GeneralRecipeInformationFields";
 import { Tag } from "@/validators/tag";
+import { z } from "zod";
 
 const IngredientsListForm = dynamic(
-  () => import("./form-fields/IngredientsListFields"),
+  () => import("../../components/form-fields/IngredientsListFields"),
 );
 
 const GeneralRecipeInformationFields = dynamic(
-  () => import("./form-fields/GeneralRecipeInformationFields"),
+  () => import("../../components/form-fields/GeneralRecipeInformationFields"),
 );
 
 const RecipePreparationForm = dynamic(
-  () => import("./form-fields/RecipePreparationField"),
+  () => import("../../components/form-fields/RecipePreparationField"),
 );
 
 type NewEmptyRecipeFormProps = {

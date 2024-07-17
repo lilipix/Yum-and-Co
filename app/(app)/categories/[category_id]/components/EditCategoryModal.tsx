@@ -24,8 +24,7 @@ export const EditCategoryModalSchema = z.object({
 type EditCategoryValues = z.infer<typeof EditCategoryModalSchema>;
 
 const EditCategoryModal = () => {
-  const { category, updateCategory, refetchCategory, isLoading, isMutating } =
-    useCategory();
+  const { category, updateCategory, isLoading, isMutating } = useCategory();
 
   const form = useForm<EditCategoryValues>({
     resolver: zodResolver(CategoryFormBlockSchema),

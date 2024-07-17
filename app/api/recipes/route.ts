@@ -5,6 +5,7 @@ import {
 } from "@/database/recipes/recipe.repository";
 import { NextRequest, NextResponse } from "next/server";
 import { CreateRecipeSchema } from "./_validators/create-recipe.validator";
+import { NextApiRequest, NextApiResponse } from "next";
 
 export async function POST(request: NextRequest) {
   try {

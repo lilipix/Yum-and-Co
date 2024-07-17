@@ -1,14 +1,12 @@
+"use client";
 import { Badge } from "@/components/ui/badge";
+import useRecipe from "@/context/recipe/useRecipe";
 import { RecipePopulated } from "@/validators/recipe";
 import { ColorPalette } from "@/validators/tag";
 import { Clock12, CookingPot, Microwave, Thermometer } from "lucide-react";
 
-type GeneralRecipeInformationProps = {
-  recipe: RecipePopulated | null;
-};
-const GeneralRecipeInformation = ({
-  recipe,
-}: GeneralRecipeInformationProps) => {
+const GeneralRecipeInformation = () => {
+  const { recipe } = useRecipe();
   return (
     <>
       <div className="flex flex-col justify-center gap-4 md:w-1/2">
