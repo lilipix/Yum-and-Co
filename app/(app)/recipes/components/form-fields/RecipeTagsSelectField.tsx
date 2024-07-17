@@ -2,7 +2,6 @@ import useTagCreate from "@/hooks/useTagCreate";
 import { ColorPalette, Tag } from "@/validators/tag";
 import { ReactNode } from "react";
 import { useFormContext } from "react-hook-form";
-import { z } from "zod";
 import {
   FormField,
   FormItem,
@@ -10,6 +9,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import CreateSelect from "@/app/(app)/recipes/components/Select/CreateSelect";
+import { z } from "zod";
 
 export const RecipeTagsSelectFieldSchema = z.object({
   tags: z.array(z.string()),
@@ -19,7 +19,7 @@ export type RecipeTagsSelectFieldValues = z.infer<
   typeof RecipeTagsSelectFieldSchema
 >;
 
-type RecipeCategoriesSelectFieldProps = {
+type RecipeTagsSelectFieldProps = {
   tags: Tag[];
   allowMultiple?: boolean;
   placeholder?: string;
@@ -34,7 +34,7 @@ const RecipeTagsSelectField = ({
   allowMultiple = true,
   enableColors = true,
   label = "Tags",
-}: RecipeCategoriesSelectFieldProps) => {
+}: RecipeTagsSelectFieldProps) => {
   const form = useFormContext<RecipeTagsSelectFieldValues>();
 
   const {

@@ -1,3 +1,5 @@
+"use client";
+
 import { SelectOption } from "@/app/(app)/recipes/components/Select/CreateSelect";
 import { createTag as createTagsRequest } from "@/services/tags.service";
 import { updateTag as updateTagRequest } from "@/services/tags.service";

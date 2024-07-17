@@ -29,7 +29,7 @@ export const IngredientsListFieldsSchema = z.object({
         .nullable()
         .transform((value) => (value ? value.toLowerCase() : null)),
       baseQuantity: z.coerce.number().optional(),
-      unit: z.nativeEnum(Unit).optional(),
+      unit: z.nativeEnum(Unit).nullable().optional(),
     }),
   ),
 });
@@ -94,7 +94,7 @@ const IngredientsListFields = () => {
                     <FormItem className="flex-1">
                       <FormLabel>Unité</FormLabel>
                       <Select
-                        value={field.value}
+                        value={field.value ?? ""}
                         onValueChange={(value) => field.onChange(value)}
                       >
                         <FormControl>

@@ -1,5 +1,5 @@
 import connectToDatabase from "@/lib/mongodb";
-import { CreateRecipeDTO } from "./recipe.dto";
+import { CreateRecipeDTO, UpdateRecipeDTO } from "./recipe.dto";
 import RecipeModel from "./recipe.model";
 import { populateRecipe } from "./utils/populate-recipe";
 import { Recipe, RecipePopulated } from "@/validators/recipe";
@@ -130,5 +130,31 @@ export const findRecipesByTags = async (
     );
   } catch (error) {
     throw new Error("Failed to find recipe by categories");
+  }
+};
+
+export const updateRecipe = async (
+  data: UpdateRecipeDTO,
+): Promise<RecipePopulated | null> => {
+  if (!data.id) {
+    throw new Error("No recipe ID provided");
+  }
+  try {
+    const document = await RecipeModel.findByIdAndUpdate(
+      data.id,
+      { $set: { ...data } },
+      { new: true },
+    ).populate(populateRecipe);
+    if (!document) {
+      throw new Error("Recipe not found");
+    }
+    return document.toJSON({
+      //serialized ObjectId to string
+      flattenObjectIds: true,
+      //__v non-inclusion
+      versionKey: false,
+    });
+  } catch (error) {
+    throw new Error("Failed to update recipe");
   }
 };
