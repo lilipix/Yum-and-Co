@@ -17,6 +17,7 @@ export type RecipeContextValue = {
   updateRecipe: (
     recipe: z.infer<typeof updateRecipeSchema> & { id: string },
   ) => Promise<RecipePopulated | null>;
+  deleteRecipe: () => Promise<RecipePopulated | null>;
 };
 
 const RecipeContext = createContext<RecipeContextValue | null>(null);

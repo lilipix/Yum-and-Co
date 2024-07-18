@@ -44,8 +44,8 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
-    const recipe = await findRecipes();
-    return NextResponse.json(recipe);
+    const recipes = await findRecipes();
+    return NextResponse.json(recipes);
   } catch (error) {
     console.error("API ERROR", error);
     return NextResponse.json(

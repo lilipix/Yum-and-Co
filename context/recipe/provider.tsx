@@ -5,11 +5,13 @@ import useSWR from "swr";
 import {
   createRecipe as createRecipeRequest,
   updateRecipe as updateRecipeRequest,
+  deleteRecipe as deleteRecipeRequest,
 } from "@/services/recipes.service";
 import RecipeContext, { RecipeContextValue } from ".";
 import { CreateRecipeSchema } from "@/app/api/recipes/_validators/create-recipe.validator";
 import { updateRecipeSchema } from "@/app/api/recipes/_validators/update-recipe-validator";
 import { z } from "zod";
+import { toast } from "sonner";
 
 type RecipeProviderProps = {
   children: ReactNode;
@@ -71,16 +73,47 @@ const RecipeProvider = ({
     [],
   );
 
+  const deleteRecipe = useCallback(
+    async () => {
+      if (!data) {
+        toast.error("Pas de recettes trouvées. Merci d'en créer une.");
+        return null;
+      }
+      setIsMutating(true);
+      try {
+        const deletetedRecipe = await deleteRecipeRequest(data.id);
+        await mutate(null);
+        return deletetedRecipe;
+      } catch (error) {
+        console.error(error);
+        throw error;
+      } finally {
+        setIsMutating(false);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
+
   const contextValue: RecipeContextValue = useMemo(
     () => ({
       recipe: data ?? null,
       createRecipe,
       updateRecipe,
+      deleteRecipe,
       isMutating,
       error,
       isLoading,
     }),
-    [createRecipe, updateRecipe, data, isMutating, error, isLoading],
+    [
+      createRecipe,
+      updateRecipe,
+      deleteRecipe,
+      data,
+      isMutating,
+      error,
+      isLoading,
+    ],
   );
 
   return (
