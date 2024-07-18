@@ -6,6 +6,25 @@ import {
 } from "@/validators/recipe";
 import { updateRecipeSchema } from "@/app/api/recipes/_validators/update-recipe-validator";
 
+export const findRecipe = async (): Promise<RecipePopulated[]> => {
+  try {
+    const response = await fetch("/api/recipes", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.error || "Failed to fetch recipe");
+    }
+    return RecipePopulatedSchema.array().parse(data);
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const createRecipe = async ({
   ...recipe
 }: Partial<Recipe>): Promise<RecipePopulated> => {
@@ -54,6 +73,23 @@ export const updateRecipe = async (
     return RecipePopulatedSchema.parse(data);
   } catch (error) {
     console.error("Failed to update recipe:", error);
+    throw error;
+  }
+};
+
+export const deleteRecipe = async (
+  recipeId: string,
+): Promise<RecipePopulated> => {
+  try {
+    const response = await fetch(`/api/recipes/${recipeId}`, {
+      method: "DELETE",
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Failed to delete category");
+    }
+    return await response.json();
+  } catch (error) {
     throw error;
   }
 };

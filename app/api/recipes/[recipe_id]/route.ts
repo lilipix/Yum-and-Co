@@ -1,4 +1,7 @@
-import { updateRecipe } from "@/database/recipes/recipe.repository";
+import {
+  deleteRecipe,
+  updateRecipe,
+} from "@/database/recipes/recipe.repository";
 import { NextRequest, NextResponse } from "next/server";
 import { updateRecipeSchema } from "../_validators/update-recipe-validator";
 
@@ -26,6 +29,22 @@ export async function PUT(
     console.error("Schema Validation Error:", schemaError);
     return NextResponse.json(
       { error: "Failed to update recipes" },
+      { status: 500 },
+    );
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { recipe_id: string } },
+) {
+  try {
+    const deletedRecipe = await deleteRecipe(params.recipe_id);
+    return NextResponse.json(deletedRecipe);
+  } catch (error) {
+    console.error("Error:", error);
+    return NextResponse.json(
+      { error: "Failed to delete recipes" },
       { status: 500 },
     );
   }

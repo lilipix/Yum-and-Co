@@ -1,15 +1,19 @@
+"use client";
+
 import Link from "next/link";
 import { CardContent } from "@/components/ui/card";
 
 import { RecipePopulated } from "@/validators/recipe";
 import { Badge } from "@/components/ui/badge";
 import { ColorPalette } from "@/validators/tag";
+import { useEffect } from "react";
 
 type RecipeProps = {
   recipes: RecipePopulated[];
 };
 
 const RecipeList = ({ recipes }: RecipeProps) => {
+  useEffect(() => {});
   return (
     <CardContent>
       <ul className="flex flex-wrap gap-4">

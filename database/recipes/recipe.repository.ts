@@ -158,3 +158,18 @@ export const updateRecipe = async (
     throw new Error("Failed to update recipe");
   }
 };
+
+export const deleteRecipe = async (id: string): Promise<RecipePopulated> => {
+  try {
+    const document = await RecipeModel.findByIdAndDelete(id);
+    if (!document) {
+      throw new Error("Recipe not found");
+    }
+    return document.toJSON({
+      flattenObjectIds: true,
+      versionKey: false,
+    });
+  } catch (error) {
+    throw Error("Failed to delete recipe");
+  }
+};
