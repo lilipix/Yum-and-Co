@@ -93,3 +93,29 @@ export const deleteRecipe = async (
     throw error;
   }
 };
+
+export const togglePin = async (
+  recipeId: string,
+  shouldPin: boolean,
+): Promise<Recipe> => {
+  try {
+    const url = `/api/recipes/${recipeId}/toggle-pin`;
+    const response = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ shouldPin }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Failed to toggle pin status:", error);
+    throw error;
+  }
+};

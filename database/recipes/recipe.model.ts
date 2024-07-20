@@ -66,6 +66,11 @@ const recipeSchema = new Schema<RecipeDocument>({
     type: String,
     default: null,
   },
+
+  pinned: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 recipeSchema.virtual("id").get(function getVirtualId() {

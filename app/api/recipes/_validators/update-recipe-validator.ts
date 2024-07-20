@@ -12,4 +12,5 @@ export const updateRecipeSchema = z.object({
   ovenTemperature: z.coerce.string().nullable(),
   ingredients: z.array(IngredientSchema),
   preparation: z.coerce.string().nullable(),
+  pinned: z.boolean(),
 });
