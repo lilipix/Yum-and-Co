@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Trash } from "lucide-react";
 import ConfirmDeleteRecipeModal from "./ConfirmDeleteRecipeModal";
 
-const DeleteRecipe = () => {
+const RecipeDeleteButton = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -18,4 +18,4 @@ const DeleteRecipe = () => {
   );
 };
 
-export default DeleteRecipe;
+export default RecipeDeleteButton;

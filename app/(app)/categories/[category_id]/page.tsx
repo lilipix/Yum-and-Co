@@ -36,7 +36,7 @@ const PageCategory = async ({ params }: PageCategoryProps) => {
               </div>
             </div>
           </CardHeader>
-          <RecipeList recipes={recipes} />
+          <RecipeList initialRecipes={recipes} />
         </Card>
       </div>
     </CategoryProvider>

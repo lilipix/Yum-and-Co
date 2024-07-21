@@ -6,34 +6,17 @@ import { CardContent } from "@/components/ui/card";
 import { RecipePopulated } from "@/validators/recipe";
 import { Badge } from "@/components/ui/badge";
 import { ColorPalette } from "@/validators/tag";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { togglePin } from "@/services/recipes.service";
 import { PinIcon, PinOff } from "lucide-react";
+import useTogglePin from "@/hooks/useTogglePin";
 
 type RecipeProps = {
-  recipes: RecipePopulated[];
+  initialRecipes: RecipePopulated[];
 };
 
-const RecipeList = ({ recipes }: RecipeProps) => {
-  const [recipeList, setRecipeList] = useState<RecipePopulated[]>(recipes);
-  const handleTogglePin = async (
-    recipeId: string,
-    currentlyPinned: boolean,
-  ) => {
-    try {
-      await togglePin(recipeId, !currentlyPinned);
-
-      const updatedRecipes = recipeList.map((recipe) => {
-        if (recipe.id === recipeId) {
-          return { ...recipe, pinned: !recipe.pinned };
-        }
-        return recipe;
-      });
-      setRecipeList(updatedRecipes);
-    } catch (error) {
-      console.error("Failed to toggle pin:", error);
-    }
-  };
+const RecipeList = ({ initialRecipes }: RecipeProps) => {
+  const { recipeList, handleTogglePin } = useTogglePin({ initialRecipes });
 
   return (
     <CardContent>
@@ -53,12 +36,13 @@ const RecipeList = ({ recipes }: RecipeProps) => {
                         e.preventDefault();
                         handleTogglePin(recipe.id, recipe.pinned);
                       }}
+                      className="hover:bg-border-dark rounded-full bg-border p-2"
                       aria-label={recipe.pinned ? "Unpin Recipe" : "Pin Recipe"}
                     >
                       {recipe.pinned ? (
-                        <PinIcon size="20" color="#566573 " />
+                        <PinIcon size="16" />
                       ) : (
-                        <PinOff size="20" color="#566573" />
+                        <PinOff size="16" />
                       )}
                     </button>
                   </div>

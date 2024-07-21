@@ -13,7 +13,7 @@ export async function PUT(
     }
 
     const body = await request.json();
-    const shouldPin = body.shouldPin;
+    const shouldPin: boolean = body.shouldPin;
 
     if (typeof shouldPin !== "boolean") {
       throw new Error("Invalid or missing 'shouldPin' value");
