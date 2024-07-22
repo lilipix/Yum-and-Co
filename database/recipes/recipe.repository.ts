@@ -134,6 +134,25 @@ export const findRecipesByTags = async (
   }
 };
 
+export const findPinnedRecipes = async (): Promise<RecipePopulated[]> => {
+  try {
+    await connectToDatabase();
+    const documents = await RecipeModel.find({ pinned: true }).populate(
+      populateRecipe,
+    );
+    return documents.map((document) =>
+      document.toJSON({
+        //serialized ObjectId to string
+        flattenObjectIds: true,
+        //__v non-inclusion
+        versionKey: false,
+      }),
+    );
+  } catch (error) {
+    throw new Error("Failed to find pinned recipes");
+  }
+};
+
 export const updateRecipe = async (
   data: UpdateRecipeDTO,
 ): Promise<RecipePopulated | null> => {
