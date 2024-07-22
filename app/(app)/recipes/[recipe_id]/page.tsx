@@ -12,7 +12,8 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import RecipeProvider from "@/context/recipe/provider";
 import RecipeEditButton from "./components/RecipeEditButton";
-import DeleteRecipe from "./components/DeleteRecipe";
+import DeleteRecipe from "./components/RecipeDeleteButton";
+import RecipePinnedButton from "./components/RecipePinnedButton";
 type RecipePageProps = {
   params: {
     recipe_id: string;
@@ -31,8 +32,9 @@ const RecipePage = async ({ params }: RecipePageProps) => {
           <CardHeader>
             <div className="flex justify-between">
               <div className="flex flex-col gap-2">
-                <CardTitle>
+                <CardTitle className="flex items-center justify-start gap-4">
                   <span>{recipe?.title} </span>
+                  <RecipePinnedButton initialRecipe={recipe} />
                 </CardTitle>
                 <div className="flex flex-wrap gap-2">
                   {recipe?.tags.map((tag) => (

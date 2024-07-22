@@ -14,6 +14,7 @@ export const RecipeSchema = z.object({
   ovenTemperature: z.coerce.string().nullable(),
   ingredients: z.array(IngredientSchema),
   preparation: z.coerce.string().nullable(),
+  pinned: z.boolean(),
 });
 
 export type Recipe = z.infer<typeof RecipeSchema>;

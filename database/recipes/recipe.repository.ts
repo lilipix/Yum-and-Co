@@ -3,6 +3,7 @@ import { CreateRecipeDTO, UpdateRecipeDTO } from "./recipe.dto";
 import RecipeModel from "./recipe.model";
 import { populateRecipe } from "./utils/populate-recipe";
 import { Recipe, RecipePopulated } from "@/validators/recipe";
+import { boolean } from "zod";
 
 export const createRecipe = async (
   data: CreateRecipeDTO,
@@ -171,5 +172,18 @@ export const deleteRecipe = async (id: string): Promise<RecipePopulated> => {
     });
   } catch (error) {
     throw Error("Failed to delete recipe");
+  }
+};
+
+export const toggleRecipePin = async (recipeId: string, shouldPin: boolean) => {
+  try {
+    const result = await RecipeModel.findByIdAndUpdate(
+      recipeId,
+      { $set: { pinned: shouldPin } },
+      { new: true },
+    );
+    return result;
+  } catch (error) {
+    throw new Error("Error updating recipe status");
   }
 };
