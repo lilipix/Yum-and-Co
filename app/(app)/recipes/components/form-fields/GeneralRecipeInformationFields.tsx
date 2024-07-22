@@ -18,8 +18,6 @@ import RecipeCategoriesSelectField, {
 import RecipeTagsSelectField from "./RecipeTagsSelectField";
 import { Tag } from "@/validators/tag";
 
-const IngredientsListFields = dynamic(() => import("./IngredientsListFields"));
-
 type GeneralRecipeInformationFieldsProps = {
   categories: Category[];
   tags: Tag[];
@@ -65,9 +63,6 @@ const GeneralRecipeInformationFields = ({
 }: GeneralRecipeInformationFieldsProps) => {
   const form = useFormContext<GeneralRecipeInformationFieldsValues>();
 
-  const category = form.watch("category");
-
-  const { errors } = form.formState;
   return (
     <div className="flex flex-col gap-4">
       <FormField

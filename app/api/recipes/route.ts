@@ -30,7 +30,6 @@ export async function POST(request: NextRequest) {
       ovenTemperature: values.ovenTemperature,
       ingredients: values.ingredients,
       preparation: values.preparation,
-      pinned: values.pinned,
     });
 
     return NextResponse.json(recipe);

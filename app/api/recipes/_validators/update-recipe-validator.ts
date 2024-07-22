@@ -2,7 +2,6 @@ import { IngredientSchema } from "@/validators/recipe/ingredient.validator";
 import { z } from "zod";
 
 export const updateRecipeSchema = z.object({
-  // id: z.coerce.string().min(1, "Cannot be empty."),
   title: z.coerce.string().min(1, "Cannot be empty."),
   category: z.coerce.string(),
   tags: z.array(z.coerce.string().nullable()),
@@ -12,5 +11,4 @@ export const updateRecipeSchema = z.object({
   ovenTemperature: z.coerce.string().nullable(),
   ingredients: z.array(IngredientSchema),
   preparation: z.coerce.string().nullable(),
-  pinned: z.boolean(),
 });
