@@ -26,38 +26,30 @@ const RecipeList = ({ initialRecipes }: RecipeProps) => {
             className="mx-auto flex w-[200px] cursor-pointer flex-wrap rounded-xl bg-pinklight px-4 py-2 font-semibold transition duration-150 ease-in-out hover:border-pinklight hover:bg-pinkMedium"
             key={recipe.id}
           >
-            <div className="flex justify-between">
-              <Link href={`/recipes/${recipe.id}`}>
-                <div className="w-full">
-                  <div className="flex items-start justify-between gap-2">
-                    <div>{recipe.title}</div>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleTogglePin(recipe.id, recipe.pinned);
-                      }}
-                      className="hover:bg-border-dark rounded-full bg-border p-2"
-                      aria-label={recipe.pinned ? "Unpin Recipe" : "Pin Recipe"}
-                    >
-                      {recipe.pinned ? (
-                        <PinIcon size="16" />
-                      ) : (
-                        <PinOff size="16" />
-                      )}
-                    </button>
+            <Link href={`/recipes/${recipe.id}`} className="block w-full">
+              <div className="flex items-start justify-between gap-2">
+                <div>{recipe.title}</div>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleTogglePin(recipe.id, recipe.pinned);
+                  }}
+                  className="rounded-full bg-border p-2 hover:bg-border-dark"
+                  aria-label={recipe.pinned ? "Unpin Recipe" : "Pin Recipe"}
+                >
+                  {recipe.pinned ? <PinIcon size="16" /> : <PinOff size="16" />}
+                </button>
+              </div>
+              <div className="mt-2 flex w-full flex-wrap gap-2">
+                {recipe.tags.map((tag) => (
+                  <div key={tag.id}>
+                    <Badge variant={tag.color || ColorPalette.SECONDARY}>
+                      {tag.name}
+                    </Badge>
                   </div>
-                  <div className="mt-2 flex w-full flex-wrap gap-2">
-                    {recipe.tags.map((tag) => (
-                      <div key={tag.id}>
-                        <Badge variant={tag.color || ColorPalette.SECONDARY}>
-                          {tag.name}
-                        </Badge>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </Link>
-            </div>
+                ))}
+              </div>
+            </Link>
           </li>
         ))}
       </ul>
