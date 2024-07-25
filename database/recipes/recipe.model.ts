@@ -26,52 +26,54 @@ const ingredientSchema = new Schema<IIngredient>({
   },
 });
 
-const recipeSchema = new Schema<RecipeDocument>({
-  title: {
-    type: String,
-    required: true,
-    unique: true,
+const recipeSchema = new Schema<RecipeDocument>(
+  {
+    title: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    category: {
+      type: Schema.Types.ObjectId,
+      ref: CategoryModel,
+      required: true,
+    },
+    tags: {
+      type: [Schema.Types.ObjectId],
+      ref: TagModel,
+      default: [],
+    },
+    numberOfPersons: {
+      type: Number,
+      default: null,
+    },
+    preparationTime: {
+      type: String,
+      default: null,
+    },
+    cookingTime: {
+      type: String,
+      default: null,
+    },
+    ovenTemperature: {
+      type: String,
+      default: null,
+    },
+    ingredients: {
+      type: [ingredientSchema],
+      default: [],
+    },
+    preparation: {
+      type: String,
+      default: null,
+    },
+    pinned: {
+      type: Boolean,
+      default: false,
+    },
   },
-  category: {
-    type: Schema.Types.ObjectId,
-    ref: CategoryModel,
-    required: true,
-  },
-  tags: {
-    type: [Schema.Types.ObjectId],
-    ref: TagModel,
-    default: [],
-  },
-  numberOfPersons: {
-    type: Number,
-    default: null,
-  },
-  preparationTime: {
-    type: String,
-    default: null,
-  },
-  cookingTime: {
-    type: String,
-    default: null,
-  },
-  ovenTemperature: {
-    type: String,
-    default: null,
-  },
-  ingredients: {
-    type: [ingredientSchema],
-    default: [],
-  },
-  preparation: {
-    type: String,
-    default: null,
-  },
-
-  pinned: {
-    type: Boolean,
-    default: false,
-  },
-});
+  { timestamps: true },
+);
 
 recipeSchema.virtual("id").get(function getVirtualId() {
   return this._id?.toHexString();
