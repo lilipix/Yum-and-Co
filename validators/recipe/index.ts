@@ -15,6 +15,7 @@ export const RecipeSchema = z.object({
   ingredients: z.array(IngredientSchema),
   preparation: z.coerce.string().nullable(),
   pinned: z.boolean(),
+  created_at: z.date().optional(),
 });
 
 export type Recipe = z.infer<typeof RecipeSchema>;
