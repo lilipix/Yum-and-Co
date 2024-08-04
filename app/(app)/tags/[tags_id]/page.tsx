@@ -7,6 +7,14 @@ import EditTag from "./components/EditTag";
 import TagsProvider from "@/context/tags/provider";
 import RecipeListContainer from "./components/RecipesListContainer";
 import DeleteTags from "./components/DeleteTags";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 type TagsPageProps = {
   params: {
@@ -33,22 +41,37 @@ const TagsPage = async ({ params }: TagsPageProps) => {
   const recipes = await findRecipesByTags(tagIdsArray);
 
   return (
-    <TagsProvider tags={tags}>
-      <div className="mx-auto flex w-full max-w-[1024px] flex-col p-6">
-        <Card>
-          <CardHeader>
-            <div className="flex justify-between">
-              <TagsHeader recipes={recipes} />
-              <div className="flex gap-2">
-                <EditTag />
-                <DeleteTags />
+    <div className="mx-auto flex w-full max-w-[1024px] flex-col space-y-6 p-6">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Accueil</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>
+              {tags.map((tag) => tag.name).join(" - ")}
+            </BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+      <TagsProvider tags={tags}>
+        <div>
+          <Card>
+            <CardHeader>
+              <div className="flex justify-between">
+                <TagsHeader recipes={recipes} />
+                <div className="flex gap-2">
+                  <EditTag />
+                  <DeleteTags />
+                </div>
               </div>
-            </div>
-          </CardHeader>
-          <RecipeListContainer initialRecipes={recipes} />
-        </Card>
-      </div>
-    </TagsProvider>
+            </CardHeader>
+            <RecipeListContainer initialRecipes={recipes} tagsId={tags_id} />
+          </Card>
+        </div>
+      </TagsProvider>
+    </div>
   );
 };
 

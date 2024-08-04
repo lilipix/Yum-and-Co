@@ -1,8 +1,8 @@
 import connectToDatabase from "@/lib/mongodb";
-import AddRecipeButton from "./components/AddRecipeButton";
+import AddRecipeButton from "./_components/AddRecipeButton";
 import { findCategories } from "@/database/categories/category.repository";
-import CategoriesList from "./components/CategoriesList";
-import TagsList from "./components/TagsList";
+import CategoriesList from "./_components/CategoriesList";
+import TagsList from "./_components/TagsList";
 
 import { findTags } from "@/database/tags/tag.repository";
 import {
@@ -12,8 +12,8 @@ import {
 } from "@/database/recipes/recipe.repository";
 import LoadingSvg from "@/assets/svg/LoadingSvg";
 import TagsProvider from "@/context/tags/provider";
-import PinnedRecipesList from "./components/PinnedRecipesList";
-import LatestRecipesAdded from "./components/LatestRecipesAdded";
+import PinnedRecipesList from "./_components/PinnedRecipesList";
+import LatestRecipesAdded from "./_components/LatestRecipesAdded";
 
 const HomePage = async () => {
   await connectToDatabase();
