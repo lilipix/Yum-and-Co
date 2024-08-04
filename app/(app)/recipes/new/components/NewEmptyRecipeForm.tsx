@@ -100,10 +100,10 @@ const NewEmptyRecipeForm = ({ categories, tags }: NewEmptyRecipeFormProps) => {
     <div>
       <Form {...form}>
         <form
-          className="mx-auto flex flex-col md:w-1/2"
+          className="mx-auto flex flex-col"
           onSubmit={form.handleSubmit(handleSubmit)}
         >
-          <div className="m-4 space-y-8">
+          <div className="space-y-8">
             <Card>
               <CardHeader>
                 <CardTitle>Informations générales</CardTitle>

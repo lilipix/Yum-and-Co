@@ -1,16 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import RecipeProvider from "@/context/recipe/provider";
 import { findRecipeById } from "@/database/recipes/recipe.repository";
 import connectToDatabase from "@/lib/mongodb";
-import React from "react";
-import GeneralRecipeInformation from "./components/GeneralRecipeInformation";
-import IngredientsList from "./components/IngredientsList";
-import RecipePreparation from "./components/RecipePreparation";
-import { Badge } from "@/components/ui/badge";
-import { ColorPalette } from "@/validators/tag";
-import RecipeProvider from "@/context/recipe/provider";
-import RecipeEditButton from "./components/RecipeEditButton";
-import DeleteRecipe from "./components/RecipeDeleteButton";
-import RecipePinnedButton from "../../_components/RecipePinnedButton";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -19,16 +9,27 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { ColorPalette } from "@/validators/tag";
+import RecipePinnedButton from "@/app/(app)/_components/RecipePinnedButton";
+import RecipeEditButton from "@/app/(app)/recipes/[recipe_id]/components/RecipeEditButton";
+import GeneralRecipeInformation from "@/app/(app)/recipes/[recipe_id]/components/GeneralRecipeInformation";
+import IngredientsList from "@/app/(app)/recipes/[recipe_id]/components/IngredientsList";
+import RecipePreparation from "@/app/(app)/recipes/[recipe_id]/components/RecipePreparation";
+import RecipeDeleteButton from "@/app/(app)/recipes/[recipe_id]/components/RecipeDeleteButton";
+import CategoriesLayout from "../../layout";
 
-type RecipePageProps = {
+type RecipePageByCategoryProps = {
   params: {
     recipe_id: string;
+    category_id: string;
   };
 };
-const RecipePage = async ({ params }: RecipePageProps) => {
-  const { recipe_id } = params;
-  await connectToDatabase();
+const RecipePageByCategory = async ({ params }: RecipePageByCategoryProps) => {
+  const { recipe_id, category_id } = params;
 
+  await connectToDatabase();
   const recipe = await findRecipeById(recipe_id);
 
   return (
@@ -37,6 +38,12 @@ const RecipePage = async ({ params }: RecipePageProps) => {
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink href="/">Accueil</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href={`/categories/${category_id}`}>
+              {recipe?.category?.name}
+            </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -52,9 +59,7 @@ const RecipePage = async ({ params }: RecipePageProps) => {
               <div className="flex flex-col gap-2">
                 <CardTitle className="flex items-center justify-start gap-4">
                   <span>{recipe?.title} </span>
-                  <div className="sm:hidden">
-                    <RecipePinnedButton initialRecipe={recipe} />
-                  </div>
+                  <RecipePinnedButton initialRecipe={recipe} />
                 </CardTitle>
                 <div className="flex flex-wrap gap-2">
                   {recipe?.tags.map((tag) => (
@@ -67,11 +72,8 @@ const RecipePage = async ({ params }: RecipePageProps) => {
                 </div>
               </div>
               <div className="flex gap-2">
-                {/* <div className="hidden sm:inline-block">
-                  <RecipePinnedButton initialRecipe={recipe} />
-                </div> */}
                 <RecipeEditButton recipe_id={recipe_id} />
-                <DeleteRecipe />
+                <RecipeDeleteButton />
               </div>
             </div>
           </CardHeader>
@@ -100,4 +102,4 @@ const RecipePage = async ({ params }: RecipePageProps) => {
   );
 };
 
-export default RecipePage;
+export default RecipePageByCategory;
