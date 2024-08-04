@@ -13,7 +13,7 @@ const TagsHeader = ({ recipes }: TagsHeaderProps) => {
 
   return (
     <div>
-      <CardTitle className="mb-4">
+      <CardTitle className="mb-4 space-y-4">
         {tags?.map((tag) => (
           <Badge
             key={tag.name}

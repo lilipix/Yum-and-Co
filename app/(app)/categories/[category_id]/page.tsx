@@ -4,9 +4,17 @@ import { findRecipesByCategories } from "@/database/recipes/recipe.repository";
 import connectToDatabase from "@/lib/mongodb";
 import CategoryProvider from "@/context/category/provider";
 import EditCategory from "./components/EditCategory";
-import RecipeList from "../../components/RecipeList";
+import RecipeList from "../../_components/RecipeList";
 import CategoryHeader from "./components/CategoryHeader";
 import DeleteCategory from "./components/DeleteCategory";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 type PageCategoryProps = {
   params: {
@@ -24,22 +32,36 @@ const PageCategory = async ({ params }: PageCategoryProps) => {
   const recipes = await findRecipesByCategories(category_id);
 
   return (
-    <CategoryProvider category={category}>
-      <div className="mx-auto flex w-full max-w-[1024px] flex-col p-6">
-        <Card>
-          <CardHeader>
-            <div className="flex justify-between">
-              <CategoryHeader />
-              <div className="flex gap-2">
-                <EditCategory />
-                <DeleteCategory />
+    <div className="mx-auto flex w-full max-w-[1024px] flex-col space-y-6 p-6">
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Accueil</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>{category.name}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
+      <CategoryProvider category={category}>
+        <div>
+          <Card>
+            <CardHeader>
+              <div className="flex justify-between">
+                <CategoryHeader />
+                <div className="flex gap-2">
+                  <EditCategory />
+                  <DeleteCategory />
+                </div>
               </div>
-            </div>
-          </CardHeader>
-          <RecipeList initialRecipes={recipes} />
-        </Card>
-      </div>
-    </CategoryProvider>
+            </CardHeader>
+            <RecipeList initialRecipes={recipes} categoryId={category_id} />
+          </Card>
+        </div>
+      </CategoryProvider>
+    </div>
   );
 };
 

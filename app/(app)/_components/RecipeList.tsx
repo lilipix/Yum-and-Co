@@ -5,17 +5,18 @@ import { CardContent } from "@/components/ui/card";
 
 import { RecipePopulated } from "@/validators/recipe";
 import { Badge } from "@/components/ui/badge";
-import { ColorPalette } from "@/validators/tag";
-import { useState } from "react";
-import { togglePin } from "@/services/recipes.service";
+import { ColorPalette, Tag } from "@/validators/tag";
 import { PinIcon, PinOff } from "lucide-react";
 import useTogglePin from "@/hooks/useTogglePin";
+import { Category } from "@/validators/category";
 
 type RecipeProps = {
   initialRecipes: RecipePopulated[];
+  categoryId?: string;
+  tagsId?: string;
 };
 
-const RecipeList = ({ initialRecipes }: RecipeProps) => {
+const RecipeList = ({ initialRecipes, categoryId, tagsId }: RecipeProps) => {
   const { recipeList, handleTogglePin } = useTogglePin({ initialRecipes });
 
   return (
@@ -26,7 +27,16 @@ const RecipeList = ({ initialRecipes }: RecipeProps) => {
             className="mx-auto flex w-[200px] cursor-pointer flex-wrap rounded-xl bg-pinklight px-4 py-2 font-semibold transition duration-150 ease-in-out hover:border-pinklight hover:bg-pinkMedium"
             key={recipe.id}
           >
-            <Link href={`/recipes/${recipe.id}`} className="block w-full">
+            <Link
+              href={
+                categoryId
+                  ? `/categories/${categoryId}/${recipe.id}`
+                  : tagsId
+                    ? `/tags/${tagsId}/${recipe.id}`
+                    : `/recipes/${recipe.id}`
+              }
+              className="block w-full"
+            >
               <div className="flex items-start justify-between gap-2">
                 <div>{recipe.title}</div>
                 <button
