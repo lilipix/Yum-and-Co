@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import useCategory from "@/context/category/useCategory";
 import { fetchCategories } from "@/services/categories.service";
 import { Category } from "@/validators/category";
 import Link from "next/link";
@@ -33,7 +34,7 @@ const CategoriesList = ({ initialCategories }: CategoriesListProps) => {
       <Card>
         <CardHeader>
           <CardTitle>Catégories</CardTitle>
-          {Array.isArray(categories) && categories.length > 0 ? (
+          {categories && categories.length > 0 ? (
             <CardDescription>
               Recherchez les recettes par catégories.
             </CardDescription>
@@ -45,7 +46,7 @@ const CategoriesList = ({ initialCategories }: CategoriesListProps) => {
         </CardHeader>
         <CardContent>
           <ul className="flex flex-wrap gap-4">
-            {Array.isArray(categories) &&
+            {categories &&
               categories.map((category) => (
                 <li key={category.id}>
                   <Link
