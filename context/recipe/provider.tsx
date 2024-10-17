@@ -51,16 +51,17 @@ const RecipeProvider = ({
       recipe: z.infer<typeof updateRecipeSchema> & { id: string },
     ): Promise<RecipePopulated | null> => {
       try {
-        if (!data) {
+        if (!recipe || !recipe.id) {
           throw new Error(
             "Aucune donnée disponible pour mettre à jour la recette.",
           );
         }
         setIsMutating(true);
-        const updatedRecipe = await updateRecipeRequest({
-          ...recipe,
-        });
-        await mutate(updatedRecipe);
+        const updatedRecipe = await updateRecipeRequest(recipe);
+        // const updatedRecipe = await updateRecipeRequest({
+        //   ...recipe,
+        // });
+        await mutate(updatedRecipe, false);
         return updatedRecipe;
       } catch (error) {
         console.error("Failed to update recipe:", error);

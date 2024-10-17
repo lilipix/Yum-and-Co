@@ -2,9 +2,12 @@
 
 import { CardDescription, CardTitle } from "@/components/ui/card";
 import useCategory from "@/context/category/useCategory";
+import { Category } from "@/validators/category";
 
-const CategoryHeader = () => {
-  const { category } = useCategory();
+type CategoryHeaderProps = {
+  category: Category;
+};
+const CategoryHeader = ({ category }: CategoryHeaderProps) => {
   return (
     <div>
       <CardTitle className="mb-4">{category?.name}</CardTitle>

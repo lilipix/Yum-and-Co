@@ -50,7 +50,7 @@ const PageCategory = async ({ params }: PageCategoryProps) => {
           <Card>
             <CardHeader>
               <div className="flex justify-between">
-                <CategoryHeader />
+                <CategoryHeader category={category} />
                 <div className="flex gap-2">
                   <EditCategory />
                   <DeleteCategory />

@@ -14,6 +14,7 @@ import LoadingSvg from "@/assets/svg/LoadingSvg";
 import TagsProvider from "@/context/tags/provider";
 import PinnedRecipesList from "./_components/PinnedRecipesList";
 import LatestRecipesAdded from "./_components/LatestRecipesAdded";
+import CategoryProvider from "@/context/category/provider";
 
 const HomePage = async () => {
   await connectToDatabase();
@@ -24,6 +25,7 @@ const HomePage = async () => {
   const latestRecipesAdded = await findLatestRecipesAdded();
 
   return (
+    // <CategoryProvider categories={categories}>
     <main className="flex flex-col items-center gap-8 p-6">
       <AddRecipeButton />
       <CategoriesList
@@ -33,6 +35,7 @@ const HomePage = async () => {
       <PinnedRecipesList pinnedRecipes={pinnedRecipes} />
       <LatestRecipesAdded latestRecipesAdded={latestRecipesAdded} />
     </main>
+    // </CategoryProvider>
   );
 };
 

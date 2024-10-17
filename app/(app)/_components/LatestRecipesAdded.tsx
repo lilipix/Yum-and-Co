@@ -11,6 +11,7 @@ import RecipeList from "./RecipeList";
 type LatestRecipesAddedProps = {
   latestRecipesAdded: RecipePopulated[];
 };
+
 const LatestRecipesAdded = ({
   latestRecipesAdded,
 }: LatestRecipesAddedProps) => {

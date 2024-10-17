@@ -72,7 +72,10 @@ const RecipePageByCategory = async ({ params }: RecipePageByCategoryProps) => {
                 </div>
               </div>
               <div className="flex gap-2">
-                <RecipeEditButton recipe_id={recipe_id} />
+                <RecipeEditButton
+                  recipe_id={recipe_id}
+                  category_id={category_id}
+                />
                 <RecipeDeleteButton />
               </div>
             </div>
