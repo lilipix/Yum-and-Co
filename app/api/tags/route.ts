@@ -3,9 +3,11 @@ import { CreateTagSchema } from "./_validators/create-tag.validator";
 import { createTag, findTags } from "@/database/tags/tag.repository";
 import { Tag } from "@/validators/tag";
 import { z } from "zod";
+import connectToDatabase from "@/lib/mongodb";
 
 export async function POST(request: NextRequest) {
   try {
+    await connectToDatabase();
     const body = await request.json();
     const { name, color } = CreateTagSchema.parse(body);
     const createdTag = await createTag({
@@ -24,6 +26,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
+    await connectToDatabase();
     const tags = await findTags();
     return NextResponse.json(tags);
   } catch (error) {

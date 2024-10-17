@@ -9,7 +9,6 @@ export const createRecipe = async (
   data: CreateRecipeDTO,
 ): Promise<RecipePopulated> => {
   try {
-    await connectToDatabase();
     const document = await RecipeModel.create(data);
 
     const populatedRecipe = await document.populate(populateRecipe);
@@ -28,7 +27,6 @@ export const createRecipe = async (
 
 export const findRecipeByTitle = async (title: string) => {
   try {
-    await connectToDatabase();
     return await RecipeModel.findOne({ title });
   } catch (error) {
     throw new Error("Failed to find recipe");
@@ -37,7 +35,6 @@ export const findRecipeByTitle = async (title: string) => {
 
 export const findRecipes = async (): Promise<Recipe[]> => {
   try {
-    await connectToDatabase();
     const documents = await RecipeModel.find();
     return documents.map((document) =>
       document.toJSON({
@@ -178,23 +175,23 @@ export const updateRecipe = async (
     throw new Error("No recipe ID provided");
   }
   try {
-    const document = await RecipeModel.findById(data.id);
+    // const document = await RecipeModel.findById(data.id);
 
-    if (!document) {
-      throw new Error("Recipe not found");
-    }
-
-    Object.assign(document, data);
-    await document.save(); // Sauvegarde les modifications
-    await document.populate(populateRecipe);
-    // const document = await RecipeModel.findByIdAndUpdate(
-    //   data.id,
-    //   { $set: { ...data } },
-    //   { new: true },
-    // ).populate(populateRecipe);
     // if (!document) {
     //   throw new Error("Recipe not found");
     // }
+
+    // Object.assign(document, data);
+    // await document.save(); // Sauvegarde les modifications
+    // await document.populate(populateRecipe);
+    const document = await RecipeModel.findByIdAndUpdate(
+      data.id,
+      { $set: { ...data } },
+      { new: true },
+    ).populate(populateRecipe);
+    if (!document) {
+      throw new Error("Recipe not found");
+    }
 
     return document.toJSON({
       //serialized ObjectId to string

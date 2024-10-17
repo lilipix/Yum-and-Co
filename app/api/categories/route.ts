@@ -4,9 +4,11 @@ import {
   createCategory,
   findCategories,
 } from "@/database/categories/category.repository";
+import connectToDatabase from "@/lib/mongodb";
 
 export async function POST(request: NextRequest) {
   try {
+    await connectToDatabase();
     const body = await request.json();
     const values = CreateCategorySchema.parse(body);
 
@@ -25,6 +27,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
+    await connectToDatabase();
     const categories = await findCategories();
     return NextResponse.json(categories);
   } catch (error) {
