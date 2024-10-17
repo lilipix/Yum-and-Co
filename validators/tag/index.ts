@@ -12,7 +12,6 @@ export type Variant =
   | "info"
   | "purple"
   | "pinkdark"
-  // | "outline"
   | "pinklight"
   | "orange"
   | null

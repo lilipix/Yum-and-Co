@@ -70,7 +70,7 @@ export const findRecipeById = async (
       }) || null
     );
   } catch (error) {
-    throw new Error("Failed to find category by id");
+    throw new Error("Failed to find recipe by id");
   }
 };
 
@@ -136,7 +136,6 @@ export const findRecipesByTags = async (
 
 export const findPinnedRecipes = async (): Promise<RecipePopulated[]> => {
   try {
-    await connectToDatabase();
     const documents = await RecipeModel.find({ pinned: true }).populate(
       populateRecipe,
     );
@@ -179,14 +178,24 @@ export const updateRecipe = async (
     throw new Error("No recipe ID provided");
   }
   try {
-    const document = await RecipeModel.findByIdAndUpdate(
-      data.id,
-      { $set: { ...data } },
-      { new: true },
-    ).populate(populateRecipe);
+    const document = await RecipeModel.findById(data.id);
+
     if (!document) {
       throw new Error("Recipe not found");
     }
+
+    Object.assign(document, data);
+    await document.save(); // Sauvegarde les modifications
+    await document.populate(populateRecipe);
+    // const document = await RecipeModel.findByIdAndUpdate(
+    //   data.id,
+    //   { $set: { ...data } },
+    //   { new: true },
+    // ).populate(populateRecipe);
+    // if (!document) {
+    //   throw new Error("Recipe not found");
+    // }
+
     return document.toJSON({
       //serialized ObjectId to string
       flattenObjectIds: true,
@@ -194,6 +203,7 @@ export const updateRecipe = async (
       versionKey: false,
     });
   } catch (error) {
+    console.error(error);
     throw new Error("Failed to update recipe");
   }
 };
