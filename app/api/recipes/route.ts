@@ -6,9 +6,11 @@ import {
 import { NextRequest, NextResponse } from "next/server";
 import { CreateRecipeSchema } from "./_validators/create-recipe.validator";
 import { NextApiRequest, NextApiResponse } from "next";
+import connectToDatabase from "@/lib/mongodb";
 
 export async function POST(request: NextRequest) {
   try {
+    await connectToDatabase();
     const body = await request.json();
     const values = CreateRecipeSchema.parse(body);
 
@@ -44,6 +46,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   try {
+    await connectToDatabase();
     const recipes = await findRecipes();
     return NextResponse.json(recipes);
   } catch (error) {

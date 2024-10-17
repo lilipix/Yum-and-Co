@@ -4,12 +4,14 @@ import {
 } from "@/database/recipes/recipe.repository";
 import { NextRequest, NextResponse } from "next/server";
 import { updateRecipeSchema } from "../_validators/update-recipe-validator";
+import connectToDatabase from "@/lib/mongodb";
 
 export async function PUT(
   request: NextRequest,
   { params }: { params: { recipe_id: string } },
 ) {
   try {
+    await connectToDatabase();
     const { recipe_id } = params;
 
     if (!recipe_id) {
@@ -39,6 +41,7 @@ export async function DELETE(
   { params }: { params: { recipe_id: string } },
 ) {
   try {
+    await connectToDatabase();
     const deletedRecipe = await deleteRecipe(params.recipe_id);
     return NextResponse.json(deletedRecipe);
   } catch (error) {

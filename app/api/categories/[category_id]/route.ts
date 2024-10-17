@@ -7,12 +7,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { UpdateCategorySchema } from "../_validators/update-category.validator";
 import { findRecipesByCategories } from "@/database/recipes/recipe.repository";
 import { toast } from "sonner";
+import connectToDatabase from "@/lib/mongodb";
 
 export async function PUT(
   request: NextRequest,
   { params }: { params: { category_id: string } },
 ) {
   try {
+    await connectToDatabase();
     const body = await request.json();
     const { name } = UpdateCategorySchema.parse(body);
     const updatedCategory = await updateCategory(params.category_id, {
@@ -34,6 +36,7 @@ export async function DELETE(
   { params }: { params: { category_id: string } },
 ) {
   try {
+    await connectToDatabase();
     const recipesByCategories = await findRecipesByCategories(
       params.category_id,
     );
