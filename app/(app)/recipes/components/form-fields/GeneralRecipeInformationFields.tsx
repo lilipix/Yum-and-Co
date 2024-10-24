@@ -29,6 +29,13 @@ export const GeneralRecipeInformationFieldsSchema = z
       .string({ required_error: "Requis." })
       .min(1, { message: "Le nom doit être renseigné." })
       .transform(capitalizeFirstLetter),
+    picture: z.coerce
+      .string()
+      .url({
+        message:
+          "L'URL de l'image n'est pas valide. Veuillez fournir une URL correcte.",
+      })
+      .optional(),
     tags: z.array(z.coerce.string().nullable()),
     numberOfPersons: z.coerce.number().optional(),
     preparationTime: z.coerce
@@ -77,6 +84,24 @@ const GeneralRecipeInformationFields = ({
                 {...field}
                 value={field.value ?? ""}
                 placeholder="Ex : Salade de saison"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="picture"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Photo de la recette</FormLabel>
+            <FormControl>
+              <Input
+                type="text"
+                {...field}
+                value={field.value ?? ""}
+                placeholder="Ex: Veuillez saisir l'adresse de l'image"
               />
             </FormControl>
             <FormMessage />

@@ -71,6 +71,17 @@ const recipeSchema = new Schema<RecipeDocument>(
       type: Boolean,
       default: false,
     },
+    picture: {
+      type: String,
+      required: true,
+      validate: {
+        // validate url
+        validator: function (v) {
+          return /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i.test(v);
+        },
+        message: (props) => `${props.value} n'est pas une URL valide !`,
+      },
+    },
   },
   { timestamps: true },
 );
