@@ -19,6 +19,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import Image from "next/image";
 
 type RecipePageProps = {
   params: {
@@ -75,6 +76,20 @@ const RecipePage = async ({ params }: RecipePageProps) => {
               </div>
             </div>
           </CardHeader>
+          {recipe?.picture ? (
+            <CardContent className="relative mb-6 h-[300px] w-full">
+              <Image
+                src={recipe?.picture}
+                fill={true}
+                style={{ objectFit: "cover" }}
+                sizes="100vw"
+                alt="Picture of the recipe"
+              />
+            </CardContent>
+          ) : (
+            ""
+          )}
+
           <CardContent>
             <GeneralRecipeInformation />
           </CardContent>
