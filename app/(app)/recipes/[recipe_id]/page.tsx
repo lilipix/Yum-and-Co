@@ -19,6 +19,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import Image from "next/image";
 
 type RecipePageProps = {
   params: {
@@ -51,10 +52,24 @@ const RecipePage = async ({ params }: RecipePageProps) => {
             <div className="flex justify-between">
               <div className="flex flex-col gap-2">
                 <CardTitle className="flex items-center justify-start gap-4">
-                  <span>{recipe?.title} </span>
-                  <div className="sm:hidden">
-                    <RecipePinnedButton initialRecipe={recipe} />
+                  <div>
+                    <span>{recipe?.title} </span>
+                    <div className="sm:hidden">
+                      <RecipePinnedButton initialRecipe={recipe} />
+                    </div>
                   </div>
+                  {/* <div>
+                    {recipe?.picture ? (
+                      <Image
+                        src={recipe?.picture}
+                        width={500}
+                        height={500}
+                        alt="Picture of the recipe"
+                      />
+                    ) : (
+                      <p>pas d&apos image</p>
+                    )}
+                  </div> */}
                 </CardTitle>
                 <div className="flex flex-wrap gap-2">
                   {recipe?.tags.map((tag) => (
