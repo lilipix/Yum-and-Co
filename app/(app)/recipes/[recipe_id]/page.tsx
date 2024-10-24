@@ -52,24 +52,10 @@ const RecipePage = async ({ params }: RecipePageProps) => {
             <div className="flex justify-between">
               <div className="flex flex-col gap-2">
                 <CardTitle className="flex items-center justify-start gap-4">
-                  <div>
-                    <span>{recipe?.title} </span>
-                    <div className="sm:hidden">
-                      <RecipePinnedButton initialRecipe={recipe} />
-                    </div>
+                  <span>{recipe?.title} </span>
+                  <div className="sm:hidden">
+                    <RecipePinnedButton initialRecipe={recipe} />
                   </div>
-                  {/* <div>
-                    {recipe?.picture ? (
-                      <Image
-                        src={recipe?.picture}
-                        width={500}
-                        height={500}
-                        alt="Picture of the recipe"
-                      />
-                    ) : (
-                      <p>pas d&apos image</p>
-                    )}
-                  </div> */}
                 </CardTitle>
                 <div className="flex flex-wrap gap-2">
                   {recipe?.tags.map((tag) => (
@@ -90,6 +76,20 @@ const RecipePage = async ({ params }: RecipePageProps) => {
               </div>
             </div>
           </CardHeader>
+          {recipe?.picture ? (
+            <CardContent className="relative mb-6 h-[300px] w-full">
+              <Image
+                src={recipe?.picture}
+                fill={true}
+                style={{ objectFit: "cover" }}
+                sizes="100vw"
+                alt="Picture of the recipe"
+              />
+            </CardContent>
+          ) : (
+            ""
+          )}
+
           <CardContent>
             <GeneralRecipeInformation />
           </CardContent>
