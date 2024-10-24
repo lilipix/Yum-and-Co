@@ -1,3 +1,5 @@
+"use client";
+
 import { RecipePopulated } from "@/validators/recipe";
 import {
   Card,
@@ -7,14 +9,22 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import RecipeList from "./RecipeList";
+import useTogglePin from "@/hooks/useTogglePin";
 
 type LatestRecipesAddedProps = {
-  latestRecipesAdded: RecipePopulated[];
+  latestRecipesFromServer: RecipePopulated[];
+  pinnedRecipesFromServer: RecipePopulated[];
 };
 
 const LatestRecipesAdded = ({
-  latestRecipesAdded,
+  latestRecipesFromServer,
+  pinnedRecipesFromServer,
 }: LatestRecipesAddedProps) => {
+  const { latestRecipes, handleTogglePin } = useTogglePin({
+    initialLatestRecipes: latestRecipesFromServer || [],
+    initialPinnedRecipes: pinnedRecipesFromServer || [],
+  });
+  console.log(latestRecipes);
   return (
     <div className="mx-auto w-full max-w-[1024px]">
       <Card>
@@ -25,7 +35,10 @@ const LatestRecipesAdded = ({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <RecipeList initialRecipes={latestRecipesAdded} />
+          <RecipeList
+            recipes={latestRecipes || []}
+            onTogglePin={handleTogglePin}
+          />
         </CardContent>
       </Card>
     </div>

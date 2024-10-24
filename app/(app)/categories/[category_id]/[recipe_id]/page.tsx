@@ -55,7 +55,7 @@ const RecipePageByCategory = async ({ params }: RecipePageByCategoryProps) => {
       <RecipeProvider recipe={recipe}>
         <Card>
           <CardHeader>
-            <div className="flex justify-between">
+            <div className="bg-red flex justify-between">
               <div className="flex flex-col gap-2">
                 <CardTitle className="flex items-center justify-start gap-4">
                   <span>{recipe?.title} </span>

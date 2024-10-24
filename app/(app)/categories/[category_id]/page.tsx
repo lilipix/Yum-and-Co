@@ -50,14 +50,14 @@ const PageCategory = async ({ params }: PageCategoryProps) => {
           <Card>
             <CardHeader>
               <div className="flex justify-between">
-                <CategoryHeader category={category} />
+                <CategoryHeader />
                 <div className="flex gap-2">
                   <EditCategory />
                   <DeleteCategory />
                 </div>
               </div>
             </CardHeader>
-            <RecipeList initialRecipes={recipes} categoryId={category_id} />
+            <RecipeList recipes={recipes} categoryId={category_id} />
           </Card>
         </div>
       </CategoryProvider>
