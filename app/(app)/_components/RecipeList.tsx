@@ -6,9 +6,10 @@ import { CardContent } from "@/components/ui/card";
 import { RecipePopulated } from "@/validators/recipe";
 import { Badge } from "@/components/ui/badge";
 import { ColorPalette, Tag } from "@/validators/tag";
-import { PinIcon, PinOff } from "lucide-react";
+import { Image as ImageIcon, PinIcon, PinOff } from "lucide-react";
 import useTogglePin from "@/hooks/useTogglePin";
 import { Category } from "@/validators/category";
+import Image from "next/image";
 
 type RecipeProps = {
   categoryId?: string;
@@ -24,7 +25,7 @@ const RecipeList = ({
   recipes,
 }: RecipeProps) => {
   return (
-    <CardContent>
+    <div>
       <ul className="flex flex-wrap gap-4">
         {recipes?.length > 0 ? (
           recipes.map((recipe) => (
@@ -59,6 +60,23 @@ const RecipeList = ({
                     )}
                   </button>
                 </div>
+                {recipe?.picture ? (
+                  <div className="relative mb-6 h-[150px] w-full">
+                    <Image
+                      className="p-O rounded-lg shadow-lg"
+                      src={recipe?.picture}
+                      fill={true}
+                      style={{ objectFit: "cover" }}
+                      sizes="100vw"
+                      alt="Picture of the recipe"
+                    />
+                  </div>
+                ) : (
+                  <div className="relative mb-6 flex h-[150px] w-full flex-col items-center justify-center rounded-lg bg-gray-300 text-sm text-gray-400">
+                    <ImageIcon className="h-[100px] w-[100px]" />
+                    <p>Pas d&apos;image disponible.</p>
+                  </div>
+                )}
                 <div className="mt-2 flex w-full flex-wrap gap-2">
                   {recipe.tags.map((tag) => (
                     <div key={tag.id}>
@@ -75,7 +93,7 @@ const RecipeList = ({
           <p>Aucune recette disponible.</p>
         )}
       </ul>
-    </CardContent>
+    </div>
   );
 };
 

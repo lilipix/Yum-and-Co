@@ -51,6 +51,7 @@ const NewEmptyRecipeForm = ({ categories, tags }: NewEmptyRecipeFormProps) => {
     mode: "onSubmit",
     defaultValues: {
       title: "",
+      picture: "",
       category: "",
       tags: [],
       numberOfPersons: undefined,

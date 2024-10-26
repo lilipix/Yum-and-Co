@@ -6,8 +6,12 @@ import { PinIcon, PinOff } from "lucide-react";
 
 type RecipePinnedButtonProps = {
   initialRecipe: RecipePopulated | null;
+  recipePage?: boolean;
 };
-const RecipePinnedButton = ({ initialRecipe }: RecipePinnedButtonProps) => {
+const RecipePinnedButton = ({
+  initialRecipe,
+  recipePage,
+}: RecipePinnedButtonProps) => {
   const { handleTogglePin } = useTogglePin({
     initialPinnedRecipes: initialRecipe ? [initialRecipe] : [],
   });
@@ -26,10 +30,10 @@ const RecipePinnedButton = ({ initialRecipe }: RecipePinnedButtonProps) => {
         e.preventDefault();
         handleTogglePin(initialRecipe.id, initialRecipe.pinned);
       }}
-      className="rounded-full bg-border p-2 hover:bg-border-dark"
+      className={`rounded-full p-2 ${recipePage ? "" : "hover:bg-border-dark"}`}
       aria-label={initialRecipe.pinned ? "Unpin Recipe" : "Pin Recipe"}
     >
-      {initialRecipe.pinned ? <PinIcon size="16" /> : <PinOff size="16" />}
+      {initialRecipe.pinned ? <PinIcon size="16" /> : <PinOff size="16" />}{" "}
     </button>
   );
 };

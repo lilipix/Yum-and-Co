@@ -19,6 +19,8 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import Image from "next/image";
+import OutlineLink from "@/components/ui/custom/linkWithVariant";
 
 type RecipePageProps = {
   params: {
@@ -52,9 +54,6 @@ const RecipePage = async ({ params }: RecipePageProps) => {
               <div className="flex flex-col gap-2">
                 <CardTitle className="flex items-center justify-start gap-4">
                   <span>{recipe?.title} </span>
-                  <div className="sm:hidden">
-                    <RecipePinnedButton initialRecipe={recipe} />
-                  </div>
                 </CardTitle>
                 <div className="flex flex-wrap gap-2">
                   {recipe?.tags.map((tag) => (
@@ -67,14 +66,31 @@ const RecipePage = async ({ params }: RecipePageProps) => {
                 </div>
               </div>
               <div className="flex gap-2">
-                {/* <div className="hidden sm:inline-block">
-                  <RecipePinnedButton initialRecipe={recipe} />
-                </div> */}
+                <div className="h-10 w-10 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
+                  <RecipePinnedButton
+                    initialRecipe={recipe}
+                    recipePage={true}
+                  />
+                </div>
                 <RecipeEditButton recipe_id={recipe_id} />
                 <DeleteRecipe />
               </div>
             </div>
           </CardHeader>
+          {recipe?.picture ? (
+            <CardContent className="relative mb-6 h-[300px] w-full">
+              <Image
+                src={recipe?.picture}
+                fill={true}
+                style={{ objectFit: "cover" }}
+                sizes="100vw"
+                alt="Picture of the recipe"
+              />
+            </CardContent>
+          ) : (
+            ""
+          )}
+
           <CardContent>
             <GeneralRecipeInformation />
           </CardContent>

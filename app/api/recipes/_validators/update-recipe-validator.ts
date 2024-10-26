@@ -3,6 +3,7 @@ import { z } from "zod";
 
 export const updateRecipeSchema = z.object({
   title: z.coerce.string().min(1, "Cannot be empty."),
+  picture: z.coerce.string().url().optional(),
   category: z.coerce.string(),
   tags: z.array(z.coerce.string().nullable()),
   numberOfPersons: z.coerce.number().optional(),
