@@ -73,7 +73,7 @@ const recipeSchema = new Schema<RecipeDocument>(
     },
     picture: {
       type: String,
-      required: true,
+      required: false,
       validate: {
         // validate url
         validator: function (v) {

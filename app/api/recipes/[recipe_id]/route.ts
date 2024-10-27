@@ -7,7 +7,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { updateRecipeSchema } from "../_validators/update-recipe-validator";
 import connectToDatabase from "@/lib/mongodb";
 
-export async function GET({ params }: { params: { recipe_id: string } }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { recipe_id: string } },
+) {
   try {
     await connectToDatabase();
     const { recipe_id } = params;
@@ -58,7 +61,10 @@ export async function PUT(
   }
 }
 
-export async function DELETE({ params }: { params: { recipe_id: string } }) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { recipe_id: string } },
+) {
   try {
     await connectToDatabase();
     const deletedRecipe = await deleteRecipe(params.recipe_id);
