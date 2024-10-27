@@ -1,4 +1,4 @@
-import { Card, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { findCategoryById } from "@/database/categories/category.repository";
 import { findRecipesByCategories } from "@/database/recipes/recipe.repository";
 import connectToDatabase from "@/lib/mongodb";
@@ -57,7 +57,9 @@ const PageCategory = async ({ params }: PageCategoryProps) => {
                 </div>
               </div>
             </CardHeader>
-            <RecipeList recipes={recipes} categoryId={category_id} />
+            <CardContent>
+              <RecipeList recipes={recipes} categoryId={category_id} />
+            </CardContent>
           </Card>
         </div>
       </CategoryProvider>

@@ -30,7 +30,7 @@ const RecipeList = ({
         {recipes?.length > 0 ? (
           recipes.map((recipe) => (
             <li
-              className="mx-auto flex w-[200px] cursor-pointer flex-wrap rounded-xl bg-pinklight px-4 py-2 font-semibold transition duration-150 ease-in-out hover:border-pinklight hover:bg-pinkMedium"
+              className="mx-auto flex w-[300px] cursor-pointer flex-wrap rounded-xl bg-pinklight px-4 py-2 font-semibold transition duration-150 ease-in-out hover:border-pinklight hover:bg-pinkMedium"
               key={recipe.id}
             >
               <Link
@@ -43,18 +43,23 @@ const RecipeList = ({
                 }
                 className="block w-full"
               >
-                <div className="flex items-start justify-between gap-2">
-                  <div>{recipe.title}</div>
+                <div className="mb-2 flex items-start justify-between gap-2">
+                  <div className="flex-col">
+                    <h2>{recipe.title}</h2>
+                    <h3 className="text-sm font-light">
+                      {recipe.category.name}
+                    </h3>
+                  </div>
                   <button
                     onClick={(e) => {
                       e.preventDefault();
                       onTogglePin && onTogglePin(recipe.id, recipe.pinned);
                     }}
-                    className="rounded-full bg-border p-2 hover:bg-border-dark"
+                    className="rounded-full pt-2 hover:bg-border-dark"
                     aria-label={recipe.pinned ? "Unpin Recipe" : "Pin Recipe"}
                   >
                     {recipe.pinned ? (
-                      <PinIcon size="16" />
+                      <PinIcon size="16" fill="black" />
                     ) : (
                       <PinOff size="16" />
                     )}

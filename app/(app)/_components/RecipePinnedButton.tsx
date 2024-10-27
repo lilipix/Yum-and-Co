@@ -33,7 +33,7 @@ const RecipePinnedButton = ({
       className={`rounded-full p-2 ${recipePage ? "" : "hover:bg-border-dark"}`}
       aria-label={initialRecipe.pinned ? "Unpin Recipe" : "Pin Recipe"}
     >
-      {initialRecipe.pinned ? <PinIcon size="16" /> : <PinOff size="16" />}{" "}
+      {initialRecipe.pinned ? <PinIcon /> : <PinOff />}
     </button>
   );
 };
