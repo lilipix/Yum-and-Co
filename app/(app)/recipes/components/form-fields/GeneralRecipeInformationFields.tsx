@@ -35,7 +35,8 @@ export const GeneralRecipeInformationFieldsSchema = z
         message:
           "L'URL de l'image n'est pas valide. Veuillez fournir une URL correcte.",
       })
-      .optional(),
+      .optional()
+      .default(" "),
     tags: z.array(z.coerce.string().nullable()),
     numberOfPersons: z.coerce.number().optional(),
     preparationTime: z.coerce
