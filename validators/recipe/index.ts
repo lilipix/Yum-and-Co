@@ -1,7 +1,8 @@
 import { z } from "zod";
 import { IngredientSchema } from "./ingredient.validator";
 import { CategorySchema } from "../category";
-import { TagSchema } from "../tag";
+import { ColorPalette, TagSchema } from "../tag";
+import { ObjectId } from "mongoose";
 
 export const RecipeSchema = z.object({
   id: z.coerce.string().min(1, "Cannot be empty."),
