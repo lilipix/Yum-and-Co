@@ -25,7 +25,7 @@ const NewRecipePage = async () => {
   const parsedCategories: Category[] = CategoriesSchema.parse(categories);
 
   return (
-    <div className="mx-auto my-6 flex w-full max-w-[1024px] flex-col space-y-6 md:w-1/2">
+    <div className="mx-auto my-6 flex w-full max-w-[1024px] flex-col space-y-6 p-6 md:w-1/2">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>

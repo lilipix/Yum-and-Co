@@ -52,8 +52,9 @@ export const findRecipes = async (): Promise<Recipe[]> => {
 export const findRecipeById = async (
   id: string,
 ): Promise<RecipePopulated | null> => {
+  console.log("REPO>>>>>", id);
   try {
-    const document = await RecipeModel.findById(id).populate(populateRecipe);
+    const document = await RecipeModel.findById(id);
 
     if (!document) {
       throw new Error("Recipe not found");
@@ -175,15 +176,6 @@ export const updateRecipe = async (
     throw new Error("No recipe ID provided");
   }
   try {
-    // const document = await RecipeModel.findById(data.id);
-
-    // if (!document) {
-    //   throw new Error("Recipe not found");
-    // }
-
-    // Object.assign(document, data);
-    // await document.save(); // Sauvegarde les modifications
-    // await document.populate(populateRecipe);
     const document = await RecipeModel.findByIdAndUpdate(
       data.id,
       { $set: { ...data } },
@@ -207,6 +199,7 @@ export const updateRecipe = async (
 
 export const deleteRecipe = async (id: string): Promise<RecipePopulated> => {
   try {
+    console.log("repo");
     const document = await RecipeModel.findByIdAndDelete(id);
     if (!document) {
       throw new Error("Recipe not found");

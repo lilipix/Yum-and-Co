@@ -13,7 +13,7 @@ const CategoriesPage = async ({ searchParams }: CategoriesPageProps) => {
   return (
     <div className="flex flex-col items-center p-6">
       <div className="mx-auto max-w-[1280px]">
-        <Card></Card>
+        <Card />
       </div>
     </div>
   );

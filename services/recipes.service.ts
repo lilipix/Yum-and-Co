@@ -25,6 +25,29 @@ export const findRecipe = async (): Promise<RecipePopulated[]> => {
   }
 };
 
+export const findRecipeById = async (
+  recipe_id: string,
+): Promise<RecipePopulated> => {
+  try {
+    const response = await fetch(`/api/recipes/${recipe_id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.error || "Failed to fetch recipe");
+    }
+    console.log("SERVICE>>>", data);
+    return RecipePopulatedSchema.parse(data);
+  } catch (error) {
+    console.error("Failed to fetch recipe by ID:", error);
+    throw error;
+  }
+};
+
 export const createRecipe = async ({
   ...recipe
 }: Partial<Recipe>): Promise<RecipePopulated> => {
@@ -81,12 +104,13 @@ export const deleteRecipe = async (
   recipeId: string,
 ): Promise<RecipePopulated> => {
   try {
+    console.log("service");
     const response = await fetch(`/api/recipes/${recipeId}`, {
       method: "DELETE",
     });
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.error || "Failed to delete category");
+      throw new Error(errorData.error || "Failed to delete recipe");
     }
     return await response.json();
   } catch (error) {

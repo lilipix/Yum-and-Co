@@ -56,7 +56,7 @@ const IngredientsListFields = () => {
     insert(fields.length, {
       name: "",
       baseQuantity: undefined,
-      unit: Unit.GRAM,
+      unit: null,
     });
   };
 
@@ -94,15 +94,18 @@ const IngredientsListFields = () => {
                     <FormItem className="flex-1">
                       <FormLabel>Unité</FormLabel>
                       <Select
-                        value={field.value ?? ""}
-                        onValueChange={(value) => field.onChange(value)}
+                        value={field.value || "none"}
+                        onValueChange={(value) =>
+                          field.onChange(value === "none" ? "" : value)
+                        }
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="g" />
+                            <SelectValue />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
+                          <SelectItem value="none">----</SelectItem>
                           {units.map((unit) => (
                             <SelectItem key={unit.value} value={unit.value}>
                               {unit.label}

@@ -1,3 +1,5 @@
+"use client";
+
 import { RecipePopulated } from "@/validators/recipe";
 import {
   Card,
@@ -7,12 +9,22 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import RecipeList from "./RecipeList";
+import useTogglePin from "@/hooks/useTogglePin";
 
 type PinnedRecipesListProps = {
-  pinnedRecipes: RecipePopulated[];
+  pinnedRecipesFromServer: RecipePopulated[];
+  latestRecipesFromServer: RecipePopulated[];
 };
 
-const PinnedRecipesList = ({ pinnedRecipes }: PinnedRecipesListProps) => {
+const PinnedRecipesList = ({
+  pinnedRecipesFromServer,
+  latestRecipesFromServer,
+}: PinnedRecipesListProps) => {
+  const { pinnedRecipes, handleTogglePin } = useTogglePin({
+    initialPinnedRecipes: pinnedRecipesFromServer || null,
+    initialLatestRecipes: latestRecipesFromServer || null,
+  });
+
   return (
     <div className="mx-auto w-full max-w-[1024px]">
       <Card>
@@ -21,7 +33,14 @@ const PinnedRecipesList = ({ pinnedRecipes }: PinnedRecipesListProps) => {
           <CardDescription>Visualisez les recettes épinglées.</CardDescription>
         </CardHeader>
         <CardContent>
-          <RecipeList initialRecipes={pinnedRecipes} />
+          {pinnedRecipes.length > 0 ? (
+            <RecipeList
+              recipes={pinnedRecipes || []}
+              onTogglePin={handleTogglePin}
+            />
+          ) : (
+            <p>Aucune recette épinglée.</p>
+          )}
         </CardContent>
       </Card>
     </div>

@@ -52,8 +52,8 @@ const IngredientsList = () => {
           </div>
         </div>
       )}
-      {recipe && recipe.ingredients.length > 1 && (
-        <div className="flex flex-wrap justify-evenly">
+      {recipe && recipe.ingredients.length > 0 && (
+        <div className="flex flex-wrap sm:flex-col sm:justify-center md:flex-row md:justify-evenly">
           <div className="flex flex-col">
             {firstColumnIngredients.map((ingredient) => (
               <div key={ingredient.name} className="flex flex-wrap">
@@ -74,9 +74,8 @@ const IngredientsList = () => {
                   - {formatQuantity(ingredient.baseQuantity)}
                 </span>
                 <span className="mr-1">
-                  {" "}
                   {ingredient.unit ? getUnitLabel(ingredient.unit) : ""}
-                </span>{" "}
+                </span>
                 {ingredient.name}
               </div>
             ))}

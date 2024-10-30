@@ -1,7 +1,7 @@
 import { findRecipesByTags } from "@/database/recipes/recipe.repository";
 import { findTagByIds } from "@/database/tags/tag.repository";
 import connectToDatabase from "@/lib/mongodb";
-import { Card, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import TagsHeader from "./components/TagsHeader";
 import EditTag from "./components/EditTag";
 import TagsProvider from "@/context/tags/provider";
@@ -67,7 +67,9 @@ const TagsPage = async ({ params }: TagsPageProps) => {
                 </div>
               </div>
             </CardHeader>
-            <RecipeListContainer initialRecipes={recipes} tagsId={tags_id} />
+            <CardContent>
+              <RecipeListContainer initialRecipes={recipes} tagsId={tags_id} />
+            </CardContent>
           </Card>
         </div>
       </TagsProvider>

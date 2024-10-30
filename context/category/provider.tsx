@@ -121,7 +121,15 @@ const CategoryProvider = ({
       subscribeToCategories,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data, isMutating, error, isLoading, updateCategory, deleteCategory],
+    [
+      data,
+      isMutating,
+      error,
+      isLoading,
+      updateCategory,
+      deleteCategory,
+      mutate,
+    ],
   );
 
   return (

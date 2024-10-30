@@ -12,21 +12,28 @@ const RecipePinnedButton = ({
   initialRecipe,
   recipePage,
 }: RecipePinnedButtonProps) => {
-  const { recipeList, handleTogglePin } = useTogglePin({ initialRecipe });
+  const { handleTogglePin } = useTogglePin({
+    initialPinnedRecipes: initialRecipe ? [initialRecipe] : [],
+  });
 
   if (!initialRecipe) {
     return null;
   }
+
+  // if (!recipe) {
+  //   return null; // Si aucune recette n'est disponible, ne pas afficher le bouton
+  // }
+
   return (
     <button
       onClick={(e) => {
         e.preventDefault();
-        handleTogglePin(recipeList[0].id, recipeList[0].pinned);
+        handleTogglePin(initialRecipe.id, initialRecipe.pinned);
       }}
       className={`rounded-full p-2 ${recipePage ? "" : "hover:bg-border-dark"}`}
-      aria-label={recipeList[0].pinned ? "Unpin Recipe" : "Pin Recipe"}
+      aria-label={initialRecipe.pinned ? "Unpin Recipe" : "Pin Recipe"}
     >
-      {recipeList[0].pinned ? <PinIcon /> : <PinOff />}
+      {initialRecipe.pinned ? <PinIcon /> : <PinOff />}
     </button>
   );
 };

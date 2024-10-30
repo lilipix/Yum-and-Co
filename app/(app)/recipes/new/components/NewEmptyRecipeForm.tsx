@@ -74,10 +74,10 @@ const NewEmptyRecipeForm = ({ categories, tags }: NewEmptyRecipeFormProps) => {
       await createRecipe(values);
       form.reset({ ...values });
       toast.success("Recette enregistrée avec succès.", { duration: 5000 });
+      router.push("/");
     } catch (error) {
       if (error instanceof Error) {
         console.error("Erreur capturée:", error);
-        toast.success("Recette enregistrée avec succès.", { duration: 5000 });
         if (error.message === "DuplicateTitleError") {
           toast.error(
             "Le titre de la recette existe déjà, veuillez en choisir un autre.",
@@ -89,9 +89,9 @@ const NewEmptyRecipeForm = ({ categories, tags }: NewEmptyRecipeFormProps) => {
           });
         }
       }
-    } finally {
-      router.push("/");
-      toast.dismiss();
+      // } finally {
+
+      //   toast.dismiss();
     }
   };
 

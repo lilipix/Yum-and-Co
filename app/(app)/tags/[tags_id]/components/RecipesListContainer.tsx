@@ -32,7 +32,7 @@ const RecipesListContainer = ({
 
   return (
     <div>
-      <RecipeList initialRecipes={recipes} tagsId={tagsId} />
+      <RecipeList recipes={recipes} tagsId={tagsId} />
     </div>
   );
 };

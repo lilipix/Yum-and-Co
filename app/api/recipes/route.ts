@@ -5,7 +5,6 @@ import {
 } from "@/database/recipes/recipe.repository";
 import { NextRequest, NextResponse } from "next/server";
 import { CreateRecipeSchema } from "./_validators/create-recipe.validator";
-import { NextApiRequest, NextApiResponse } from "next";
 import connectToDatabase from "@/lib/mongodb";
 
 export async function POST(request: NextRequest) {
@@ -32,6 +31,7 @@ export async function POST(request: NextRequest) {
       ovenTemperature: values.ovenTemperature,
       ingredients: values.ingredients,
       preparation: values.preparation,
+      picture: values.picture,
     });
 
     return NextResponse.json(recipe);
