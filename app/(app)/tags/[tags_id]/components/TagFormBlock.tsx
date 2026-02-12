@@ -15,7 +15,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ColorPalette } from "@/validators/tag";
-import { Circle } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import { z } from "zod";
 

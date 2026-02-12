@@ -13,21 +13,10 @@ categorySchema.virtual("id").get(function getVirtualId() {
 });
 
 categorySchema.set("toObject", { virtuals: true });
-// categorySchema.set("toJSON", {
-//   virtuals: true,
-//   flattenObjectIds: true,
-//   versionKey: false,
-// });
-
 categorySchema.set("toJSON", {
   virtuals: true,
+  flattenObjectIds: true,
   versionKey: false,
-  transform: (_doc, ret) => {
-    // Remplace `_id` par `id` et supprime `_id`
-    ret.id = ret._id?.toString();
-    delete ret._id;
-    return ret;
-  },
 });
 
 const CategoryModel: Model<Category> =
