@@ -49,41 +49,79 @@ function populateCategory(category: ObjectId | { name: string; id: string }): {
 export const createRecipe = async (
   data: CreateRecipeDTO,
 ): Promise<RecipePopulated> => {
-  try {
-    const document = await RecipeModel.create(data);
+  const document = await RecipeModel.create(data);
 
-    const populatedRecipe = await document.populate(populateRecipe);
+  const populatedRecipe = await document.populate(populateRecipe);
 
-    const recipeData = populatedRecipe.toJSON() as unknown as RecipePopulated;
+  const recipeData = populatedRecipe.toJSON() as unknown as RecipePopulated;
 
-    recipeData.category = populateCategory(
-      recipeData.category as unknown as { name: string; id: string },
-    );
+  recipeData.category = populateCategory(
+    recipeData.category as unknown as { name: string; id: string },
+  );
 
-    return recipeData as unknown as RecipePopulated;
-  } catch (error) {
-    console.error("Failed to create recipe", error);
-    throw error;
-  }
+  return recipeData as unknown as RecipePopulated;
 };
 
 export const findRecipeByTitle = async (title: string) => {
-  try {
-    return await RecipeModel.findOne({ title });
-  } catch (error) {
-    throw new Error("Failed to find recipe");
-  }
+  return await RecipeModel.findOne({ title });
 };
 
 export const findRecipeById = async (
   id: string,
 ): Promise<RecipePopulated | null> => {
-  try {
-    const document = await RecipeModel.findById(id).populate(populateRecipe);
+  const document = await RecipeModel.findById(id).populate(populateRecipe);
 
-    if (!document) {
-      throw new Error("Recipe not found");
+  if (!document) {
+    throw new Error("Recipe not found");
+  }
+  const recipeData = document.toJSON({
+    //serialized ObjectId to string
+    flattenObjectIds: true,
+    //__v non-inclusion
+    versionKey: false,
+  }) as unknown as RecipePopulated;
+
+  recipeData.category = populateCategory(
+    recipeData.category as unknown as { name: string; id: string },
+  );
+  return recipeData || null;
+};
+
+export const findRecipesByCategories = async (
+  categoryId: string,
+): Promise<RecipePopulated[]> => {
+  const documents = await RecipeModel.find({
+    category: categoryId,
+  }).populate(populateRecipe);
+  return documents.map((document) => {
+    const recipeData = document.toJSON({
+      flattenObjectIds: true,
+      versionKey: false,
+    }) as unknown as RecipePopulated;
+
+    if (
+      typeof recipeData.category === "object" &&
+      "name" in recipeData.category &&
+      "id" in recipeData.category
+    ) {
+      recipeData.category = populateCategory(
+        recipeData.category as { name: string; id: string },
+      );
+    } else {
+      recipeData.category = populateCategory(recipeData.category as ObjectId);
     }
+
+    return recipeData;
+  });
+};
+
+export const findRecipesByTags = async (
+  tagIds: string[],
+): Promise<RecipePopulated[]> => {
+  const documents = await RecipeModel.find({
+    tags: { $all: tagIds },
+  }).populate(populateRecipe);
+  return documents.map((document) => {
     const recipeData = document.toJSON({
       //serialized ObjectId to string
       flattenObjectIds: true,
@@ -91,146 +129,77 @@ export const findRecipeById = async (
       versionKey: false,
     }) as unknown as RecipePopulated;
 
-    recipeData.category = populateCategory(
-      recipeData.category as unknown as { name: string; id: string },
-    );
+    if (
+      typeof recipeData.category === "object" &&
+      "name" in recipeData.category &&
+      "id" in recipeData.category
+    ) {
+      recipeData.category = populateCategory(
+        recipeData.category as { name: string; id: string },
+      );
+    } else {
+      recipeData.category = populateCategory(recipeData.category as ObjectId);
+    }
 
-    return recipeData || null;
-  } catch (error) {
-    console.error("Failed to find recipe by id", error);
-    throw error;
-  }
-};
-
-export const findRecipesByCategories = async (
-  categoryId: string,
-): Promise<RecipePopulated[]> => {
-  try {
-    const documents = await RecipeModel.find({
-      category: categoryId,
-    }).populate(populateRecipe);
-    return documents.map((document) => {
-      const recipeData = document.toJSON({
-        flattenObjectIds: true,
-        versionKey: false,
-      }) as unknown as RecipePopulated;
-
-      if (
-        typeof recipeData.category === "object" &&
-        "name" in recipeData.category &&
-        "id" in recipeData.category
-      ) {
-        recipeData.category = populateCategory(
-          recipeData.category as { name: string; id: string },
-        );
-      } else {
-        recipeData.category = populateCategory(recipeData.category as ObjectId);
-      }
-
-      return recipeData;
-    });
-  } catch (error) {
-    throw new Error("Failed to find recipes by category");
-  }
-};
-
-export const findRecipesByTags = async (
-  tagIds: string[],
-): Promise<RecipePopulated[]> => {
-  try {
-    const documents = await RecipeModel.find({
-      tags: { $all: tagIds },
-    }).populate(populateRecipe);
-    return documents.map((document) => {
-      const recipeData = document.toJSON({
-        //serialized ObjectId to string
-        flattenObjectIds: true,
-        //__v non-inclusion
-        versionKey: false,
-      }) as unknown as RecipePopulated;
-
-      if (
-        typeof recipeData.category === "object" &&
-        "name" in recipeData.category &&
-        "id" in recipeData.category
-      ) {
-        recipeData.category = populateCategory(
-          recipeData.category as { name: string; id: string },
-        );
-      } else {
-        recipeData.category = populateCategory(recipeData.category as ObjectId);
-      }
-
-      return recipeData;
-    });
-  } catch (error) {
-    throw new Error("Failed to find recipe by categories");
-  }
+    return recipeData;
+  });
 };
 
 export const findPinnedRecipes = async (): Promise<RecipePopulated[]> => {
-  try {
-    const documents = await RecipeModel.find({ pinned: true }).populate(
-      populateRecipe,
-    );
-    return documents.map((document) => {
-      const recipeData = document.toJSON({
-        //serialized ObjectId to string
-        flattenObjectIds: true,
-        //__v non-inclusion
-        versionKey: false,
-      }) as unknown as RecipePopulated;
+  const documents = await RecipeModel.find({ pinned: true }).populate(
+    populateRecipe,
+  );
+  return documents.map((document) => {
+    const recipeData = document.toJSON({
+      //serialized ObjectId to string
+      flattenObjectIds: true,
+      //__v non-inclusion
+      versionKey: false,
+    }) as unknown as RecipePopulated;
 
-      if (
-        typeof recipeData.category === "object" &&
-        "name" in recipeData.category &&
-        "id" in recipeData.category
-      ) {
-        recipeData.category = populateCategory(
-          recipeData.category as { name: string; id: string },
-        );
-      } else {
-        recipeData.category = populateCategory(recipeData.category as ObjectId);
-      }
+    if (
+      typeof recipeData.category === "object" &&
+      "name" in recipeData.category &&
+      "id" in recipeData.category
+    ) {
+      recipeData.category = populateCategory(
+        recipeData.category as { name: string; id: string },
+      );
+    } else {
+      recipeData.category = populateCategory(recipeData.category as ObjectId);
+    }
 
-      return recipeData;
-    });
-  } catch (error) {
-    throw new Error("Failed to find pinned recipes");
-  }
+    return recipeData;
+  });
 };
 
 export const findLatestRecipesAdded = async (): Promise<RecipePopulated[]> => {
-  try {
-    const documents = await RecipeModel.find({})
-      .sort({ createdAt: -1 })
-      .limit(5)
-      .populate(populateRecipe);
-    return documents.map((document) => {
-      const recipeData = document.toJSON({
-        //serialized ObjectId to string
-        flattenObjectIds: true,
-        //__v non-inclusion
-        versionKey: false,
-      }) as unknown as RecipePopulated;
+  const documents = await RecipeModel.find({})
+    .sort({ createdAt: -1 })
+    .limit(5)
+    .populate(populateRecipe);
+  return documents.map((document) => {
+    const recipeData = document.toJSON({
+      //serialized ObjectId to string
+      flattenObjectIds: true,
+      //__v non-inclusion
+      versionKey: false,
+    }) as unknown as RecipePopulated;
 
-      if (
-        typeof recipeData.category === "object" &&
-        "name" in recipeData.category &&
-        "id" in recipeData.category
-      ) {
-        recipeData.category = populateCategory(
-          recipeData.category as { name: string; id: string },
-        );
-      } else {
-        recipeData.category = populateCategory(recipeData.category as ObjectId);
-      }
+    if (
+      typeof recipeData.category === "object" &&
+      "name" in recipeData.category &&
+      "id" in recipeData.category
+    ) {
+      recipeData.category = populateCategory(
+        recipeData.category as { name: string; id: string },
+      );
+    } else {
+      recipeData.category = populateCategory(recipeData.category as ObjectId);
+    }
 
-      return recipeData;
-    });
-  } catch (error) {
-    throw new Error("Failed to find latest recipes added");
-  }
+    return recipeData;
+  });
 };
 
 export const updateRecipe = async (
@@ -239,64 +208,51 @@ export const updateRecipe = async (
   if (!data.id) {
     throw new Error("No recipe ID provided");
   }
-  try {
-    const document = await RecipeModel.findByIdAndUpdate(
-      data.id,
-      { $set: { ...data } },
-      { new: true },
-    ).populate(populateRecipe);
-    if (!document) {
-      throw new Error("Recipe not found");
-    }
-
-    const recipeData = document.toJSON({
-      //serialized ObjectId to string
-      flattenObjectIds: true,
-      //__v non-inclusion
-      versionKey: false,
-    }) as unknown as RecipePopulated;
-
-    recipeData.category = populateCategory(
-      recipeData.category as unknown as { name: string; id: string },
-    );
-
-    return recipeData;
-  } catch (error) {
-    console.error(error);
-    throw new Error("Failed to update recipe");
+  const document = await RecipeModel.findByIdAndUpdate(
+    data.id,
+    { $set: { ...data } },
+    { new: true },
+  ).populate(populateRecipe);
+  if (!document) {
+    throw new Error("Recipe not found");
   }
+
+  const recipeData = document.toJSON({
+    //serialized ObjectId to string
+    flattenObjectIds: true,
+    //__v non-inclusion
+    versionKey: false,
+  }) as unknown as RecipePopulated;
+
+  recipeData.category = populateCategory(
+    recipeData.category as unknown as { name: string; id: string },
+  );
+
+  return recipeData;
 };
 
 export const deleteRecipe = async (id: string): Promise<RecipePopulated> => {
-  try {
-    const document = await RecipeModel.findByIdAndDelete(id);
-    if (!document) {
-      throw new Error("Recipe not found");
-    }
-    const recipeData = document.toJSON({
-      flattenObjectIds: true,
-      versionKey: false,
-    }) as unknown as RecipePopulated;
-
-    recipeData.category = populateCategory(
-      recipeData.category as unknown as { name: string; id: string },
-    );
-
-    return recipeData;
-  } catch (error) {
-    throw Error("Failed to delete recipe");
+  const document = await RecipeModel.findByIdAndDelete(id);
+  if (!document) {
+    throw new Error("Recipe not found");
   }
+  const recipeData = document.toJSON({
+    flattenObjectIds: true,
+    versionKey: false,
+  }) as unknown as RecipePopulated;
+
+  recipeData.category = populateCategory(
+    recipeData.category as unknown as { name: string; id: string },
+  );
+
+  return recipeData;
 };
 
 export const toggleRecipePin = async (recipeId: string, shouldPin: boolean) => {
-  try {
-    const result = await RecipeModel.findByIdAndUpdate(
-      recipeId,
-      { $set: { pinned: shouldPin } },
-      { new: true },
-    );
-    return result;
-  } catch (error) {
-    throw new Error("Error updating recipe status");
-  }
+  const result = await RecipeModel.findByIdAndUpdate(
+    recipeId,
+    { $set: { pinned: shouldPin } },
+    { new: true },
+  );
+  return result;
 };
