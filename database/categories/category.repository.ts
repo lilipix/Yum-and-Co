@@ -42,6 +42,10 @@ export const findCategories = async (): Promise<Category[]> => {
 export const findCategoryById = async (id: string): Promise<Category> => {
   try {
     const document = await CategoryModel.findById(id);
+
+    if (!document) {
+      throw new Error(`Category with id ${id} not found`);
+    }
     return document.toJSON({
       //serialized ObjectId to string
       flattenObjectIds: true,

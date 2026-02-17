@@ -61,6 +61,9 @@ export const updateTag = async (
       // return the updated document
       { new: true },
     );
+    if (!document) {
+      throw new Error("Tag not found");
+    }
     return document.toJSON({
       flattenObjectIds: true,
       versionKey: false,

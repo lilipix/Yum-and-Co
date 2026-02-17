@@ -21,7 +21,7 @@ const HomePage = async () => {
   const categories = await findCategories();
   const tags = await findTags();
   const recipes = await findRecipes();
-  const pinnedRecipes = await findPinnedRecipes();
+  const pinnedRecipesFromServer = await findPinnedRecipes();
   const latestRecipesAdded = await findLatestRecipesAdded();
 
   return (
@@ -32,8 +32,14 @@ const HomePage = async () => {
         initialCategories={categories.length === 0 ? [] : categories}
       />
       <TagsList initialTags={tags.length === 0 ? [] : tags} recipes={recipes} />
-      <PinnedRecipesList pinnedRecipes={pinnedRecipes} />
-      <LatestRecipesAdded latestRecipesAdded={latestRecipesAdded} />
+      <PinnedRecipesList
+        pinnedRecipesFromServer={pinnedRecipesFromServer}
+        latestRecipesFromServer={latestRecipesAdded}
+      />
+      <LatestRecipesAdded
+        latestRecipesFromServer={latestRecipesAdded}
+        pinnedRecipesFromServer={pinnedRecipesFromServer}
+      />
     </main>
     // </CategoryProvider>
   );

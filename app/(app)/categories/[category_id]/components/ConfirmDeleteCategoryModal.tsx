@@ -38,7 +38,7 @@ const ConfirmDeleteCategoryModal = () => {
     }
   };
   return (
-    <DialogHeader className="space-y-4">
+    <DialogHeader className="space-y-4 p-6">
       <DialogTitle>Supprimer la catégorie ?</DialogTitle>
       <DialogDescription className="text-destructive">
         Etes vous sûrs de vouloir supprimer la catégorie {category?.name}? Cette

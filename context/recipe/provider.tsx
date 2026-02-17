@@ -58,9 +58,6 @@ const RecipeProvider = ({
         }
         setIsMutating(true);
         const updatedRecipe = await updateRecipeRequest(recipe);
-        // const updatedRecipe = await updateRecipeRequest({
-        //   ...recipe,
-        // });
         await mutate(updatedRecipe, false);
         return updatedRecipe;
       } catch (error) {
@@ -76,14 +73,14 @@ const RecipeProvider = ({
 
   const deleteRecipe = useCallback(
     async () => {
-      if (!data) {
+      if (!data || !data.id) {
         toast.error("Pas de recettes trouvées. Merci d'en créer une.");
         return null;
       }
       setIsMutating(true);
       try {
         const deletetedRecipe = await deleteRecipeRequest(data.id);
-        await mutate(null);
+        await mutate();
         return deletetedRecipe;
       } catch (error) {
         console.error(error);
@@ -93,7 +90,7 @@ const RecipeProvider = ({
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [data],
   );
 
   const contextValue: RecipeContextValue = useMemo(
@@ -105,6 +102,7 @@ const RecipeProvider = ({
       isMutating,
       error,
       isLoading,
+      refetchRecipe: mutate,
     }),
     [
       createRecipe,
@@ -114,6 +112,7 @@ const RecipeProvider = ({
       isMutating,
       error,
       isLoading,
+      mutate,
     ],
   );
 

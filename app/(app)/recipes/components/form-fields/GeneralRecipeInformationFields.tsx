@@ -29,13 +29,14 @@ export const GeneralRecipeInformationFieldsSchema = z
       .string({ required_error: "Requis." })
       .min(1, { message: "Le nom doit être renseigné." })
       .transform(capitalizeFirstLetter),
-    picture: z.coerce
+    picture: z
       .string()
       .url({
         message:
           "L'URL de l'image n'est pas valide. Veuillez fournir une URL correcte.",
       })
-      .optional(),
+      .optional()
+      .default(" "),
     tags: z.array(z.coerce.string().nullable()),
     numberOfPersons: z.coerce.number().optional(),
     preparationTime: z.coerce

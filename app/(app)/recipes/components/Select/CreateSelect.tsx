@@ -58,6 +58,7 @@ const CreateSelect = ({
   enableColors = false,
 }: CreateSelectProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [hasInteracted, setHasInteracted] = useState<boolean>(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -124,7 +125,10 @@ const CreateSelect = ({
 
   const handleChangeInputValue: ChangeEventHandler<HTMLInputElement> = (
     event,
-  ) => setInputValue(event.target.value);
+  ) => {
+    setInputValue(event.target.value);
+    setHasInteracted(true);
+  };
 
   const handleCreateOption = () => {
     if (inputValue && onCreateOption) {
@@ -169,6 +173,7 @@ const CreateSelect = ({
     if (!isOpen && !disabled) {
       setIsOpen(true);
     }
+    setHasInteracted(true);
   };
 
   const handleInputFocus: FocusEventHandler<HTMLInputElement> = () => {
@@ -191,6 +196,15 @@ const CreateSelect = ({
     }
   };
 
+  const getPlaceholder = () => {
+    if ((selectedOptions.length === 0 && !inputValue) || !hasInteracted) {
+      return allowMultiple
+        ? "Sélectionnez ou créez des options."
+        : "Sélectionnez ou créez une option.";
+    }
+    return undefined;
+  };
+
   return (
     <Popover open={isOpen} onOpenChange={handleOpenChanged}>
       <PopoverTrigger asChild>
@@ -201,7 +215,7 @@ const CreateSelect = ({
           role="listbox"
           onClick={handleInputClick}
         >
-          <div className="flex h-fit flex-wrap items-center gap-2 px-3 py-2">
+          <div className="flex h-fit w-full flex-wrap items-center gap-2 px-3 py-2">
             {selectedOptions.length > 0
               ? initialOptions
                   .filter((option) => selectedOptions.includes(option.value))
@@ -219,7 +233,7 @@ const CreateSelect = ({
               aria-disabled={disabled}
               className="block w-full grow focus-visible:outline-none"
               disabled={disabled}
-              placeholder={!inputValue ? placeholder : undefined}
+              placeholder={getPlaceholder()}
               ref={inputRef}
               type="text"
               value={inputValue}

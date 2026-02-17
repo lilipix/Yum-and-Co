@@ -80,7 +80,8 @@ const EditRecipe = ({ tags, categories }: EditRecipeProps) => {
 
     try {
       await updateRecipe({ ...values, id: recipe.id });
-      toast.success("La recette a été mise à jour avec succès.");
+      toast.success("Recette mise à jour avec succès.");
+      router.push("/");
     } catch (error) {
       toast.error(
         "Une erreur s'est produite lors de la mise à jour de la recette.",
@@ -92,7 +93,7 @@ const EditRecipe = ({ tags, categories }: EditRecipeProps) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)}>
-        <div className="m-4 space-y-8">
+        <div className="space-y-8">
           <Card>
             <CardHeader>
               <CardTitle>Informations générales</CardTitle>
