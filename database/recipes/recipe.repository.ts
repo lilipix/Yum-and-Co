@@ -6,7 +6,27 @@ import { Recipe, RecipePopulated } from "@/validators/recipe";
 import { ObjectId } from "mongoose"; // Ajoutez ceci pour vérifier la structure des documents
 
 export const findRecipes = async (): Promise<Recipe[]> => {
-  return RecipeModel.find().lean<Recipe[]>();
+  const documents = await RecipeModel.find().lean();
+
+  return documents.map((doc: any) => ({
+    id: doc._id.toString(),
+    title: doc.title,
+    category: doc.category?.toString(),
+    tags: doc.tags?.map((tag: any) => tag?.toString()),
+    numberOfPersons: doc.numberOfPersons,
+    preparationTime: doc.preparationTime,
+    cookingTime: doc.cookingTime,
+    ovenTemperature: doc.ovenTemperature,
+    preparation: doc.preparation,
+    pinned: doc.pinned,
+    picture: doc.picture,
+    ingredients: doc.ingredients?.map((ingredient: any) => ({
+      id: ingredient._id.toString(),
+      name: ingredient.name,
+      baseQuantity: ingredient.baseQuantity,
+      unit: ingredient.unit,
+    })),
+  }));
 };
 
 export const findRecipesPopulated = async (): Promise<RecipePopulated[]> => {
