@@ -1,6 +1,8 @@
 import { Schema, model, models, Model, Types } from "mongoose";
 import { IIngredient, Unit } from "@/validators/recipe/ingredient.validator";
 import { Recipe } from "@/validators/recipe";
+import "@/database/tags/tag.model";
+import "@/database/categories/category.model";
 
 export type RecipeDocument = Omit<Recipe, "category" | "tags"> & {
   category: Types.ObjectId;
