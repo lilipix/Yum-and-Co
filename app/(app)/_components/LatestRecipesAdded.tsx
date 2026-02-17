@@ -24,7 +24,6 @@ const LatestRecipesAdded = ({
     initialLatestRecipes: latestRecipesFromServer || [],
     initialPinnedRecipes: pinnedRecipesFromServer || [],
   });
-  console.log(latestRecipes);
   return (
     <div className="mx-auto w-full max-w-[1024px]">
       <Card>

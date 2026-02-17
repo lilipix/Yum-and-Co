@@ -40,7 +40,6 @@ export const findRecipeById = async (
     if (!response.ok) {
       throw new Error(data.error || "Failed to fetch recipe");
     }
-    console.log("SERVICE>>>", data);
     return RecipePopulatedSchema.parse(data);
   } catch (error) {
     console.error("Failed to fetch recipe by ID:", error);
@@ -104,7 +103,6 @@ export const deleteRecipe = async (
   recipeId: string,
 ): Promise<RecipePopulated> => {
   try {
-    console.log("service");
     const response = await fetch(`/api/recipes/${recipeId}`, {
       method: "DELETE",
     });

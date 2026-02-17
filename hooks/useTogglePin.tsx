@@ -94,13 +94,6 @@ const useTogglePin = ({
       console.error("Failed to toggle pin:", error);
     }
   };
-  useEffect(() => {
-    console.log("Pinned Recipes updated:", pinnedRecipes);
-  }, [pinnedRecipes]);
-
-  useEffect(() => {
-    console.log("Latest Recipes updated:", latestRecipes);
-  }, [latestRecipes]);
   return { pinnedRecipes, latestRecipes, handleTogglePin };
 };
 

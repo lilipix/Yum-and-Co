@@ -79,7 +79,6 @@ const RecipeProvider = ({
       }
       setIsMutating(true);
       try {
-        console.log("context", data.id);
         const deletetedRecipe = await deleteRecipeRequest(data.id);
         await mutate();
         return deletetedRecipe;

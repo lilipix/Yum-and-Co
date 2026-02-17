@@ -14,7 +14,6 @@ export async function GET(
   try {
     await connectToDatabase();
     const { recipe_id } = params;
-    console.log("API>>>>", recipe_id);
 
     if (!recipe_id) {
       throw Error("Id is missing");

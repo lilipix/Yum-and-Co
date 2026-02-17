@@ -3,95 +3,28 @@ import { CreateRecipeDTO, UpdateRecipeDTO } from "./recipe.dto";
 import RecipeModel from "./recipe.model";
 import { populateRecipe } from "./utils/populate-recipe";
 import { Recipe, RecipePopulated } from "@/validators/recipe";
-import { ObjectId } from "mongoose";
+import { ObjectId } from "mongoose"; // Ajoutez ceci pour vérifier la structure des documents
 
-// function convertToRecipeData(document: any): RecipePopulated {
-//   const recipeData = document.toJSON({
-//     flattenObjectIds: true,
-//     versionKey: false,
-//   }) as unknown as RecipePopulated;
-//   return formatRecipeData(recipeData);
-// }
-
-// function formatRecipeData(recipeData: RecipePopulated): RecipePopulated {
-//   recipeData.category = populateCategory(
-//     recipeData.category as ObjectId | { name: string; id: string },
-//   );
-//   return recipeData;
-// }
-
-// export const findRecipes = async (): Promise<RecipePopulated[]> => {
-//   try {
-//     const documents = await RecipeModel.find().populate(populateRecipe);
-//     return documents.map(
-//       (document) =>
-//         document.toJSON({
-//           //serialized ObjectId to string
-//           flattenObjectIds: true,
-//           //__v non-inclusion
-//           versionKey: false,
-//         }) as RecipePopulated,
-//     );
-//   } catch (error) {
-//     throw new Error("Failed to find recipes");
-//   }
-// };
-
-export const findRecipes = async (): Promise<RecipePopulated[]> => {
-  try {
-    const documents = await RecipeModel.find()
-      .populate(populateRecipe)
-      .lean<RecipePopulated>();
-    console.log("Documents trouvés :", documents);
-    const populatedDocuments = documents.map(
-      (document) =>
-        document.toJSON({
-          flattenObjectIds: true,
-          versionKey: false,
-        }) as RecipePopulated,
-    );
-
-    console.log(populatedDocuments); // Ajoutez ceci pour vérifier la structure des documents
-
-    return populatedDocuments;
-  } catch (error) {
-    throw new Error("Failed to find recipes");
-  }
+export const findRecipes = async (): Promise<Recipe[]> => {
+  return RecipeModel.find().lean<Recipe[]>();
 };
 
-// export const findRecipes = async (): Promise<Recipe[]> => {
-//   try {
-//     const documents = await RecipeModel.find();
-//     return documents.map((document) => {
-//       const jsonDocument = document.toJSON({
-//         //serialized ObjectId to string
-//         flattenObjectIds: true,
-//         //__v non-inclusion
-//         versionKey: false,
-//       });
-//       // Transformer explicitement l'ObjectId 'category' en string
-//       if (jsonDocument.category instanceof ObjectId) {
-//         jsonDocument.category = jsonDocument.category.toString();
-//       }
-//       return jsonDocument;
-//     });
-//   } catch (error) {
-//     throw new Error("Failed to find recipes");
-//   }
-// };
+export const findRecipesPopulated = async (): Promise<RecipePopulated[]> => {
+  return RecipeModel.find().populate(populateRecipe).lean<RecipePopulated[]>();
+};
 
-// function populateCategory(category: ObjectId | { name: string; id: string }): {
-//   name: string;
-//   id: string;
-// } {
-//   // Si category est déjà un objet peuplé, on le retourne tel quel
-//   if (typeof category === "object" && "name" in category && "id" in category) {
-//     return category;
-//   }
+function populateCategory(category: ObjectId | { name: string; id: string }): {
+  name: string;
+  id: string;
+} {
+  // Si category est déjà un objet peuplé, on le retourne tel quel
+  if (typeof category === "object" && "name" in category && "id" in category) {
+    return category;
+  }
 
-//   // Sinon, on doit convertir l'ObjectId
-//   return { name: "Nom par défaut", id: category.toString() };
-// }
+  // Sinon, on doit convertir l'ObjectId
+  return { name: "Nom par défaut", id: category.toString() };
+}
 
 export const createRecipe = async (
   data: CreateRecipeDTO,
@@ -125,7 +58,6 @@ export const findRecipeByTitle = async (title: string) => {
 export const findRecipeById = async (
   id: string,
 ): Promise<RecipePopulated | null> => {
-  console.log("REPO>>>>>", id);
   try {
     const document = await RecipeModel.findById(id).populate(populateRecipe);
 
